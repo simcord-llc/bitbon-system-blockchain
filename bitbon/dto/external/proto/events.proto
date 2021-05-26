@@ -1,0 +1,30 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "node-transaction.proto";
+import "block.proto";
+
+message AssetboxInfoChanged {
+    // r.events.bitbon-node.AssetboxInfoChanged
+    string Address = 1;
+    bool IsPublic = 2;
+    string ServiceId = 3;
+    string Alias = 4;
+    string ExtraInfo = 5;
+    bool IsMining = 6;
+}
+
+message AssetboxBalanceChanged {
+    // r.events.bitbon-node.AssetboxBalanceChanged
+    string Address = 1;
+    string Balance = 2;
+}
+
+message TransactionNotification {
+    repeated TransactionObject transactions = 1;
+}
+
+message BlockNotification {
+    BlockMinedInfo blockInfo = 1;
+}

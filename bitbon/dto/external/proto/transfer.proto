@@ -1,0 +1,140 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "assetbox.proto";
+
+message QuickTransferRequest {
+    // rountig key : r.transfer.SENDER.QuickTransferRequest
+    // rountig key : r.transfer.SENDER.QuickTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string accountId = 3; // id account sender
+    string to = 4; // assetbox receiver
+    string value = 5; // value for transfer
+    bytes extraData = 6; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 7;
+}
+
+message CreateWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CreateWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CreateWPCSafeTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string accountId = 3; // id account sender
+    string to = 4; // assetbox receiver
+    string value = 5; // value for transfer
+    string transferId = 6; // id transfer
+    int64 expiresAt = 7; // time when transfer will expired
+    bytes extraData = 8; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 9;
+}
+
+message ApproveWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.ApproveWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.ApproveWPCSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // ?
+    string transferID = 3; // id трансфера
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
+message CancelWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CancelWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CancelWPCSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // initiator transaction
+    string transferID = 3; // id transfer
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
+message CreateSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CreateSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CreateSafeTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string accountId = 3; // id account sender
+    string to = 4; // assetbox receiver
+    string value = 5; // value for transfer
+    string transferId = 6; // id transfer
+    string protectionCode = 7; // code for approve transfer
+    uint64 retries = 8; // number of attempts of invalid protection code
+    int64 expiresAt = 9; // time when transfer will expired
+    bytes extraData = 10; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 11;
+}
+
+message ApproveSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.ApproveSafeTransferRequest
+    // rountig key : r.transfer.SENDER.ApproveSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // ?
+    string transferID = 3; // id трансфера
+    string protectionCode = 4; // код подтверждения
+    bytes extraData = 5; // some extra data with some information
+    AssetboxCryptoData crypto_data = 6;
+}
+
+message CancelSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CancelSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CancelSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // initiator transaction
+    string transferID = 3; // id transfer
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
+message DirectTransferRequest {
+    // rountig key : r.transfer.SENDER.DirectTransferRequest
+    // rountig key : r.transfer.SENDER.DirectTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string to = 3; // assetbox receiver
+    string value = 4; // amount bitbon in wei
+    bytes extraData = 5; // some extra data with some information
+}
+
+message TransferAsyncResponse {
+    // rountig key : r.transfer.bitbon-node.CreateSafeTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.ApproveSafeTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.CancelSafeTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.DirectTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.QuickTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.CreateWPCSafeTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.ApproveWPCSafeTransferAsyncResponse
+    // rountig key : r.transfer.bitbon-node.CancelWPCSafeTransferAsyncResponse
+    string id = 1;
+    string txHash = 3;
+    Error error = 4;
+}
+
+message TransferResponse {
+    // rountig key : r.transfer.bitbon-node.CreateSafeTransferResponse
+    // rountig key : r.transfer.bitbon-node.ApproveSafeTransferResponse
+    // rountig key : r.transfer.bitbon-node.CancelSafeTransferResponse
+    // rountig key : r.transfer.bitbon-node.DirectTransferResponse
+    // rountig key : r.transfer.bitbon-node.QuickTransferResponse
+    // rountig key : r.transfer.bitbon-node.CreateWPCSafeTransferResponse
+    // rountig key : r.transfer.bitbon-node.ApproveWPCSafeTransferResponse
+    // rountig key : r.transfer.bitbon-node.CancelWPCSafeTransferResponse
+    string id = 1;
+    string blockNumber = 2;
+    string txHash = 3;
+    Error error = 4;
+}
+
+message ExpireTransfersRequest {
+    // rountig key : r.transfer.SENDER.ExpireTransfersRequest
+    string id = 1;
+}
+
+message ExpireTransfersResponse {
+    // rountig key : r.transfer.bitbon-node.ExpireTransfersResponse
+    string id = 1;
+    uint64 num = 2;
+    Error error = 3;
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "assetbox.proto";
+
+message PrepareAssetboxRequest {
+    // routing key: r.assetbox.SENDER.PrepareAssetboxRequest
+    string id = 1; // id запроса
+    uint64 count = 2; // количество ассетбоксов, которые будут созданы, по-умолчанию - 100, максимальное значение - 100
+    string currency = 3; // валюта ассетбокса
+}
+
+message PrepareAssetboxResponse {
+    //routing key: r.assetbox.bitbon-node.CreateAssetboxResponse
+    string id = 1; //id запроса
+    map<string, AssetboxCryptoData> address_data = 2; //адреса ассетбоксов, созданных нодой
+    Error error = 3; //информация об ошибке при создании ассетбокса
+}
+
+message SetPublicAssetboxInfoRequest {
+    // r.assetbox.SENDER.SetPublicAssetboxInfoRequest
+    string id = 1; //id запроса
+    string address = 2; // адресс ассетбокса
+    string currency = 3; // валюта ассетбокса
+    string alias = 4; // уникальное имя ассетбокса
+    string extractInfo = 5; // описание ассетбокса
+    bool isPublic = 6; // признак публичности ExtraInfo
+    bool isMining = 7; // sign of assetbox mining
+    string service_id = 8; // sign of assetbox mining
+    AssetboxCryptoData crypto_data = 9;
+}
+
+message SetPublicAssetboxInfoResponse {
+    // r.assetbox.bitbon-node.SetPublicAssetboxInfoResponse
+    string id = 1; //id запроса
+    Error error = 2; //информация об ошибке при создании ассетбокса
+}
+

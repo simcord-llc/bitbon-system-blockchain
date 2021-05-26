@@ -1,0 +1,14 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+message Error {
+    int64 code = 1; // Код ошибки
+    string message = 2; // Сообщение ошибки
+    repeated DataError dataError = 3; // Объект описывает детализацию ошибки
+}
+
+message DataError {
+    int64 code = 1; // Детализированный код ошибки
+    string description = 2; // Описание
+}

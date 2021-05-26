@@ -1,0 +1,29 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "node-transaction.proto";
+
+message Block {
+    string hash = 1;
+    uint64 number = 2;
+    string parentHash = 3;
+    uint64 nonce = 4;
+    string miner = 5;
+    string difficulty = 6;
+    string extraData = 7;
+    string size = 8;
+    uint64 gasLimit = 9;
+    uint64 gasUsed = 10;
+    uint64 timestamp = 11;
+    repeated TransactionResult transactionResult = 12;
+}
+
+message BlockMinedInfo {
+    uint64 number = 1;
+    uint64 timestamp = 2;
+    uint64 transactionNumber = 3;
+    string hash = 4;
+    string parentHash = 5;
+    string size = 6;
+}

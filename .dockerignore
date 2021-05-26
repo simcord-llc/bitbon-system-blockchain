@@ -1,0 +1,8 @@
+**/*_test.go
+
+build/
+tests/testdata
+zksnark/libzksnark.a
+/vendor
+.git
+go.sum

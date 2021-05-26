@@ -1,0 +1,110 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+
+message TransactionResult {
+    oneof transaction {
+        TransactionObject txObj = 1;
+        string hash = 2;
+    }
+}
+
+message TransactionObject {
+    string hash = 1;
+    uint64 nonce = 2;
+    string blockHash = 3;
+    uint64 blockNumber = 4;
+    uint64 blockTime = 5;
+    uint64 gasPrice = 6;
+    uint64 gasLimit = 7;
+    uint64 time = 8;
+    string size = 9;
+    BitbonTransaction bitbonTx = 10;
+}
+
+message BitbonTransaction {
+    bool status = 1;
+    int64 parseStatus = 2;
+    repeated Balance balances = 3;
+    string parseError = 4;
+    Error txError = 5;
+    Method method = 6;
+    BitbonArgs args = 7;
+    string sender = 8;
+    repeated Event events = 9;
+}
+
+enum Method {
+    UNDEFINED = 0;
+    APPROVE_SAFE_TRANSFER = 1;
+    CANCEL_SAFE_TRANSFER = 2;
+    CREATE_SAFE_TRANSFER = 3;
+    DIRECT_TRANSFER = 4;
+    QUICK_TRANSFER = 5;
+    CREATE_WPC_SAFE_TRANSFER = 6;
+    APPROVE_WPC_SAFE_TRANSFER = 7;
+    CANCEL_WPC_SAFE_TRANSFER = 8;
+    EXPIRE_TRANSFER = 9;
+}
+
+message BitbonArgs {
+    oneof args {
+        CancelApprovalArgs cancelApprovalArgs = 1;
+        SafeTransferArgs safeTransferArgs = 2;
+        DirectTransferArgs directTransferArgs = 3;
+        QuickTransferArgs quickTransferArgs = 4;
+        ExpireSafeTransferArgs expireSafeTransferArgs = 5;
+    }
+}
+
+message CancelApprovalArgs {
+    string address = 1;
+    bytes transferId = 2;
+    bytes extraData = 3;
+}
+
+message SafeTransferArgs {
+    string from = 1;
+    string to = 2;
+    string value = 3;
+    bytes transferId = 4;
+    bytes extraData = 5;
+}
+
+message DirectTransferArgs {
+    string from = 1;
+    string to = 2;
+    string value = 3;
+    bytes extraData = 4;
+}
+
+message QuickTransferArgs {
+    string from = 1;
+    string to = 2;
+    string value = 3;
+    bytes extraData = 4;
+}
+
+message ExpireSafeTransferArgs {
+    repeated string transferIds = 1;
+}
+
+message Balance {
+    string address = 1;
+    string balance = 2;
+}
+
+message Event {
+    oneof event {
+        TransferExpiredEvent transferExpiredEvent = 1;
+    }
+}
+
+message TransferExpiredEvent {
+    string transferId = 1;
+}
+
+
+

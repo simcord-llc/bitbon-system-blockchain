@@ -1,0 +1,47 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "assetbox.proto";
+
+// routing key: r.mining-agent.SENDER.MinerNodesRequest
+message MinerNodesRequest {
+    string id = 1;
+}
+
+// routing key: r.mining-agent.SENDER.MinerNodesResponse
+message MinerNodesResponse {
+    string id = 1;
+    int64 applicationTimestamp = 2;
+    repeated string nodes = 3;
+    Error error = 4;
+}
+
+// routing key: r.mining-agent.SENDER.ProposeDistributionRequest
+message ProposeDistributionRequest {
+    string id = 1;
+    string address = 2;
+    map<string, uint64> distribution = 3;
+    AssetboxCryptoData crypto_data = 4;
+}
+
+// routing key: r.mining-agent.SENDER.ProposeDistributionResponse
+message ProposeDistributionResponse {
+    string id = 1;
+    int64 applicationTimestamp = 2;
+    Error error = 3;
+}
+
+// routing key: r.mining-agent.SENDER.GetCurrentDistributionRequest
+message GetCurrentDistributionRequest {
+    string id = 1;
+}
+
+// routing key: r.mining-agent.SENDER.GetCurrentDistributionResponse
+message GetCurrentDistributionResponse {
+    string id = 1;
+    int64 applicationTimestamp = 2;
+    map<string, uint64> distribution = 3;
+    Error error = 4;
+}

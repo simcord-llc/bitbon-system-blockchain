@@ -1,0 +1,47 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "block.proto";
+
+// routing key: r.block.SENDER.BlockByHashRequest
+message BlockByHashRequest {
+    string id = 1;
+    string blockHash = 2;
+    bool returnFullTransaction = 3;
+
+}
+
+// routing key: r.block.SENDER.BlockByNumberRequest
+message BlockByNumberRequest {
+    string id = 1;
+    uint64 blockNumber = 2;
+    bool returnFullTransaction = 3;
+}
+
+// routing key: r.block.SENDER.RangeBlocksByNumberRequest
+message RangeBlocksByNumberRequest {
+    string id = 1;
+    uint64 blockNumberFrom = 2;
+    uint64 blockNumberTo = 3;
+    bool returnFullTransaction = 4;
+}
+
+// routing key: r.block.SENDER.BlocksByTimePeriodRequest
+message BlocksByTimePeriodRequest {
+    string id = 1;
+    uint64 timestampFrom = 2;
+    uint64 timestampTo = 3;
+}
+
+// routing key: r.block.SENDER.BlockByHashResponse
+// routing key: r.block.SENDER.BlockByNumberResponse
+// routing key: r.block.SENDER.RangeBlocksByNumberResponse
+message BlockInfoResponse {
+    string id = 1;
+    repeated Block block = 2;
+    Error error = 3;
+}
+
+

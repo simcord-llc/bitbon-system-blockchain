@@ -1,0 +1,20 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "assetbox.proto";
+
+message DeleteAssetboxRequest {
+    // routing key: r.assetbox.SENDER.DeleteAssetboxRequest
+    string id = 1; // id запроса
+    string address = 2; // адрес удаляемого ассетбокса
+    string accountId = 3;
+    AssetboxCryptoData crypto_data = 4;
+}
+
+message DeleteAssetboxResponse {
+    // r.assetbox.bitbon-node.DeleteAssetboxResponse
+    string id = 1; //id запроса
+    Error error = 2; //информация об ошибке при удалении ассетбокса
+}

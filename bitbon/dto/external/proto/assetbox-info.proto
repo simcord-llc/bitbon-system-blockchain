@@ -1,0 +1,24 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "assetbox.proto";
+
+message AssetboxBalancesRequest {
+    // rountig key : r.assetbox.SENDER.AssetboxBalancesRequest
+    string id = 1;
+    repeated string addresses = 2; // адресса ассетбоксов
+}
+
+message AssetboxBalanceResponse {
+    string address = 1; // адресс ассетбокса
+    repeated AssetboxBalance balances = 2; // балансы в битбоне и проджектбоне
+}
+
+message AssetboxBalancesResponse {
+    // rountig key : r.assetbox.bitbon-node.AssetboxBalancesResponse
+    string id = 1;
+    repeated AssetboxBalanceResponse balanceResponse = 2; // balanceResponse
+    Error error = 3;
+}

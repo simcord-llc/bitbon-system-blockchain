@@ -1,0 +1,13 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+message AssetboxBalance {
+    string currency = 1; // валюта ассетбокса
+    string amount = 2; // количество валюты
+}
+
+message AssetboxCryptoData {
+    bytes wallet = 1; // assetbox wallet
+    bytes passphrase = 2; // assetbox passphrase
+}

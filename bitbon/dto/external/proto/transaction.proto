@@ -1,0 +1,75 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+import "node-transaction.proto";
+
+// routing key: r.transaction.SENDER.BlockTransactionCountByHashRequest
+message BlockTransactionCountByHashRequest {
+    string id = 1;
+    string blockHash = 2;
+}
+
+// routing key: r.transaction.SENDER.BlockTransactionCountByNumberRequest
+message BlockTransactionCountByNumberRequest {
+    string id = 1;
+    uint64 blockNumber = 2;
+}
+
+// routing key: r.transaction.SENDER.TransactionByBlockHashAndIndexRequest
+message TransactionByBlockHashAndIndexRequest {
+    string id = 1;
+    string blockHash = 2;
+    uint64 txIndex = 3;
+}
+
+// routing key: r.transaction.SENDER.TransactionByBlockNumberAndIndexRequest
+message TransactionByBlockNumberAndIndexRequest {
+    string id = 1;
+    uint64 blockNumber = 2;
+    uint64 txIndex = 3;
+
+}
+
+// routing key: r.transaction.SENDER.TransactionRequest
+message TransactionRequest {
+    string id = 1;
+    string txHash = 2;
+}
+
+// routing key: r.transaction.SENDER.TransactionsByTimePeriodRequest
+// routing key: r.transaction.SENDER.CheckTransactionsByTimePeriodRequest
+message TransactionsByTimePeriodRequest {
+    string id = 1;
+    uint64 timestampFrom = 2;
+    uint64 timestampTo = 3;
+}
+
+// routing key: r.transaction.SENDER.TransactionByHashResponse
+// routing key: r.transaction.SENDER.TransactionByBlockHashAndIndexResponse
+// routing key: r.transaction.SENDER.TransactionByBlockNumberAndIndexResponse
+// routing key: r.transaction.SENDER.TransactionsByTimePeriodResponse
+// routing key: r.transaction.SENDER.TransactionResponse
+message TransactionResponse {
+    string id = 1;
+    repeated TransactionResult transactionResult = 2;
+    Error error = 3;
+}
+
+// routing key: r.transaction.SENDER.BlockTransactionCountByHashResponse
+// routing key: r.transaction.SENDER.BlockTransactionCountByNumberResponse
+message TransactionCountResponse {
+    string id = 1;
+    uint64 count = 2;
+    Error error = 3;
+}
+
+// routing key: r.transaction.SENDER.CheckTransactionsByTimePeriodResponse
+message CheckTransactionsByTimePeriodResponse {
+    string id = 1;
+    string hash = 2;
+    Error error = 3;
+}
+
+

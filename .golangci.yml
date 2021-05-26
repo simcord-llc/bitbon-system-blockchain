@@ -1,0 +1,119 @@
+linters-settings:
+  govet:
+    check-shadowing: true
+  golint:
+    min-confidence: 0
+  gocyclo:
+    min-complexity: 20
+  maligned:
+    suggest-new: true
+  dupl:
+    threshold: 100
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gocognit:
+    min-complexity: 35
+  misspell:
+    locale: US
+  nestif:
+    min-complexity: 10
+  lll:
+    line-length: 120
+  funlen:
+    lines: 80
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+    disabled-checks:
+      - hugeParam
+      - wrapperFunc
+      - dupImport # https://github.com/go-critic/go-critic/issues/845
+      - whyNoLint
+
+linters:
+  enable-all: true
+  disable:
+    - maligned
+    - gochecknoinits
+    - gochecknoglobals
+    - goimports
+    - gomnd
+    - wsl
+    - testpackage
+    - godot
+    - dupl
+    - govet
+    - nestif
+    - staticcheck
+    - lll
+    - misspell
+
+run:
+  skip-files:
+    - "\\_test.go"
+  skip-dirs:
+    - gen
+    - vendor
+    - build
+    - cmd
+    - console
+    - contracts
+    - crypto
+    - docs
+    - eth
+    - ethclient
+    - ethdb
+    - ethstats
+    - event
+    - graphql
+    - internal
+    - les
+    - light
+    - log
+    - metrics
+    - mobile
+    - p2p
+    - params
+    - rlp
+    - rpc
+    - signer
+    - trie
+    - tests
+    - whisper
+
+issues:
+  exclude-rules:
+    - text: "weak cryptographic primitive"
+      linters:
+        - gosec
+    - path: _test\.go
+      linters:
+        - maligned
+        - gochecknoinits
+        - gochecknoglobals
+        - goimports
+        - gomnd
+        - wsl
+        - testpackage
+        - godot
+        - errcheck
+        - gocyclo
+        - unparam
+        - godox
+        - scopelint
+        - funlen
+        - ineffassign
+        - gocognit
+        - bodyclose
+        - dupl
+        - interfacer
+        - nestif
+        - gofmt
+
+service:
+  golangci-lint-version: 1.23.x # use the fixed version to not introduce new linters unexpectedly
+  prepare:
+    - echo "here I can run custom commands, but no preparation needed for this repo"
