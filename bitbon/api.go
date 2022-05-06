@@ -31,6 +31,11 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/log"
 )
 
+var (
+	// ErrEmptyAddress is returned if passed assetbox address is empty
+	ErrEmptyAddress = errors.New("empty address given")
+)
+
 // API provides the bitbon RPC service
 type API struct {
 	bitbon *Bitbon
@@ -91,7 +96,7 @@ func (api *API) PrepareAssetboxes(ctx context.Context, req *dto.PrepareAssetboxe
 	defer api.bitbon.apiWG.Done()
 
 	if req == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	assetboxes, err := api.bitbon.GetAssetboxManager().PrepareAssetboxes(ctx, req.Count)
 	if err != nil {
@@ -118,7 +123,7 @@ func (api *API) DeleteAssetbox(ctx context.Context, req *dto.DeleteAssetboxReque
 	defer api.bitbon.apiWG.Done()
 
 	if req == nil {
-		return bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	err := api.bitbon.GetAssetboxManager().DeleteAssetbox(ctx, req)
 	if err != nil {
@@ -135,7 +140,7 @@ func (api *API) SetPublicAssetboxInfo(ctx context.Context, req *dto.SetPublicAss
 	defer api.bitbon.apiWG.Done()
 
 	if req == nil {
-		return bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	if err := api.bitbon.GetAssetboxManager().SetPublicAssetboxInfo(ctx, req); err != nil {
 		return err
@@ -173,6 +178,23 @@ func (api *API) GetAssetboxBalance(ctx context.Context, address common.Address) 
 		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty address given"))
 	}
 	balance, err := api.bitbon.GetContractsManager().GetAssetboxBalance(ctx, address)
+	if err != nil {
+		return nil, err
+	}
+	return balance, nil
+}
+
+func (api *API) BalanceOfLocked(ctx context.Context, address common.Address) (*big.Int, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if address == (common.Address{}) {
+		return nil, bitbonErrors.NewInvalidRequestError(ErrEmptyAddress)
+	}
+	balance, err := api.bitbon.GetContractsManager().BalanceOfLocked(ctx, address)
 	if err != nil {
 		return nil, err
 	}

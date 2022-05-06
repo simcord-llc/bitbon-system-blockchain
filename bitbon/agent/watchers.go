@@ -148,6 +148,13 @@ func (a *Agent) watchTransaction(routingKey string) {
 							transactionObj.BitbonTx.Balances = append(transactionObj.BitbonTx.Balances, balance)
 						}
 					}
+
+					if len(bitbonTx.Events) > 0 {
+						for _, event := range bitbonTx.Events {
+							eventProto := event.ToProto()
+							transactionObj.BitbonTx.Events = append(transactionObj.BitbonTx.Events, eventProto)
+						}
+					}
 				}
 
 				transactions = append(transactions, transactionObj)
@@ -209,6 +216,7 @@ func (a *Agent) watchBlocks(routingKey string) {
 					Hash:              ch.Block.Hash().Hex(),
 					ParentHash:        ch.Block.ParentHash().Hex(),
 					Size:              ch.Block.Size().String(),
+					Difficulty:        ch.Block.Difficulty().Uint64(),
 				},
 			}
 
@@ -273,6 +281,54 @@ func (a *Agent) watchAssetboxInfo(routingKey string) {
 
 		case <-a.done:
 			logger.Warn("watchAssetboxInfo loop terminated.")
+			return
+		}
+	}
+}
+
+// watchAssetboxInfoDeleted method is blocking.
+func (a *Agent) watchAssetboxInfoDeleted(routingKey string) {
+	logger := log.New("exchange", a.cfg.AmqpExchange, "routingKey", routingKey, "component", "(bitbon agent watchAssetboxInfoDeleted)")
+
+	if !a.bitbon.GetContractsManager().WaitReady(a.done) {
+		logger.Warn("watchAssetboxInfoDeleted terminated as bitbon contracts manager is not ready")
+		return
+	}
+	retryTimeout := 10 * time.Second
+	sink := make(chan *contracts.Assetbox, 128)
+
+	for err := a.bitbon.GetContractsManager().WatchAssetboxInfoDeleted(sink); err != nil; {
+		logger.Error(fmt.Sprintf("error beginning watching assetbox info deleted. Retry in %s", retryTimeout))
+		time.Sleep(retryTimeout)
+	}
+
+	log.Warn("watchAssetboxInfoDeleted successfully started")
+
+	publisher := bitbonAmqp.NewPublisher(a.amqpClient, a.cfg.AmqpExchange, routingKey, DefaultConfirmTimeout, logger)
+	// cancel publisher when processor is done
+	defer a.amqpClient.CancelPublisher(publisher)
+
+	for {
+		select {
+		case event, ok := <-sink:
+			if !ok {
+				logger.Warn("watchAssetboxInfoDeleted sink channel closed")
+				return
+			}
+
+			send := &external.AssetboxInfoDeleted{
+				Address:   strings.ToLower(event.Address.Hex()),
+				IsPublic:  event.IsPublic,
+				Alias:     event.Alias,
+				ServiceId: string(event.ServiceID),
+				ExtraInfo: event.ExtraInfo,
+				IsMining:  event.IsMining,
+			}
+			logger2 := logger.New("assetbox", event.Address.Hex())
+			a.publishProto(send, publisher, logger2)
+
+		case <-a.done:
+			logger.Warn("watchAssetboxInfoDeleted loop terminated.")
 			return
 		}
 	}
@@ -371,6 +427,155 @@ func (a *Agent) watchAssetboxBalance(routingKey string) {
 
 		case <-a.done:
 			log.Warn("watchAssetboxBalance loop terminated.")
+			return
+		}
+	}
+}
+
+func (a *Agent) watchFeeValueChanged(routingKey string) {
+	logger := log.New("exchange", a.cfg.AmqpExchange,
+		"routingKey", routingKey, "component", "(bitbon agent watchFeeValueChanged)")
+
+	if !a.bitbon.GetContractsManager().WaitReady(a.done) {
+		logger.Warn("watchFeeValueChanged terminated as bitbon contracts manager is not ready")
+		return
+	}
+
+	retryTimeout := 10 * time.Second
+	sink := make(chan *contracts.FeeValueChanged)
+
+	for err := a.bitbon.GetContractsManager().WatchFeeValueChanged(sink); err != nil; {
+		logger.Error(fmt.Sprintf("error beginning watching WatchFeeValueChanged. Retry in %s", retryTimeout))
+		time.Sleep(retryTimeout)
+	}
+
+	log.Info("watchFeeValueChanged successfully started")
+
+	publisher := bitbonAmqp.NewPublisher(a.amqpClient, a.cfg.AmqpExchange, routingKey, DefaultConfirmTimeout, logger)
+	defer a.amqpClient.CancelPublisher(publisher)
+
+	for {
+		select {
+		case event, ok := <-sink:
+			if !ok {
+				logger.Warn("watchFeeValueChanged sink channel closed")
+				return
+			}
+
+			send := &external.FeeValueChanged{
+				Type:  event.Type.Uint64(),
+				Value: event.Value.String(),
+			}
+			logger2 := logger.New("feeType", send.Type, "feeValue", send.Value)
+			a.publishProto(send, publisher, logger2)
+
+		case <-a.done:
+			log.Warn("watchFeeValueChanged loop terminated.")
+			return
+		}
+	}
+}
+
+func (a *Agent) watchExceptionalAccountsChanged(routingKey string) {
+	logger := log.New("exchange", a.cfg.AmqpExchange,
+		"routingKey", routingKey, "component", "(bitbon agent watchExceptionalAccountsChanged)")
+
+	if !a.bitbon.GetContractsManager().WaitReady(a.done) {
+		logger.Warn("watchExceptionalAccountsChanged terminated as bitbon contracts manager is not ready")
+		return
+	}
+
+	retryTimeout := 10 * time.Second
+	sink := make(chan *contracts.ExceptionalAccountsChanged)
+
+	for err := a.bitbon.GetContractsManager().WatchExceptionalAccountsChanged(sink); err != nil; {
+		logger.Error(fmt.Sprintf("error beginning watching WatchExceptionalAccountsChanged. Retry in %s", retryTimeout))
+		time.Sleep(retryTimeout)
+	}
+
+	log.Info("watchExceptionalAccountsChanged successfully started")
+
+	publisher := bitbonAmqp.NewPublisher(a.amqpClient, a.cfg.AmqpExchange, routingKey, DefaultConfirmTimeout, logger)
+	defer a.amqpClient.CancelPublisher(publisher)
+
+	for {
+		select {
+		case event, ok := <-sink:
+			if !ok {
+				logger.Warn("watchExceptionalAccountsChanged sink channel closed")
+				return
+			}
+
+			accounts := make([]string, len(event.Accounts))
+			for i := range event.Accounts {
+				accounts[i] = event.Accounts[i].Hex()
+			}
+
+			send := &external.ExceptionalAccountsChanged{
+				Accounts: accounts,
+			}
+			logger2 := logger.New("accounts", send.Accounts)
+			a.publishProto(send, publisher, logger2)
+
+		case <-a.done:
+			log.Warn("watchExceptionalAccountsChanged loop terminated.")
+			return
+		}
+	}
+}
+
+func (a *Agent) watchFeeDistributionSettingsChanged(routingKey string) {
+	logger := log.New("exchange", a.cfg.AmqpExchange,
+		"routingKey", routingKey, "component", "(bitbon agent watchFeeDistributionSettingsChanged)")
+
+	if !a.bitbon.GetContractsManager().WaitReady(a.done) {
+		logger.Warn("watchFeeDistributionSettingsChanged terminated as bitbon contracts manager is not ready")
+		return
+	}
+
+	retryTimeout := 10 * time.Second
+	sink := make(chan *contracts.DistributionSettingsChanged)
+
+	for err := a.bitbon.GetContractsManager().WatchFeeDistributionSettingsChanged(sink); err != nil; {
+		logger.Error(fmt.Sprintf("error beginning watching WatchDistributionSettingsChanged. Retry in %s", retryTimeout))
+		time.Sleep(retryTimeout)
+	}
+
+	log.Info("watchFeeDistributionSettingsChanged successfully started")
+
+	publisher := bitbonAmqp.NewPublisher(a.amqpClient, a.cfg.AmqpExchange, routingKey, DefaultConfirmTimeout, logger)
+	defer a.amqpClient.CancelPublisher(publisher)
+
+	for {
+		select {
+		case event, ok := <-sink:
+			if !ok {
+				logger.Warn("watchFeeDistributionSettingsChanged sink channel closed")
+				return
+			}
+
+			if len(event.Accounts) != len(event.Amounts) {
+				logger.Error("watchFeeDistributionSettingsChanged got malformed event: given amounts and accounts has different length")
+				continue
+			}
+
+			distributions := make([]*external.FeeDistribution, len(event.Accounts))
+			for i := range event.Accounts {
+				distributions[i] = &external.FeeDistribution{
+					Account:     event.Accounts[i].Hex(),
+					SelfPercent: int32(event.Amounts[i].Int64()),
+				}
+			}
+
+			send := &external.DistributionSettingsChanged{
+				Type:          event.Type.Uint64(),
+				Distributions: distributions,
+			}
+			logger2 := logger.New("fee type", send.Type)
+			a.publishProto(send, publisher, logger2)
+
+		case <-a.done:
+			log.Warn("watchFeeDistributionSettingsChanged loop terminated.")
 			return
 		}
 	}

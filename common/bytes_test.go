@@ -59,11 +59,25 @@ func TestRightPadBytes(t *testing.T) {
 }
 
 func TestFromHex(t *testing.T) {
-	input := "0x01"
-	expected := []byte{1}
-	result := FromHex(input)
-	if !bytes.Equal(expected, result) {
-		t.Errorf("Expected %x got %x", expected, result)
+	tests := []struct {
+		name  string
+		input string
+		want  []byte
+	}{
+		{"decodes hex", "0x01", []byte{1}},
+		{"decodes without 0x prefix", "01", []byte{1}},
+		{"decodes odd length input", "0x1", []byte{1}},
+
+		{"invalid character in first 2 bytes", "0xfq", nil},
+		{"invalid character after first 2 bytes", "0xfffq", nil},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if got := FromHex(test.input); !bytes.Equal(got, test.want) {
+				t.Fatalf("FromHex(%s) = %x, want %x",
+					test.input, got, test.want)
+			}
+		})
 	}
 }
 

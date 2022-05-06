@@ -38,6 +38,23 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/rpc"
 )
 
+//go:generate abigen -abi=abi/AccessStorageImpl.abi -pkg=contracts -type=AccessStorageImpl -out=gen_AccessStorageImpl.go
+//go:generate abigen -abi=abi/AssetboxImpl.abi -pkg=contracts -type=AssetboxImpl -out=gen_AssetboxImpl.go
+//go:generate abigen -abi=abi/AssetboxInfoStorageImpl.abi -pkg=contracts -type=AssetboxInfoStorageImpl -out=gen_AssetboxInfoStorageImpl.go
+//go:generate abigen -abi=abi/AssetboxStorageImpl.abi -pkg=contracts -type=AssetboxStorageImpl -out=gen_AssetboxStorageImpl.go
+//go:generate abigen -abi=abi/BitbonImpl.abi -pkg=contracts -type=BitbonImpl -out=gen_BitbonImpl.go
+//go:generate abigen -abi=abi/BitbonStorageImpl.abi -pkg=contracts -type=BitbonStorageImpl -out=gen_BitbonStorageImpl.go
+//go:generate abigen -abi=abi/BitbonSupportImpl.abi -pkg=contracts -type=BitbonSupportImpl -out=gen_BitbonSupportImpl.go
+//go:generate abigen -abi=abi/ContractStorageImpl.abi -pkg=contracts -type=ContractStorageImpl -out=gen_ContractStorageImpl.go
+//go:generate abigen -abi=abi/DistributionStorageImpl.abi -pkg=contracts -type=DistributionStorageImpl -out=gen_DistributionStorageImpl.go
+//go:generate abigen -abi=abi/ExchangeImpl.abi -pkg=contracts -type=ExchangeImpl -out=gen_ExchangeImpl.go
+//go:generate abigen -abi=abi/FeeStorageImpl.abi -pkg=contracts -type=FeeStorageImpl -out=gen_FeeStorageImpl.go
+//go:generate abigen -abi=abi/MiningAgentStorageImpl.abi -pkg=contracts -type=MiningAgentStorageImpl -out=gen_MiningAgentStorageImpl.go
+//go:generate abigen -abi=abi/OtcImpl.abi -pkg=contracts -type=OtcImpl -out=gen_OtcImpl.go
+//go:generate abigen -abi=abi/ReservedAliasStorageImpl.abi -pkg=contracts -type=ReservedAliasStorageImpl -out=gen_ReservedAliasStorageImpl.go
+//go:generate abigen -abi=abi/SafeTransferStorageImpl.abi -pkg=contracts -type=SafeTransferStorageImpl -out=gen_SafeTransferStorageImpl.go
+//go:generate abigen -abi=abi/TransferImpl.abi -pkg=contracts -type=TransferImpl -out=gen_TransferImpl.go
+
 var (
 	errNilServicePK   = errors.New("nil servicePK given")
 	errAlreadyStopped = errors.New("already stopped")
@@ -268,6 +285,10 @@ func (m *Manager) GetContractAddresses() map[contract_snapshot.ContractType]comm
 	return m.snapshot.GetContractAddresses()
 }
 
+func (m *Manager) GetContractAddressFeeStorage() (common.Address, error) {
+	return m.getContractAddress(contract_snapshot.ContractTypeFeeStorageImpl)
+}
+
 func (m *Manager) GetCurrentContractAbiInfo(version dto.ContractVersion) ([]*dto.AbiInfo, error) {
 	if !dto.ContractVersionExists(version) {
 		return nil, errors.Errorf("unknown contract version %s", version)
@@ -393,14 +414,21 @@ func (m *Manager) prepareTransactOpts(ctx context.Context, key *ecdsa.PrivateKey
 	opts.Context = ctx
 
 	defer func() {
-		if err == nil && opts.From == m.serviceAddress {
+		if err == nil {
 			if m.Noncer != nil {
-				nonce, err := m.Noncer.IncrementAndGetNonce(m.serviceAddress) // nolint:govet
-
-				if err == nil {
+				address := crypto.PubkeyToAddress(key.PublicKey)
+				isEligible, err := m.Noncer.CheckNoncerEligibility(address)
+				if err != nil {
+					m.logger.Error("Error checking noncer eligibility", "error", err)
+					return
+				}
+				if isEligible {
+					nonce, err := m.Noncer.IncrementAndGetNonce(address)
+					if err != nil {
+						m.logger.Error("Error getting noncer nonce", "error", err)
+						return
+					}
 					opts.Nonce = new(big.Int).SetInt64(nonce)
-				} else {
-					m.logger.Error("Error getting noncer nonce", "error", err)
 				}
 			} else {
 				m.logger.Debug("Noncer is disabled. Continue with default behaviour")

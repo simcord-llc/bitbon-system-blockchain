@@ -27,7 +27,7 @@ var (
 )
 
 // TransferImplABI is the input ABI used to generate the binding from.
-const TransferImplABI = "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"contractStorageAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceAviable\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceLocked\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceLocked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceAviable\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceLocked\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceUnLocked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"source\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"DirectTransferCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"FeeCharged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"source\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"QuickTransferCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"status\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"maxRetries\",\"type\":\"uint256\"}],\"name\":\"SafeTransferApprovalResult\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"canceller\",\"type\":\"address\"}],\"name\":\"SafeTransferCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"SafeTransferCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"SafeTransferExpired\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"}],\"name\":\"TransferApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"}],\"name\":\"TransferWrongProtectionCode\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMINABLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_SUPPORT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONBALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONTRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_GENERATOR\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_DROP_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_INDEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CERTIFICATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_RESERVED_ALIAS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ROLE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_SAFE_TRANSFER_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER_FROM_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ACCESS_RESTORATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACTS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACT_DEPLOY\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_FEES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ROLES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_ACCESS_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_BITBON_ISSUE_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_COMMISSION_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_DEPLOY_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_PERMISSION_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getThisContractIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"quickTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"vk\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"retries\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"}],\"name\":\"createSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"protectionCode\",\"type\":\"bytes\"}],\"name\":\"approveSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"cancelSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"transferIdHash\",\"type\":\"bytes32\"}],\"name\":\"expireSafeTransfersByHash\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"transferExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"directTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+const TransferImplABI = "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"contractStorageAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceAviable\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceLocked\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceLocked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceAviable\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balanceLocked\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"assetboxType\",\"type\":\"uint256\"}],\"name\":\"BalanceUnLocked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"source\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"DirectTransferCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"FeeCharged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"source\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"FrameTransferCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"source\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"QuickTransferCompleted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint8\",\"name\":\"status\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"maxRetries\",\"type\":\"uint256\"}],\"name\":\"SafeTransferApprovalResult\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"canceller\",\"type\":\"address\"}],\"name\":\"SafeTransferCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"dest\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"SafeTransferCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"SafeTransferExpired\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"}],\"name\":\"TransferApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"currentRetries\",\"type\":\"uint256\"}],\"name\":\"TransferWrongProtectionCode\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMINABLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_SUPPORT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONBALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONTRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_GENERATOR\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_DISTRIBUTION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_DROP_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_INDEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CERTIFICATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_CONFIRMATION_RATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MAX_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MIN_AMOUNT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MIN_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_RESERVED_ALIAS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ROLE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_SAFE_TRANSFER_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER_FROM_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_CREATE_SAFE_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_FRAME_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_QUICK_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_QUICK_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_WPC_SAFE_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_WPC_SAFE_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ACCESS_RESTORATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACTS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACT_DEPLOY\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_FEES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ROLES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_ACCESS_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_BITBON_ISSUE_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_COMMISSION_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_DEPLOY_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_PERMISSION_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getThisContractIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"opType\",\"type\":\"uint256\"}],\"name\":\"feeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"quickTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"frameTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"vk\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"retries\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"}],\"name\":\"createSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"protectionCode\",\"type\":\"bytes\"}],\"name\":\"approveSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"cancelSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"transferIdHash\",\"type\":\"bytes32\"}],\"name\":\"expireSafeTransfersByHash\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"transferExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"directTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // TransferImpl is an auto generated Go binding around an Ethereum contract.
 type TransferImpl struct {
@@ -566,6 +566,32 @@ func (_TransferImpl *TransferImplCallerSession) CONTRACTDEX() (*big.Int, error) 
 	return _TransferImpl.Contract.CONTRACTDEX(&_TransferImpl.CallOpts)
 }
 
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTDISTRIBUTIONGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_DISTRIBUTION_GATE")
+	return *ret0, err
+}
+
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTDISTRIBUTIONGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTDISTRIBUTIONGATE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTDISTRIBUTIONGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTDISTRIBUTIONGATE(&_TransferImpl.CallOpts)
+}
+
 // CONTRACTDISTRIBUTIONSTORAGE is a free data retrieval call binding the contract method 0x08097327.
 //
 // Solidity: function CONTRACT_DISTRIBUTION_STORAGE() view returns(uint256)
@@ -644,6 +670,32 @@ func (_TransferImpl *TransferImplCallerSession) CONTRACTEXCHANGESTORAGE() (*big.
 	return _TransferImpl.Contract.CONTRACTEXCHANGESTORAGE(&_TransferImpl.CallOpts)
 }
 
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTFEEGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_FEE_GATE")
+	return *ret0, err
+}
+
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTFEEGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTFEEGATE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTFEEGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTFEEGATE(&_TransferImpl.CallOpts)
+}
+
 // CONTRACTFEESTORAGE is a free data retrieval call binding the contract method 0xcd5e65a4.
 //
 // Solidity: function CONTRACT_FEE_STORAGE() view returns(uint256)
@@ -694,6 +746,32 @@ func (_TransferImpl *TransferImplSession) CONTRACTGENERATOR() (*big.Int, error) 
 // Solidity: function CONTRACT_GENERATOR() view returns(uint256)
 func (_TransferImpl *TransferImplCallerSession) CONTRACTGENERATOR() (*big.Int, error) {
 	return _TransferImpl.Contract.CONTRACTGENERATOR(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMININGAGENTGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MINING_AGENT_GATE")
+	return *ret0, err
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMININGAGENTGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMININGAGENTGATE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMININGAGENTGATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMININGAGENTGATE(&_TransferImpl.CallOpts)
 }
 
 // CONTRACTMININGAGENTSTORAGE is a free data retrieval call binding the contract method 0x83cc588d.
@@ -826,6 +904,32 @@ func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGADDADMIN() (*big
 	return _TransferImpl.Contract.CONTRACTMULTISIGADDADMIN(&_TransferImpl.CallOpts)
 }
 
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGADDDISTRIBUTION(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_ADD_DISTRIBUTION")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGADDDISTRIBUTION() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGADDDISTRIBUTION(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGADDDISTRIBUTION() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGADDDISTRIBUTION(&_TransferImpl.CallOpts)
+}
+
 // CONTRACTMULTISIGADDFEE is a free data retrieval call binding the contract method 0xc43e8cab.
 //
 // Solidity: function CONTRACT_MULTISIG_ADD_FEE() view returns(uint256)
@@ -876,6 +980,32 @@ func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGADDROLE() (*big.Int, e
 // Solidity: function CONTRACT_MULTISIG_ADD_ROLE() view returns(uint256)
 func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGADDROLE() (*big.Int, error) {
 	return _TransferImpl.Contract.CONTRACTMULTISIGADDROLE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGCLEARFEEEXCEPTIONS(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGCLEARFEEEXCEPTIONS() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGCLEARFEEEXCEPTIONS(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGCLEARFEEEXCEPTIONS() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGCLEARFEEEXCEPTIONS(&_TransferImpl.CallOpts)
 }
 
 // CONTRACTMULTISIGDROPPERMISSION is a free data retrieval call binding the contract method 0x3f3fbc39.
@@ -1216,6 +1346,162 @@ func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETADMINROLE() (
 	return _TransferImpl.Contract.CONTRACTMULTISIGSETADMINROLE(&_TransferImpl.CallOpts)
 }
 
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETCONFIRMATIONRATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_CONFIRMATION_RATE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETCONFIRMATIONRATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETCONFIRMATIONRATE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETCONFIRMATIONRATE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETCONFIRMATIONRATE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETFEEDISTRIBUTION(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETFEEDISTRIBUTION() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETFEEDISTRIBUTION(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETFEEDISTRIBUTION() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETFEEDISTRIBUTION(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETFEEEXCEPTIONS(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETFEEEXCEPTIONS() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETFEEEXCEPTIONS(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETFEEEXCEPTIONS() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETFEEEXCEPTIONS(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETMAXFEE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MAX_FEE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETMAXFEE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMAXFEE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETMAXFEE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMAXFEE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETMINAMOUNT(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MIN_AMOUNT")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETMINAMOUNT() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMINAMOUNT(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETMINAMOUNT() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMINAMOUNT(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) CONTRACTMULTISIGSETMINFEE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MIN_FEE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplSession) CONTRACTMULTISIGSETMINFEE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMINFEE(&_TransferImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) CONTRACTMULTISIGSETMINFEE() (*big.Int, error) {
+	return _TransferImpl.Contract.CONTRACTMULTISIGSETMINFEE(&_TransferImpl.CallOpts)
+}
+
 // CONTRACTMULTISIGSETPERMISSION is a free data retrieval call binding the contract method 0xb0e91914.
 //
 // Solidity: function CONTRACT_MULTISIG_SET_PERMISSION() view returns(uint256)
@@ -1474,6 +1760,188 @@ func (_TransferImpl *TransferImplSession) CONTRACTTRANSFERFROMCAPITALIZATION() (
 // Solidity: function CONTRACT_TRANSFER_FROM_CAPITALIZATION() view returns(uint256)
 func (_TransferImpl *TransferImplCallerSession) CONTRACTTRANSFERFROMCAPITALIZATION() (*big.Int, error) {
 	return _TransferImpl.Contract.CONTRACTTRANSFERFROMCAPITALIZATION(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONCREATESAFETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_CREATE_SAFE_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONCREATESAFETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONCREATESAFETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONCREATESAFETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONCREATESAFETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONCREATESAFETRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONCREATESAFETRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONCREATESAFETRANSFERALL(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONCREATESAFETRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONCREATESAFETRANSFERALL(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONFRAMETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_FRAME_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONFRAMETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONFRAMETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONFRAMETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONFRAMETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONQUICKTRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_QUICK_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONQUICKTRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONQUICKTRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONQUICKTRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONQUICKTRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONQUICKTRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_QUICK_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONQUICKTRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONQUICKTRANSFERALL(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONQUICKTRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONQUICKTRANSFERALL(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONWPCSAFETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_WPC_SAFE_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONWPCSAFETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONWPCSAFETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONWPCSAFETRANSFER() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONWPCSAFETRANSFER(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCaller) FEEOPERATIONWPCSAFETRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _TransferImpl.contract.Call(opts, out, "FEE_OPERATION_WPC_SAFE_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplSession) FEEOPERATIONWPCSAFETRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONWPCSAFETRANSFERALL(&_TransferImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_TransferImpl *TransferImplCallerSession) FEEOPERATIONWPCSAFETRANSFERALL() (*big.Int, error) {
+	return _TransferImpl.Contract.FEEOPERATIONWPCSAFETRANSFERALL(&_TransferImpl.CallOpts)
 }
 
 // PERMISSIONACCESSRESTORATION is a free data retrieval call binding the contract method 0x5c3053bf.
@@ -1969,6 +2437,48 @@ func (_TransferImpl *TransferImplSession) ExpireSafeTransfersByHash(transferIdHa
 // Solidity: function expireSafeTransfersByHash(bytes32 transferIdHash) returns(bool)
 func (_TransferImpl *TransferImplTransactorSession) ExpireSafeTransfersByHash(transferIdHash [32]byte) (*types.Transaction, error) {
 	return _TransferImpl.Contract.ExpireSafeTransfersByHash(&_TransferImpl.TransactOpts, transferIdHash)
+}
+
+// FeeTransfer is a paid mutator transaction binding the contract method 0x2403e3ee.
+//
+// Solidity: function feeTransfer(address from, uint256 opType) returns(bool)
+func (_TransferImpl *TransferImplTransactor) FeeTransfer(opts *bind.TransactOpts, from common.Address, opType *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.contract.Transact(opts, "feeTransfer", from, opType)
+}
+
+// FeeTransfer is a paid mutator transaction binding the contract method 0x2403e3ee.
+//
+// Solidity: function feeTransfer(address from, uint256 opType) returns(bool)
+func (_TransferImpl *TransferImplSession) FeeTransfer(from common.Address, opType *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.Contract.FeeTransfer(&_TransferImpl.TransactOpts, from, opType)
+}
+
+// FeeTransfer is a paid mutator transaction binding the contract method 0x2403e3ee.
+//
+// Solidity: function feeTransfer(address from, uint256 opType) returns(bool)
+func (_TransferImpl *TransferImplTransactorSession) FeeTransfer(from common.Address, opType *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.Contract.FeeTransfer(&_TransferImpl.TransactOpts, from, opType)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0xb0092c89.
+//
+// Solidity: function frameTransfer(address from, address to, uint256 value, uint256 fee) returns(bool)
+func (_TransferImpl *TransferImplTransactor) FrameTransfer(opts *bind.TransactOpts, from common.Address, to common.Address, value *big.Int, fee *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.contract.Transact(opts, "frameTransfer", from, to, value, fee)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0xb0092c89.
+//
+// Solidity: function frameTransfer(address from, address to, uint256 value, uint256 fee) returns(bool)
+func (_TransferImpl *TransferImplSession) FrameTransfer(from common.Address, to common.Address, value *big.Int, fee *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.Contract.FrameTransfer(&_TransferImpl.TransactOpts, from, to, value, fee)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0xb0092c89.
+//
+// Solidity: function frameTransfer(address from, address to, uint256 value, uint256 fee) returns(bool)
+func (_TransferImpl *TransferImplTransactorSession) FrameTransfer(from common.Address, to common.Address, value *big.Int, fee *big.Int) (*types.Transaction, error) {
+	return _TransferImpl.Contract.FrameTransfer(&_TransferImpl.TransactOpts, from, to, value, fee)
 }
 
 // QuickTransfer is a paid mutator transaction binding the contract method 0x671d0455.
@@ -2603,14 +3113,15 @@ func (it *TransferImplFeeChargedIterator) Close() error {
 
 // TransferImplFeeCharged represents a FeeCharged event raised by the TransferImpl contract.
 type TransferImplFeeCharged struct {
-	Assetbox common.Address
-	Fee      *big.Int
-	Raw      types.Log // Blockchain specific contextual infos
+	From common.Address
+	To   common.Address
+	Fee  *big.Int
+	Raw  types.Log // Blockchain specific contextual infos
 }
 
-// FilterFeeCharged is a free log retrieval operation binding the contract event 0x55bb3cade9d43b798a4fe5ffdd05024b2d7870df53920673bfc7e68047cd0ab1.
+// FilterFeeCharged is a free log retrieval operation binding the contract event 0x945458c62aa39df7a4d87d6c4dbaaab7de5d870c9a1fe40e2b7571d84f158a8d.
 //
-// Solidity: event FeeCharged(address assetbox, uint256 fee)
+// Solidity: event FeeCharged(address from, address to, uint256 fee)
 func (_TransferImpl *TransferImplFilterer) FilterFeeCharged(opts *bind.FilterOpts) (*TransferImplFeeChargedIterator, error) {
 
 	logs, sub, err := _TransferImpl.contract.FilterLogs(opts, "FeeCharged")
@@ -2620,9 +3131,9 @@ func (_TransferImpl *TransferImplFilterer) FilterFeeCharged(opts *bind.FilterOpt
 	return &TransferImplFeeChargedIterator{contract: _TransferImpl.contract, event: "FeeCharged", logs: logs, sub: sub}, nil
 }
 
-// WatchFeeCharged is a free log subscription operation binding the contract event 0x55bb3cade9d43b798a4fe5ffdd05024b2d7870df53920673bfc7e68047cd0ab1.
+// WatchFeeCharged is a free log subscription operation binding the contract event 0x945458c62aa39df7a4d87d6c4dbaaab7de5d870c9a1fe40e2b7571d84f158a8d.
 //
-// Solidity: event FeeCharged(address assetbox, uint256 fee)
+// Solidity: event FeeCharged(address from, address to, uint256 fee)
 func (_TransferImpl *TransferImplFilterer) WatchFeeCharged(opts *bind.WatchOpts, sink chan<- *TransferImplFeeCharged) (event.Subscription, error) {
 
 	logs, sub, err := _TransferImpl.contract.WatchLogs(opts, "FeeCharged")
@@ -2657,12 +3168,147 @@ func (_TransferImpl *TransferImplFilterer) WatchFeeCharged(opts *bind.WatchOpts,
 	}), nil
 }
 
-// ParseFeeCharged is a log parse operation binding the contract event 0x55bb3cade9d43b798a4fe5ffdd05024b2d7870df53920673bfc7e68047cd0ab1.
+// ParseFeeCharged is a log parse operation binding the contract event 0x945458c62aa39df7a4d87d6c4dbaaab7de5d870c9a1fe40e2b7571d84f158a8d.
 //
-// Solidity: event FeeCharged(address assetbox, uint256 fee)
+// Solidity: event FeeCharged(address from, address to, uint256 fee)
 func (_TransferImpl *TransferImplFilterer) ParseFeeCharged(log types.Log) (*TransferImplFeeCharged, error) {
 	event := new(TransferImplFeeCharged)
 	if err := _TransferImpl.contract.UnpackLog(event, "FeeCharged", log); err != nil {
+		return nil, err
+	}
+	return event, nil
+}
+
+// TransferImplFrameTransferCompletedIterator is returned from FilterFrameTransferCompleted and is used to iterate over the raw logs and unpacked data for FrameTransferCompleted events raised by the TransferImpl contract.
+type TransferImplFrameTransferCompletedIterator struct {
+	Event *TransferImplFrameTransferCompleted // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *TransferImplFrameTransferCompletedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(TransferImplFrameTransferCompleted)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(TransferImplFrameTransferCompleted)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *TransferImplFrameTransferCompletedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *TransferImplFrameTransferCompletedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// TransferImplFrameTransferCompleted represents a FrameTransferCompleted event raised by the TransferImpl contract.
+type TransferImplFrameTransferCompleted struct {
+	Source common.Address
+	Dest   common.Address
+	Amount *big.Int
+	Raw    types.Log // Blockchain specific contextual infos
+}
+
+// FilterFrameTransferCompleted is a free log retrieval operation binding the contract event 0x43389500c78a5c9c4b70b031455339c185181c630410e2e72baf05171517cb2d.
+//
+// Solidity: event FrameTransferCompleted(address source, address dest, uint256 amount)
+func (_TransferImpl *TransferImplFilterer) FilterFrameTransferCompleted(opts *bind.FilterOpts) (*TransferImplFrameTransferCompletedIterator, error) {
+
+	logs, sub, err := _TransferImpl.contract.FilterLogs(opts, "FrameTransferCompleted")
+	if err != nil {
+		return nil, err
+	}
+	return &TransferImplFrameTransferCompletedIterator{contract: _TransferImpl.contract, event: "FrameTransferCompleted", logs: logs, sub: sub}, nil
+}
+
+// WatchFrameTransferCompleted is a free log subscription operation binding the contract event 0x43389500c78a5c9c4b70b031455339c185181c630410e2e72baf05171517cb2d.
+//
+// Solidity: event FrameTransferCompleted(address source, address dest, uint256 amount)
+func (_TransferImpl *TransferImplFilterer) WatchFrameTransferCompleted(opts *bind.WatchOpts, sink chan<- *TransferImplFrameTransferCompleted) (event.Subscription, error) {
+
+	logs, sub, err := _TransferImpl.contract.WatchLogs(opts, "FrameTransferCompleted")
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(TransferImplFrameTransferCompleted)
+				if err := _TransferImpl.contract.UnpackLog(event, "FrameTransferCompleted", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseFrameTransferCompleted is a log parse operation binding the contract event 0x43389500c78a5c9c4b70b031455339c185181c630410e2e72baf05171517cb2d.
+//
+// Solidity: event FrameTransferCompleted(address source, address dest, uint256 amount)
+func (_TransferImpl *TransferImplFilterer) ParseFrameTransferCompleted(log types.Log) (*TransferImplFrameTransferCompleted, error) {
+	event := new(TransferImplFrameTransferCompleted)
+	if err := _TransferImpl.contract.UnpackLog(event, "FrameTransferCompleted", log); err != nil {
 		return nil, err
 	}
 	return event, nil

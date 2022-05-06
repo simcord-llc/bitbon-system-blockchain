@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the Bitbon System Blockchain Node library. If not, see <http://www.gnu.org/licenses/>.
 
+//go:build darwin || dragonfly || freebsd || linux || nacl || netbsd || openbsd || solaris
 // +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
 
 package rpc

@@ -36,7 +36,7 @@ func (api *API) BlockTransactionCountByBlockHash(ctx context.Context, hash commo
 	defer api.bitbon.apiWG.Done()
 
 	if hash == (common.Hash{}) {
-		return 0, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return 0, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	block := api.bitbon.GetEth().BlockChain().GetBlockByHash(hash)
@@ -122,7 +122,7 @@ func (api *API) TransactionByHash(ctx context.Context, txHash common.Hash) (*dto
 	defer api.bitbon.apiWG.Done()
 
 	if txHash == (common.Hash{}) {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	transaction, blockHash, blockNumber := api.bitbon.GetContractsManager().GetEthAPIWrapper().Transaction(ctx, txHash)
@@ -178,7 +178,7 @@ func (api *API) TransactionsByTimePeriod(ctx context.Context,
 
 func validateTransactionsByTimePeriodRequest(request *dto.TransactionTimePeriodRequest, maxPeriod uint64) error {
 	if request == nil || request.From == 0 || request.To == 0 {
-		return bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	if request.From >= request.To || (request.To-request.From) > maxPeriod {
 		return bitbonErrors.NewInvalidRequestError(errors.New("bad range given"))

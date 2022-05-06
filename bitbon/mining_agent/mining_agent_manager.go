@@ -24,7 +24,6 @@ import (
 	"github.com/pkg/errors"
 	bb "github.com/simcord-llc/bitbon-system-blockchain/bitbon"
 	loggerContext "github.com/simcord-llc/bitbon-system-blockchain/bitbon/context"
-	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/models"
 	"github.com/simcord-llc/bitbon-system-blockchain/common"
 	"github.com/simcord-llc/bitbon-system-blockchain/log"
 )
@@ -50,16 +49,12 @@ func (mam *Manager) ProposeDistribution(ctx context.Context,
 	mam.logger.Debug("MiningAgentManager ProposeDistribution called",
 		"address", req.Address.Hex(), "distribution", req.Distribution, "isPublic")
 
-	assetbox := &models.Assetbox{
-		Wallet:     req.CryptoData.Wallet,
-		PassPhrase: req.CryptoData.Passphrase,
-	}
-
-	if err := bb.DecryptAssetboxWallet(assetbox, mam.bitbon.GetDecryptAssetboxWalletPassword(), mam.encryptor.Decrypt); err != nil {
+	privateKey, err := bb.DecryptPrivateKeyForAssetbox(req.Address, req.CryptoData.Wallet, req.CryptoData.Passphrase, mam.bitbon.GetDecryptAssetboxWalletPassword(), mam.encryptor.Decrypt)
+	if err != nil {
 		return err
 	}
 
-	err = mam.bitbon.GetContractsManager().ProposeDistribution(ctx, req.Distribution, assetbox.Pk)
+	err = mam.bitbon.GetContractsManager().ProposeDistribution(ctx, req.Distribution, privateKey)
 	if err != nil {
 		return errors.Wrap(err, "error adding distribution proposal to blockchain")
 	}

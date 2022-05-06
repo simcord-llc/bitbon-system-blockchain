@@ -37,6 +37,21 @@ type Balance struct {
 	AssetboxType *big.Int
 }
 
+type FeeValueChanged struct {
+	Type  *big.Int
+	Value *big.Int
+}
+
+type ExceptionalAccountsChanged struct {
+	Accounts []common.Address
+}
+
+type DistributionSettingsChanged struct {
+	Type     *big.Int
+	Accounts []common.Address
+	Amounts  []*big.Int
+}
+
 type Transfer struct {
 	To         common.Address
 	Value      *big.Int

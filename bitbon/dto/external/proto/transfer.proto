@@ -10,11 +10,20 @@ message QuickTransferRequest {
     // rountig key : r.transfer.SENDER.QuickTransferAsyncRequest
     string id = 1;
     string from = 2; // assetbox sender
-    string accountId = 3; // id account sender
-    string to = 4; // assetbox receiver
-    string value = 5; // value for transfer
-    bytes extraData = 6; // some extra data with some information
-    AssetboxCryptoData from_crypto_data = 7;
+    string to = 3; // assetbox receiver
+    string value = 4; // value for transfer
+    bytes extraData = 5; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 6;
+}
+
+message FullBalanceQuickTransferRequest {
+    // rountig key : r.transfer.SENDER.FullBalanceQuickTransferRequest
+    // rountig key : r.transfer.SENDER.FullBalanceQuickTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string to = 3; // assetbox receiver
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 5;
 }
 
 message CreateWPCSafeTransferRequest {
@@ -22,18 +31,58 @@ message CreateWPCSafeTransferRequest {
     // rountig key : r.transfer.SENDER.CreateWPCSafeTransferAsyncRequest
     string id = 1;
     string from = 2; // assetbox sender
-    string accountId = 3; // id account sender
-    string to = 4; // assetbox receiver
-    string value = 5; // value for transfer
-    string transferId = 6; // id transfer
-    int64 expiresAt = 7; // time when transfer will expired
-    bytes extraData = 8; // some extra data with some information
-    AssetboxCryptoData from_crypto_data = 9;
+    string to = 3; // assetbox receiver
+    string value = 4; // value for transfer
+    string transferId = 5; // id transfer
+    int64 expiresAt = 6; // time when transfer will expired
+    bytes extraData = 7; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 8;
+}
+
+message CreateFullBalanceWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CreateFullBalanceWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CreateFullBalanceWPCSafeTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string to = 3; // assetbox receiver
+    string transferId = 4; // id transfer
+    int64 expiresAt = 5; // time when transfer will expired
+    bytes extraData = 6; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 7;
+}
+
+message ServiceFeeTransferRequest {
+    // rountig key : r.transfer.SENDER.ServiceFeeTransferRequest
+    // rountig key : r.transfer.SENDER.ServiceFeeTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    ServiceFeeOperation operation_type = 3; // type of feeable operation
+}
+
+enum ServiceFeeOperation {
+    // enum listing all operations that fee can be charged for
+    SERVICE_FEE_OPERATION_UNSPECIFIED = 0;
+    // 0xx codes are reserved for random stuff (like temporary feeable operations for some events)
+    // 1xx codes are reserved for transfer fees which are charged automatically by transfer smart-contracts
+    // do not add 1xx codes to this enum, API will reject it as not valid
+    // 2xx codes are codes for service operations
+    SERVICE_FEE_OPERATION_ASSETBOX_CREATION = 201;
+    SERVICE_FEE_OPERATION_NUMBER_CHANGE = 202;
 }
 
 message ApproveWPCSafeTransferRequest {
     // rountig key : r.transfer.SENDER.ApproveWPCSafeTransferRequest
     // rountig key : r.transfer.SENDER.ApproveWPCSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // ?
+    string transferID = 3; // id трансфера
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
+message ApproveFullBalanceWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.ApproveFullBalanceWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.ApproveFullBalanceWPCSafeTransferAsyncRequest
     string id = 1;
     string address = 2; // ?
     string transferID = 3; // id трансфера
@@ -51,20 +100,43 @@ message CancelWPCSafeTransferRequest {
     AssetboxCryptoData crypto_data = 5;
 }
 
+message CancelFullBalanceWPCSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CancelFullBalanceWPCSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CancelFullBalanceWPCSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // initiator transaction
+    string transferID = 3; // id transfer
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
 message CreateSafeTransferRequest {
     // rountig key : r.transfer.SENDER.CreateSafeTransferRequest
     // rountig key : r.transfer.SENDER.CreateSafeTransferAsyncRequest
     string id = 1;
     string from = 2; // assetbox sender
-    string accountId = 3; // id account sender
-    string to = 4; // assetbox receiver
-    string value = 5; // value for transfer
-    string transferId = 6; // id transfer
-    string protectionCode = 7; // code for approve transfer
-    uint64 retries = 8; // number of attempts of invalid protection code
-    int64 expiresAt = 9; // time when transfer will expired
-    bytes extraData = 10; // some extra data with some information
-    AssetboxCryptoData from_crypto_data = 11;
+    string to = 3; // assetbox receiver
+    string value = 4; // value for transfer
+    string transferId = 5; // id transfer
+    string protectionCode = 6; // code for approve transfer
+    uint64 retries = 7; // number of attempts of invalid protection code
+    int64 expiresAt = 8; // time when transfer will expired
+    bytes extraData = 9; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 10;
+}
+
+message CreateFullBalanceSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CreateFullBalanceSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CreateFullBalanceSafeTransferAsyncRequest
+    string id = 1;
+    string from = 2; // assetbox sender
+    string to = 3; // assetbox receiver
+    string transferId = 4; // id transfer
+    string protectionCode = 5; // code for approve transfer
+    uint64 retries = 6; // number of attempts of invalid protection code
+    int64 expiresAt = 7; // time when transfer will expired
+    bytes extraData = 8; // some extra data with some information
+    AssetboxCryptoData from_crypto_data = 9;
 }
 
 message ApproveSafeTransferRequest {
@@ -78,9 +150,30 @@ message ApproveSafeTransferRequest {
     AssetboxCryptoData crypto_data = 6;
 }
 
+message ApproveFullBalanceSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.ApproveFullBalanceSafeTransferRequest
+    // rountig key : r.transfer.SENDER.ApproveFullBalanceSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // ?
+    string transferID = 3; // id трансфера
+    string protectionCode = 4; // код подтверждения
+    bytes extraData = 5; // some extra data with some information
+    AssetboxCryptoData crypto_data = 6;
+}
+
 message CancelSafeTransferRequest {
     // rountig key : r.transfer.SENDER.CancelSafeTransferRequest
     // rountig key : r.transfer.SENDER.CancelSafeTransferAsyncRequest
+    string id = 1;
+    string address = 2; // initiator transaction
+    string transferID = 3; // id transfer
+    bytes extraData = 4; // some extra data with some information
+    AssetboxCryptoData crypto_data = 5;
+}
+
+message CancelFullBalanceSafeTransferRequest {
+    // rountig key : r.transfer.SENDER.CancelFullBalanceSafeTransferRequest
+    // rountig key : r.transfer.SENDER.CancelFullBalanceSafeTransferAsyncRequest
     string id = 1;
     string address = 2; // initiator transaction
     string transferID = 3; // id transfer
@@ -130,6 +223,7 @@ message TransferResponse {
 message ExpireTransfersRequest {
     // rountig key : r.transfer.SENDER.ExpireTransfersRequest
     string id = 1;
+    repeated string transfer_ids = 2;
 }
 
 message ExpireTransfersResponse {

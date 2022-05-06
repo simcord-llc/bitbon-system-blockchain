@@ -118,6 +118,14 @@ func BitbonTransactionToDto(t []*Transaction) []*external.TransactionResult {
 					transactionObj.BitbonTx.Balances = append(transactionObj.BitbonTx.Balances, balance)
 				}
 			}
+
+			eventsLen := len(bitbonTx.Events)
+			if eventsLen > 0 {
+				transactionObj.BitbonTx.Events = make([]*external.Event, 0, len(bitbonTx.Events))
+				for i := range bitbonTx.Events {
+					transactionObj.BitbonTx.Events = append(transactionObj.BitbonTx.Events, bitbonTx.Events[i].ToProto())
+				}
+			}
 		}
 
 		transactions[index] = &external.TransactionResult{
@@ -152,6 +160,28 @@ func GetMethod(methodName string) external.Method {
 
 	case ExpireSafeTransfer:
 		return external.Method_EXPIRE_TRANSFER
+
+	case ServiceFeeTransfer:
+		return external.Method_SERVICE_FEE_TRANSFER
+	case FrameTransfer:
+		return external.Method_FRAME_TRANSFER
+
+	case FullBalanceQuickTransfer:
+		return external.Method_FULL_BALANCE_QUICK_TRANSFER
+
+	case CreateFullBalanceSafeTransfer:
+		return external.Method_CREATE_FULL_BALANCE_SAFE_TRANSFER
+	case ApproveFullBalanceSafeTransfer:
+		return external.Method_APPROVE_FULL_BALANCE_SAFE_TRANSFER
+	case CancelFullBalanceSafeTransfer:
+		return external.Method_CANCEL_FULL_BALANCE_SAFE_TRANSFER
+
+	case CreateFullBalanceWPCSafeTransfer:
+		return external.Method_CREATE_FULL_BALANCE_WPC_SAFE_TRANSFER
+	case ApproveFullBalanceWPCSafeTransfer:
+		return external.Method_APPROVE_FULL_BALANCE_WPC_SAFE_TRANSFER
+	case CancelFullBalanceWPCSafeTransfer:
+		return external.Method_CANCEL_FULL_BALANCE_WPC_SAFE_TRANSFER
 
 	default:
 		return external.Method_UNDEFINED

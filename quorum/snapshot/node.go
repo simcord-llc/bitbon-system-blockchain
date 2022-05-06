@@ -126,12 +126,12 @@ func (n *Node) hasRemoteMinerCandidate(address common.Address, logger log.Logger
 	isMiner, ok := n.remoteNodeCandidates[address]
 	// node is not exists in remoteNodeCandidates
 	if !ok {
-		logger.Error("Node does not have miner in its remoteNodeCandidates",
+		logger.Debug("Node does not have miner in its remoteNodeCandidates",
 			"Node", n.id.String(), "wantedMiner", address.String())
 		return false
 	}
 	if !isMiner {
-		logger.Error("Node has miner in its remoteNodeCandidates, but it is not miner for it",
+		logger.Debug("Node has miner in its remoteNodeCandidates, but it is not miner for it",
 			"Node", n.id.String(), "minerCandidate", address.String())
 		return false
 	}

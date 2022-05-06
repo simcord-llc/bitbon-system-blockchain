@@ -48,6 +48,7 @@ type Bitbon struct {
 	assetboxManager    AssetboxManager
 	transferManager    TransferManager
 	miningAgentManager MiningAgent
+	feeManager         FeeManager
 
 	parser *parser.Parser
 	eth    *eth.Ethereum
@@ -155,6 +156,13 @@ func (b *Bitbon) InjectMiningAgent(ma MiningAgent) {
 	// make it settable only once
 	if b.miningAgentManager == nil {
 		b.miningAgentManager = ma
+	}
+}
+
+func (b *Bitbon) InjectFeeManager(fm FeeManager) {
+	// make it settable only once
+	if b.feeManager == nil {
+		b.feeManager = fm
 	}
 }
 
@@ -295,6 +303,10 @@ func (b *Bitbon) GetAssetboxManager() AssetboxManager {
 
 func (b *Bitbon) GetTransferManager() TransferManager {
 	return b.transferManager
+}
+
+func (b *Bitbon) GetFeeManager() FeeManager {
+	return b.feeManager
 }
 
 func (b *Bitbon) GetParser() *parser.Parser {

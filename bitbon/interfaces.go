@@ -34,6 +34,8 @@ type TransferManager interface {
 
 	QuickTransfer(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
 	QuickTransferAsync(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
+	FrameTransfer(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
+	FrameTransferAsync(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
 	CreateSafeTransfer(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
 	CreateSafeTransferAsync(ctx context.Context,
 		transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
@@ -56,10 +58,26 @@ type TransferManager interface {
 		transfer *models.CancelTransferObj) (*models.TransferResponseObj, error)
 	DirectTransfer(ctx context.Context, transfer *models.DirectTransferObj) (*models.TransferResponseObj, error)
 	DirectTransferAsync(ctx context.Context, transfer *models.DirectTransferObj) (*models.TransferResponseObj, error)
-	ExpireTransfers(ctx context.Context) (hashes []common.Hash, num int, err error)
+	ExpireTransfersAsync(ctx context.Context, ids []string) (*models.TransferResponseObj, error)
 	GetTransfer(ctx context.Context, transferID string) (*contracts.ReceiptTransfer, error)
 	GetTransferByIndex(ctx context.Context, index *big.Int) (*contracts.ReceiptTransfer, error)
 	TransferExists(ctx context.Context, transferID string) (bool, error)
+	ServiceFeeTransfer(ctx context.Context, transfer *models.ServiceFeeTransferObj) (*models.TransferResponseObj, error)
+	ServiceFeeTransferAsync(ctx context.Context, transfer *models.ServiceFeeTransferObj) (*models.TransferResponseObj, error)
+	FullBalanceQuickTransfer(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
+	FullBalanceQuickTransferAsync(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error)
+	CreateFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
+	CreateFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
+	ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error)
+	ApproveFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error)
+	CancelFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error)
+	CancelFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error)
+	CreateFullBalanceSafeTransfer(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
+	CreateFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error)
+	ApproveFullBalanceSafeTransfer(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error)
+	ApproveFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error)
+	CancelFullBalanceSafeTransfer(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error)
+	CancelFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error)
 }
 
 type AssetboxManager interface {
@@ -78,6 +96,13 @@ type MiningAgent interface {
 	IsMiningAgent(ctx context.Context, address common.Address) (res bool, err error)
 	AddMiningAgent(ctx context.Context, address common.Address) (err error)
 	RemoveMiningAgent(ctx context.Context, address common.Address) (err error)
+}
+
+type FeeManager interface {
+	GetFee(ctx context.Context, opType dto.OperationType) (*big.Int, error)
+	GetFeeDistributionAccounts(ctx context.Context, operationType *big.Int) ([]common.Address, error)
+	GetFeeDistributionAmounts(ctx context.Context, operationType *big.Int) ([]*big.Int, error)
+	GetFeeSettings(ctx context.Context) (*models.FeeSettingsResponseObj, error)
 }
 
 type PkEncryptor interface {
@@ -113,6 +138,7 @@ type ContractManager interface {
 	// assetboxes
 	GetAssetboxInfo(ctx context.Context, addr common.Address) (a *contracts.Assetbox, err error)
 	GetAssetboxBalance(ctx context.Context, addr common.Address) (balance *big.Int, err error)
+	BalanceOfLocked(ctx context.Context, addr common.Address) (balance *big.Int, err error)
 	GetAssetboxBalances(ctx context.Context,
 		addresses []common.Address) (balances map[common.Address]*big.Int, err error)
 	GetAsseboxesMiningState(ctx context.Context, address common.Address) (bool, error)
@@ -126,32 +152,50 @@ type ContractManager interface {
 	EmitEther(ctx context.Context, to common.Address, value *big.Int, nonce *uint64) (err error)
 	ApproveWPCSafeTransfer(ctx context.Context, transferID, extraData []byte,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transferID, extraData []byte,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	CreateWPCSafeTransfer(ctx context.Context, t *contracts.Transfer,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	CreateFullBalanceWPCSafeTransfer(ctx context.Context, t *contracts.Transfer,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	CancelSafeTransfer(ctx context.Context, transferID, extraData []byte,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	CancelFullBalanceSafeTransfer(ctx context.Context, transferID, extraData []byte,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	ApproveSafeTransfer(ctx context.Context, transferID, protectionCode,
+		extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	ApproveFullBalanceSafeTransfer(ctx context.Context, transferID, protectionCode,
 		extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	WatchBitbonBalanceUnLocked(sink chan<- *contracts.Balance) (err error)
 	WatchBitbonBalanceLocked(sink chan<- *contracts.Balance) (err error)
 	WatchBitbonBalanceChanged(sink chan<- *contracts.Balance) (err error)
 	WatchAssetboxInfoSet(sink chan<- *contracts.Assetbox) (err error)
 	WatchTransferExpired(sink chan<- *contracts.TransferExpired) (err error)
+	WatchAssetboxInfoDeleted(sink chan<- *contracts.Assetbox) (err error)
 	GetExpiredTransfers(ctx context.Context, firstTransfer,
 		lastTransfer *big.Int) (expireTransferIds [][32]byte, err error)
 	GetTransferLength(ctx context.Context) (transferLength *big.Int, err error)
 	GetOldestPending(ctx context.Context) (oldestPendingID *big.Int, err error)
 	TransferExists(ctx context.Context, transferID []byte) (exists bool, err error)
+	GetTransferState(ctx context.Context, transferID []byte) (state uint8, err error)
 	QuickTransfer(ctx context.Context, to common.Address, value *big.Int, extraData []byte,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	FullBalanceQuickTransfer(ctx context.Context, to common.Address, extraData []byte,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	FrameTransfer(ctx context.Context, to common.Address, value *big.Int, extraData []byte,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	GetTransferByIndex(ctx context.Context, index *big.Int) (transfer *contracts.ReceiptTransfer, err error)
 	GetTransfer(ctx context.Context, transferID []byte) (transfer *contracts.ReceiptTransfer, err error)
 	CancelWPCSafeTransfer(ctx context.Context, transferID, extraData []byte,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	CancelFullBalanceWPCSafeTransfer(ctx context.Context, transferID, extraData []byte,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	SetOldestPending(ctx context.Context, pendingIndex *big.Int, key *ecdsa.PrivateKey) (err error)
 	RemoveMiningAgent(ctx context.Context, address common.Address, key *ecdsa.PrivateKey) (err error)
-	ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (hash common.Hash, err error)
+	ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (blockNum uint64, txHash common.Hash, err error)
 	CreateSafeTransfer(ctx context.Context, t *contracts.Transfer,
+		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
+	CreateFullBalanceSafeTransfer(ctx context.Context, t *contracts.Transfer,
 		key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error)
 	SearchOldestPending(ctx context.Context, firstTransfer,
 		lastTransfer *big.Int) (index *big.Int, present bool, err error)
@@ -163,4 +207,13 @@ type ContractManager interface {
 	GetCurrentDistribution(ctx context.Context) (distribution map[string]uint64, err error)
 	ProposeDistribution(ctx context.Context, distribution map[string]uint64, key *ecdsa.PrivateKey) (err error)
 	GetAllMiningAgents(ctx context.Context) (res []common.Address, err error)
+
+	ServiceFeeTransfer(ctx context.Context, params dto.ServiceFeeTransferParams, async bool) (blockNum uint64, txHash common.Hash, err error)
+	GetFee(ctx context.Context, opType dto.OperationType) (fee *big.Int, err error)
+	GetFeeDistributionAccounts(ctx context.Context, operationType *big.Int) (accounts []common.Address, err error)
+	GetFeeDistributionAmounts(ctx context.Context, operationType *big.Int) (amounts []*big.Int, err error)
+	GetFeeValueSettings(ctx context.Context) (optTypes []*big.Int, feeValues []*big.Int, err error)
+	WatchFeeValueChanged(sink chan<- *contracts.FeeValueChanged) error
+	WatchExceptionalAccountsChanged(sink chan<- *contracts.ExceptionalAccountsChanged) error
+	WatchFeeDistributionSettingsChanged(sink chan<- *contracts.DistributionSettingsChanged) error
 }

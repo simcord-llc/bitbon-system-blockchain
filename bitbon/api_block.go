@@ -39,7 +39,7 @@ func (api *API) BlockByHash(ctx context.Context, hash common.Hash) (*dto.Block, 
 }
 func (api *API) blockByHash(ctx context.Context, hash common.Hash) (*dto.Block, error) {
 	if hash == (common.Hash{}) {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	resp := api.bitbon.GetEth().BlockChain().GetBlockByHash(hash)
@@ -105,7 +105,7 @@ func (api *API) RangeBlockByNumber(ctx context.Context, request *dto.RangeBlocks
 
 func (api *API) rangeBlockByNumber(ctx context.Context, request *dto.RangeBlocksByNumberRequest) ([]*dto.Block, error) {
 	if request == nil || request.BlockNumberTo == 0 {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	if request.BlockNumberFrom >= request.BlockNumberTo ||
@@ -144,7 +144,7 @@ func (api *API) BlocksByTimePeriod(ctx context.Context, request *dto.BlocksTimeP
 
 func (api *API) blocksByTimePeriod(ctx context.Context, request *dto.BlocksTimePeriodRequest) ([]*dto.Block, error) {
 	if request == nil || request.From == 0 || request.To == 0 {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	if request.From >= request.To || (request.To-request.From) > MaxBlockPeriod {

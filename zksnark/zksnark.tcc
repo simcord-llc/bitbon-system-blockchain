@@ -33,7 +33,7 @@ void initialize(bool ff)
 }
 
 void crash_callback_handler(int sig){
-    cout << "Lib zkSnark wot working! Fix it!" << endl;
+    cout << "Lib zkSnark is not working! Fix it!" << endl;
     exit(1);
 }
 

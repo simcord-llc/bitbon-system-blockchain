@@ -240,3 +240,27 @@ func (p *BaseMethodParser) ParseSafeTransferApprovalResultLogs(contractType cs.C
 
 	return nil, errors.New("logs not found")
 }
+
+func (p *BaseMethodParser) ParseFeeChargedLogs(contractType cs.ContractType, contractAddress common.Address, rawLogs []*types.Log) (res []dto.FeeChargedEvent, err error) {
+	outConstructor := func() interface{} {
+		return &dto.FeeChargedEvent{}
+	}
+
+	logs, err := p.ParseLogs(contractType, contractAddress, dto.FeeChargedEventType, outConstructor, rawLogs)
+	if err != nil {
+		return nil, err
+	}
+
+	res = make([]dto.FeeChargedEvent, 0, len(logs))
+
+	for _, v := range logs {
+		l, ok := v.(*dto.FeeChargedEvent)
+		if !ok {
+			return nil, errors.New("unable to cast log to FeeChargedEvent")
+		}
+
+		res = append(res, *l)
+	}
+
+	return res, nil
+}

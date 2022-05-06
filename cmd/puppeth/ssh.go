@@ -96,7 +96,7 @@ func dial(server string, pubkey []byte) (*sshClient, error) {
 			if err != nil {
 				log.Warn("Couldn't read password", "err", err)
 			}
-			key, err := ssh.ParsePrivateKeyWithPassphrase(buf, blob)
+			key, err = ssh.ParsePrivateKeyWithPassphrase(buf, blob)
 			if err != nil {
 				log.Warn("Failed to decrypt SSH key, falling back to passwords", "path", path, "err", err)
 			} else {
@@ -108,10 +108,10 @@ func dial(server string, pubkey []byte) (*sshClient, error) {
 	}
 	auths = append(auths, ssh.PasswordCallback(func() (string, error) {
 		fmt.Printf("What's the login password for %s at %s? (won't be echoed)\n> ", username, server)
-		blob, err := terminal.ReadPassword(int(os.Stdin.Fd()))
+		blob, errPC := terminal.ReadPassword(int(os.Stdin.Fd()))
 
 		fmt.Println()
-		return string(blob), err
+		return string(blob), errPC
 	}))
 	// Resolve the IP address of the remote server
 	addr, err := net.LookupHost(hostname)

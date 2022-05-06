@@ -65,7 +65,7 @@ func (api *API) GetHandlerKeys() []string {
 		transactionByBlockHashAndIndexKey,
 		transactionByBlockNumberAndIndexKey,
 		checkTransactionsByTimePeriodKey,
-		expireTransactionsKey,
+		expireTransfersKey,
 		proposeDistributionKey,
 		getCurrentDistributionKey,
 		getMinerNodesKey,

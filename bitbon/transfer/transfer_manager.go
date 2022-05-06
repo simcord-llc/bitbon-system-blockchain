@@ -33,9 +33,6 @@ const (
 	// timeout to wait for transaction receipt
 	updateKeyPeriod = 5 * time.Minute
 	constraintsLen  = 1000
-
-	batchSearchSize = 100
-	batchExpireSize = 10
 )
 
 type Manager struct {
@@ -63,10 +60,10 @@ func NewTransferManager(b *bb.Bitbon, encryptor bb.PkEncryptor) (*Manager, error
 	// run obtain keys
 	tm.obtainKeys()
 	// check zk-snark works fine
-	log.Warn("Checking ZK-snark works...")
+	log.Info("Checking ZK-snark works...")
 	err := tm.checkZKSnark()
 	if err == nil {
-		log.Warn("ZK-snark works fine. Continue...")
+		log.Info("ZK-snark works fine. Continue...")
 	}
 	return tm, err
 }
@@ -117,7 +114,7 @@ func (tm *Manager) makeReady() {
 func (tm *Manager) obtainKeys() {
 	// generate keys first time
 	tm.setKeys(zksnark.GenerateKeys(constraintsLen))
-	log.Warn("Transfer manager PK and VK successfully obtained")
+	log.Debug("Transfer manager PK and VK successfully obtained")
 	// make ready TransferManager
 	tm.makeReady()
 
@@ -130,7 +127,7 @@ func (tm *Manager) obtainKeys() {
 			case tick := <-ticker.C:
 				ticker.Stop()
 
-				log.Warn("Update transfer manager keys ticker fired", "period", updateKeyPeriod.String(), "ticker time", tick)
+				log.Debug("Update transfer manager keys ticker fired", "period", updateKeyPeriod.String(), "ticker time", tick)
 				tm.setKeys(zksnark.GenerateKeys(constraintsLen))
 
 				// reset ticker
@@ -146,10 +143,10 @@ func (tm *Manager) obtainKeys() {
 
 func (tm *Manager) checkZKSnark() error {
 	protectionHash := tm.getProtectionHash("testTransferID", "testProtectionCode")
-	log.Warn("protectionHash successfully obtained", "protectionHash", protectionHash)
+	log.Debug("protectionHash successfully obtained", "protectionHash", protectionHash)
 	var pk, vk []byte
 	pk, vk = tm.getKeys()
-	log.Warn("zk-snrak keys obtaioned (pk, vk)", "len(pk)", len(pk), "len(vk)", len(vk))
+	log.Debug("zk-snrak keys obtaioned (pk, vk)", "len(pk)", len(pk), "len(vk)", len(vk))
 	proof, err := zksnark.Prove(protectionHash, pk, constraintsLen)
 	if err != nil {
 		return errors.Wrap(err, "error generating ZK-snark params")

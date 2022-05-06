@@ -630,6 +630,13 @@ web3._extend({
 			outputFormatter: web3._extend.formatters.outputBigNumberFormatter
 		}),
 		new web3._extend.Method({
+			name: 'balanceOfLocked',
+			call: 'bitbon_balanceOfLocked',
+			params: 1,
+			inputFormatter: [web3._extend.formatters.inputAddressFormatter],        
+			outputFormatter: web3._extend.formatters.outputBigNumberFormatter
+		}),
+		new web3._extend.Method({
 			name: 'getAssetboxBalances',
 			call: 'bitbon_getAssetboxBalances',
 			params: 1,
@@ -682,8 +689,36 @@ web3._extend({
 			}]
 		}),
 		new web3._extend.Method({
-			name: 'expireTransfers',
-			call: 'bitbon_expireTransfers',
+			name: 'createFullBalanceSafeTransfer',
+			call: 'bitbon_createFullBalanceSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+    			options.from = web3._extend.formatters.inputAddressFormatter(options.from);
+    			options.to = web3._extend.formatters.inputAddressFormatter(options.to);
+    			return options;
+			}]			
+		}),
+		new web3._extend.Method({
+			name: 'approveFullBalanceSafeTransfer',
+			call: 'bitbon_approveFullBalanceSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+				options.address = web3._extend.formatters.inputAddressFormatter(options.address);
+				return options;
+			}]
+		}),
+		new web3._extend.Method({
+			name: 'cancelFullBalanceSafeTransfer',
+			call: 'bitbon_cancelFullBalanceSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+				options.address = web3._extend.formatters.inputAddressFormatter(options.address);
+				return options;
+			}]
+		}),
+		new web3._extend.Method({
+			name: 'expireTransfersAsync',
+			call: 'bitbon_expireTransfersAsync',
 		}),
 		new web3._extend.Method({
 			name: 'getTransfer',
@@ -727,15 +762,25 @@ web3._extend({
 			params: 3,
 		}),
 		new web3._extend.Method({
-			name: 'forceNoncerServiceAccountNonce',
+			name: 'forceNoncerAccountNonce',
 			call: 'bitbon_forceNoncerServiceAccountNonce',
-			params: 2,
+			params: 3,
 		}),
 		new web3._extend.Method({
 			name: 'forceNoncerNonceFromBlockChain',
 			call: 'bitbon_forceNoncerNonceFromBlockChain',
 			params: 1,
 			inputFormatter: [web3._extend.formatters.inputAddressFormatter]
+		}),
+		new web3._extend.Method({
+			name: 'removeAssetboxesFromNoncer',
+			call: 'bitbon_removeAssetboxesFromNoncer',
+			params: 1,
+		}),
+		new web3._extend.Method({
+			name: 'getNoncerAssetboxes',
+			call: 'bitbon_getNoncerAssetboxes',
+			params: 0,
 		}),
 		new web3._extend.Method({
 			name: 'blockByHash',
@@ -888,6 +933,16 @@ web3._extend({
 			params: 1,
 		}),
 		new web3._extend.Method({
+			name: 'getFeeDistributionAccounts',
+			call: 'bitbon_getFeeDistributionAccounts',
+			params: 1,
+		}),
+		new web3._extend.Method({
+			name: 'getFeeDistributionAmounts',
+			call: 'bitbon_getFeeDistributionAmounts',
+			params: 1,
+		}),
+		new web3._extend.Method({
 			name: 'createWPCSafeTransfer',
 			call: 'bitbon_createWPCSafeTransfer',
 			params: 1,
@@ -921,8 +976,51 @@ web3._extend({
 			}]
 		}),
 		new web3._extend.Method({
+			name: 'createFullBalanceWPCSafeTransfer',
+			call: 'bitbon_createFullBalanceWPCSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+    			options.from = web3._extend.formatters.inputAddressFormatter(options.from);
+    			options.to = web3._extend.formatters.inputAddressFormatter(options.to);
+    			return options;
+			}]			
+		}),
+		new web3._extend.Method({
+			name: 'approveFullBalanceWPCSafeTransfer',
+			call: 'bitbon_approveFullBalanceWPCSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+				options.address = web3._extend.formatters.inputAddressFormatter(options.address);
+				return options;
+			}]
+		}),
+		new web3._extend.Method({
+			name: 'cancelFullBalanceWPCSafeTransfer',
+			call: 'bitbon_cancelFullBalanceWPCSafeTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+				options.address = web3._extend.formatters.inputAddressFormatter(options.address);
+				return options;
+			}]
+		}),
+		new web3._extend.Method({
 			name: 'quickTransfer',
 			call: 'bitbon_quickTransfer',
+			params: 1,
+			inputFormatter: [function (options){
+		    	options.from = web3._extend.formatters.inputAddressFormatter(options.from);
+		    	options.to = web3._extend.formatters.inputAddressFormatter(options.to);
+		    	['value'].filter(function (key) {
+		    	    return options[key] !== undefined;
+		    	}).forEach(function(key){
+		    	    options[key] = web3._extend.utils.fromDecimal(options[key]);
+		    	});
+		    	return options;
+			}]
+		}),
+		new web3._extend.Method({
+			name: 'frameTransfer',
+			call: 'bitbon_frameTransfer',
 			params: 1,
 			inputFormatter: [function (options){
 		    	options.from = web3._extend.formatters.inputAddressFormatter(options.from);

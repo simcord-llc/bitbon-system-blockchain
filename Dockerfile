@@ -1,5 +1,5 @@
 # image for building application
-FROM golang:1.15-alpine as builder
+FROM golang:1.15-alpine3.13 as builder
 # install all dependencies
 RUN apk add --no-cache git make gcc g++ musl-dev linux-headers gmp-dev mpfr-dev
 ADD . /bitbon-system-blockchain

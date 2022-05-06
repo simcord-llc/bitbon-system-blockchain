@@ -17,6 +17,7 @@
 package noncer
 
 import (
+	"fmt"
 	"net/url"
 	"strconv"
 	"time"
@@ -47,7 +48,6 @@ func New(_ *node.ServiceContext, cfg *Config) (b *Noncer, err error) {
 
 		addresses = append(addresses, u.Host)
 		password, _ = u.User.Password()
-		log.Debug("Redis Params: ", "host", u.Host, "pass", password)
 	}
 
 	clusterClient := redis.NewClusterClient(&redis.ClusterOptions{
@@ -57,7 +57,7 @@ func New(_ *node.ServiceContext, cfg *Config) (b *Noncer, err error) {
 		Password:    password,
 	})
 
-	log.Info("Bitbon noncer started")
+	log.Warn(fmt.Sprintf("Bitbon noncer started, redis host %s, redis key %s", cfg.RedisConnStrs, cfg.Key))
 
 	return &Noncer{
 		cfg:           cfg,
@@ -70,10 +70,10 @@ func New(_ *node.ServiceContext, cfg *Config) (b *Noncer, err error) {
 func (n *Noncer) GetNonce(assetbox common.Address) (int64, error) {
 	unMarshallNonce, err := n.clusterClient.HGet(n.cfg.Key, assetbox.Hex()).Result()
 	if err != nil {
-		return 0, errors.Wrap(err, "unable get nonce string from redis")
+		return 0, errors.Wrap(err, "noncer: unable get nonce string from redis")
 	}
 
-	log.Debug("raw redis GetNonce result", "result", unMarshallNonce)
+	log.Warn("noncer: raw redis GetNonce result", "result", unMarshallNonce)
 	nonce, err := strconv.ParseInt(unMarshallNonce, 10, 64)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to parse nonce string from redis")
@@ -85,7 +85,7 @@ func (n *Noncer) GetNonce(assetbox common.Address) (int64, error) {
 //  increments nonce and returns the incremented value
 func (n *Noncer) IncrementAndGetNonce(assetbox common.Address) (int64, error) {
 	nonce, err := n.clusterClient.HIncrBy(n.cfg.Key, assetbox.Hex(), 1).Result()
-	log.Debug("IncrementAndGetNonce", "(nonce for use)", nonce)
+	log.Warn("noncer: IncrementAndGetNonce", "(nonce for use)", nonce, "assetbox", assetbox.Hex())
 	if err != nil {
 		return 0, errors.Wrap(err, "unable get nonce after INCRBY from redis")
 	}
@@ -94,29 +94,65 @@ func (n *Noncer) IncrementAndGetNonce(assetbox common.Address) (int64, error) {
 }
 
 func (n *Noncer) SetUpNonce(assetbox common.Address, nonce int64) error {
-	log.Trace("Try to set nonce", "key", n.cfg.Key, "assetbox", assetbox.Hex(), "(nonce-1)", nonce-1)
-	// we set in redis (nonce-1) because after that we call IncrementAndGetNonce
-	// which increments nonce and returns the incremented value
+	log.Warn("noncer: Try to set nonce", "key", n.cfg.Key, "assetbox", assetbox.Hex(), "(nonce-1)", nonce-1)
+	// we set in redis (nonce-1) because after that we call IncrementAndGetNonce which increments nonce and returns the incremented value
 	// so in redis we store the current amount of transactions (blockchain nonce -1 )
 	result, err := n.clusterClient.HSetNX(n.cfg.Key, assetbox.Hex(), nonce-1).Result()
 	if err != nil {
 		return errors.Wrap(err, "error setting nonce to redis")
 	}
 
-	log.Debug("Setting nonce in Redis", "result(was set)", result)
+	log.Warn("noncer: Setting nonce in Redis", "result(was set)", result)
 	return nil
 }
 
 // directly sets nonce for given address
 // use very carefully
 func (n *Noncer) ForceNonce(assetbox common.Address, nonce int64) error {
-	log.Trace("try to force nonce", "key", n.cfg.Key, "assetbox", assetbox.Hex(), "(nonce-1)", nonce-1)
+	log.Warn("noncer: TRY TO FORCE NONCE", "KEY", n.cfg.Key, "ASSETBOX", assetbox.Hex(), "(NONCE-1)", nonce-1)
 	result, err := n.clusterClient.HSet(n.cfg.Key, assetbox.Hex(), nonce-1).Result()
 	if err != nil {
 		return errors.Wrap(err, "ERROR FORCING NONCE IN REDIS")
 	}
 
-	log.Debug("forcing nonce in redis", "result(true if set, false if updated)", result)
+	log.Warn("noncer: FORCING NONCE IN REDIS", "RESULT(TRUE IF SET, FALSE IF UPDATED)", result)
+	return nil
+}
+
+func (n *Noncer) CheckNoncerEligibility(assetbox common.Address) (bool, error) {
+	result, err := n.clusterClient.HExists(n.cfg.Key, assetbox.Hex()).Result()
+	log.Warn("noncer: noncer eligibility", "assetbox", assetbox.Hex(), "eligibility", result)
+
+	if err != nil {
+		return false, errors.Wrap(err, "error checking noncer eligibility")
+	}
+
+	return result, nil
+}
+
+func (n *Noncer) GetNoncerAssetboxes() ([]common.Address, error) {
+	noncerAssetboxes, err := n.clusterClient.HKeys(n.cfg.Key).Result()
+	if err != nil {
+		return nil, errors.Wrap(err, "error getting assetboxes eligible for noncer from redis")
+	}
+
+	addresses := make([]common.Address, len(noncerAssetboxes))
+	for idx := range noncerAssetboxes {
+		addresses[idx] = common.HexToAddress(noncerAssetboxes[idx])
+	}
+	return addresses, nil
+}
+
+func (n *Noncer) RemoveAssetboxesFromNoncer(assetboxes []common.Address) error {
+	assetboxesStr := make([]string, len(assetboxes))
+	for idx := range assetboxes {
+		assetboxesStr = append(assetboxesStr, assetboxes[idx].Hex())
+	}
+
+	_, err := n.clusterClient.HDel(n.cfg.Key, assetboxesStr...).Result()
+	if err != nil {
+		return errors.Wrap(err, "error deleting assetboxes for noncer redis")
+	}
 	return nil
 }
 
@@ -138,7 +174,7 @@ func (n *Noncer) Protocols() []p2p.Protocol {
 }
 
 // Start implements node.Service
-func (n *Noncer) Start(_ *p2p.Server) (err error) {
+func (n *Noncer) Start(srvr *p2p.Server) (err error) {
 	return nil
 }
 

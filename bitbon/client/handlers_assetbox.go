@@ -95,8 +95,7 @@ func (c *Client) handleDeleteAssetbox(body []byte) (protoMessage protoMessageWit
 	}()
 
 	apiRequest := &apiDto.DeleteAssetboxRequest{
-		Address:   common.HexToAddress(req.GetAddress()),
-		AccountID: req.GetAccountId(),
+		Address: common.HexToAddress(req.GetAddress()),
 		CryptoData: apiDto.AssetboxCryptoData{
 			Wallet:     req.GetCryptoData().GetWallet(),
 			Passphrase: req.GetCryptoData().GetPassphrase(),

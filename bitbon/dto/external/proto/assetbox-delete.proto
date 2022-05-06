@@ -9,8 +9,7 @@ message DeleteAssetboxRequest {
     // routing key: r.assetbox.SENDER.DeleteAssetboxRequest
     string id = 1; // id запроса
     string address = 2; // адрес удаляемого ассетбокса
-    string accountId = 3;
-    AssetboxCryptoData crypto_data = 4;
+    AssetboxCryptoData crypto_data = 3;
 }
 
 message DeleteAssetboxResponse {

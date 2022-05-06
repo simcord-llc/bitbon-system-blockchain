@@ -93,32 +93,16 @@ func NewBalanceTooLowError(err error) Error {
 	return New(err, CodeBalanceTooLowError)
 }
 
+func HasLockedBalanceError(err error) Error {
+	return New(err, CodeHasLockedBalanceError)
+}
+
 func NewTransferExistsError(err error) Error {
 	return New(err, CodeTransferExistsError)
 }
 
-func NewUnassignedAssetboxError(err error) Error {
-	return New(err, CodeUnassignedAssetboxError)
-}
-
-func NewAccountMismatchError(err error) Error {
-	return New(err, CodeAccountMismatchError)
-}
-
-func NewInvalidBTSCError(err error) Error {
-	return New(err, CodeInvalidBTSCError)
-}
-
 func NewTransferIsNotExistError(err error) Error {
 	return New(err, CodeTransferIsNotExistError)
-}
-
-func NewAlreadyAssignedAssetboxError(err error) Error {
-	return New(err, CodeAlreadyAssignedAssetboxError)
-}
-
-func NewNotZeroAssetboxBalanceError(err error) Error {
-	return New(err, CodeNotZeroAssetboxBalanceError)
 }
 
 func NewUnsuccessfullTxError(err error) Error {

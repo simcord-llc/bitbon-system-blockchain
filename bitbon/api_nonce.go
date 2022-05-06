@@ -29,14 +29,6 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/params"
 )
 
-var (
-	errNoncerDisabled           = errors.New("noncer is disabled")
-	errNonceMismatchValue       = errors.New("fromNonce can`t be grater(>=) than toNonce")
-	errNoncerGreater            = errors.New("toNonce can`t be grater(>) than (nonce + 1) in redis")
-	errNoncerLess               = errors.New("fromNonce can`t be less(<) than nonce in blockchain")
-	errNoncerLessThenRedisValue = errors.New("nonce can`t be less(<=) than nonce + 1 in redis")
-)
-
 // API provides the bitbon RPC service
 type APINonce struct {
 	bitbon *Bitbon
@@ -52,6 +44,14 @@ func NewAPINonce(b *Bitbon) *APINonce {
 	}
 }
 
+var (
+	errNoncerDisabled           = errors.New("noncer is disabled")
+	errNonceMismatchValue       = errors.New("fromNonce can`t be grater(>=) than toNonce")
+	errNoncerGreater            = errors.New("toNonce can`t be grater(>) than (nonce + 1) in redis")
+	errNoncerLess               = errors.New("fromNonce can`t be less(<) than nonce in blockchain")
+	errNoncerLessThanRedisValue = errors.New("nonce can`t be less(<=) than nonce + 1 in redis")
+)
+
 // GetNonces returns data according to nonces
 // Fields in *dto.Nonces:
 // dto.Nonces.Redis - nonce in noncer redis (it should be (nonce in blockchain - 1))
@@ -66,13 +66,6 @@ func (api *APINonce) GetNonces(ctx context.Context, address common.Address) *dto
 	api.bitbon.apiWG.Add(1)
 	defer api.bitbon.apiWG.Done()
 
-	api.logger.Warn(`
-Field description:
-	Redis - nonce in noncer redis (it should be (nonce in blockchain - 1))
-	Blockchain - nonce in blockchain
-	TxPoolQueued - min nonce in tx pool queued transactions
-	TxPoolPending - min nonce in tx pool pending transactions
-	Broken - flag that indicates if nonce is broken (there are transactions in tx pool queued transactions)`)
 	var (
 		res = &dto.Nonces{}
 		err error
@@ -169,9 +162,9 @@ func (api *APINonce) RestoreServiceAccountNonce(ctx context.Context, fromNonce, 
 	return nil
 }
 
-// ForceNoncerServiceAccountNonce method sets nonce value for address in redis (noncer)
+// ForceNoncerAccountNonce method sets nonce value for address in redis (noncer)
 // Also it does some checks, to disable checks set force flag to true
-func (api *APINonce) ForceNoncerServiceAccountNonce(ctx context.Context, nonce uint64, force bool) error {
+func (api *APINonce) ForceNoncerAccountNonce(ctx context.Context, address common.Address, nonce uint64, force bool) error {
 	if api.bitbon.APIStopped() {
 		return ErrAPIStopped
 	}
@@ -182,15 +175,13 @@ func (api *APINonce) ForceNoncerServiceAccountNonce(ctx context.Context, nonce u
 		return errNoncerDisabled
 	}
 
-	if force {
-		loggerContext.LoggerFromContext(ctx).Warn("force flag provided - skip all checks")
-	} else {
-		redisNonce, err := api.bitbon.contractsManager.GetNoncer().GetNonce(api.bitbon.serviceAddress)
+	if !force {
+		redisNonce, err := api.bitbon.contractsManager.GetNoncer().GetNonce(address)
 		if err != nil {
 			return errors.Wrap(err, "failed to get account nonce from redis")
 		}
 		if int64(nonce) <= redisNonce+1 {
-			return errNoncerLessThenRedisValue
+			return errNoncerLessThanRedisValue
 		}
 
 		blockchainNonce, err := api.bitbon.contractsManager.GetEthAPIWrapper().GetNonce(api.bitbon.serviceAddress)
@@ -198,7 +189,7 @@ func (api *APINonce) ForceNoncerServiceAccountNonce(ctx context.Context, nonce u
 			return errors.Wrap(err, "failed to get service account nonce from blockchain")
 		}
 		if nonce < blockchainNonce {
-			return errors.New("nonce can`t be less(<) than nonce in blockchain")
+			return errNoncerLessThanRedisValue
 		}
 	}
 
@@ -217,11 +208,39 @@ func (api *APINonce) ForceNoncerNonceFromBlockChain(ctx context.Context, address
 		return errNoncerDisabled
 	}
 
-	blockchainNonce, err := api.bitbon.contractsManager.GetEthAPIWrapper().GetNonce(api.bitbon.serviceAddress)
+	blockchainNonce, err := api.bitbon.contractsManager.GetEthAPIWrapper().GetNonce(address)
 	if err != nil {
 		return errors.Wrap(err, "failed to get service account nonce from blockchain")
 	}
 	loggerContext.LoggerFromContext(ctx).Warn("Blockchain nonce for address", "address", address, "nonce", blockchainNonce)
 
 	return api.bitbon.GetContractsManager().GetNoncer().ForceNonce(address, int64(blockchainNonce))
+}
+
+func (api *APINonce) RemoveAssetboxesFromNoncer(ctx context.Context, addresses []common.Address) error {
+	if api.bitbon.APIStopped() {
+		return ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if api.bitbon.contractsManager.GetNoncer() == nil {
+		return errNoncerDisabled
+	}
+
+	return api.bitbon.GetContractsManager().GetNoncer().RemoveAssetboxesFromNoncer(addresses)
+}
+
+func (api *APINonce) GetNoncerAssetboxes(ctx context.Context) ([]common.Address, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if api.bitbon.contractsManager.GetNoncer() == nil {
+		return nil, errNoncerDisabled
+	}
+
+	return api.bitbon.GetContractsManager().GetNoncer().GetNoncerAssetboxes()
 }

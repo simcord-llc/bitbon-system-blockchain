@@ -14,19 +14,23 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the Bitbon System Blockchain Node library. If not, see <http://www.gnu.org/licenses/>.
 
-package dto
+package v3
 
-import "time"
+import (
+	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/dto"
+	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/parser/interfaces"
+	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/parser/storage_contract_snapshot"
+)
 
-type SetBTSCRequest struct {
-	AccountID string `json:"accountId"`
-	BTSC      string `json:"btsc"`
+type ApproveFullBalanceSafeTransferParser struct {
+	*ApproveSafeTransferParser
 }
 
-type GetBTSCResponse struct {
-	ServiceID string    `json:"serviceId"`
-	AccountID string    `json:"accountId"`
-	BTSCHash  string    `json:"btscHash"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+func NewApproveFullBalanceSafeTransferParser(ethApiWrapper interfaces.Contract, contractsSnapshot *storage_contract_snapshot.StorageContractSnapshot) *ApproveFullBalanceSafeTransferParser {
+	p := NewApproveSafeTransferParser(ethApiWrapper, contractsSnapshot)
+	p.MethodId = dto.ApproveFullBalanceSafeTransferV3MethodID
+
+	return &ApproveFullBalanceSafeTransferParser{
+		ApproveSafeTransferParser: p,
+	}
 }

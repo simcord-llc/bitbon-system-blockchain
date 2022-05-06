@@ -4,6 +4,7 @@ option go_package = ".;external";
 
 import "node-transaction.proto";
 import "block.proto";
+import "fee.proto";
 
 message AssetboxInfoChanged {
     // r.events.bitbon-node.AssetboxInfoChanged
@@ -15,10 +16,34 @@ message AssetboxInfoChanged {
     bool IsMining = 6;
 }
 
+message AssetboxInfoDeleted {
+    // r.events.bitbon-node.AssetboxInfoDeleted
+    string address = 1;
+    bool is_public = 2;
+    string service_id = 3;
+    string alias = 4;
+    string extra_info = 5;
+    bool is_mining = 6;
+}
+
 message AssetboxBalanceChanged {
     // r.events.bitbon-node.AssetboxBalanceChanged
     string Address = 1;
     string Balance = 2;
+}
+
+message FeeValueChanged {
+    uint64 type = 1;
+    string value = 2;
+}
+
+message ExceptionalAccountsChanged {
+    repeated string accounts = 1;
+}
+
+message DistributionSettingsChanged {
+    uint64 type = 1;
+    repeated FeeDistribution distributions = 2;
 }
 
 message TransactionNotification {

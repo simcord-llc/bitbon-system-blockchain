@@ -30,11 +30,15 @@ const (
 	DefaultPublishTimeout = 3 * time.Second
 
 	// Rabbit routing keys
-	assetboxInfoChangedRK    = "r.events.bitbon-node.AssetboxInfoChanged"
-	assetboxBalanceChangedRK = "r.events.bitbon-node.AssetboxBalanceChanged"
-	transactionsChangedRK    = "r.events.bitbon-node.TransactionsMined"
-	transferExpiredRK        = "r.events.bitbon-node.TransferExpired"
-	blocksMinedRK            = "r.events.bitbon-node.BlocksMined"
+	assetboxInfoChangedRK            = "r.events.bitbon-node.AssetboxInfoChanged"
+	assetboxInfoDeletedRK            = "r.events.bitbon-node.AssetboxInfoDeleted"
+	assetboxBalanceChangedRK         = "r.events.bitbon-node.AssetboxBalanceChanged"
+	transactionsChangedRK            = "r.events.bitbon-node.TransactionsMined"
+	transferExpiredRK                = "r.events.bitbon-node.TransferExpired"
+	blocksMinedRK                    = "r.events.bitbon-node.BlocksMined"
+	feeValueChangedRK                = "r.events.bitbon-node.FeeValueChanged"
+	feeDistributionSettingsChangedRK = "r.events.bitbon-node.FeeDistributionSettingsChanged"
+	exceptionalAccountsChangedRK     = "r.events.bitbon-node.ExceptionalAccountsChanged"
 )
 
 func IsAllowed() bool {

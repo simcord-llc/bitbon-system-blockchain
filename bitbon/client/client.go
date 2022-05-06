@@ -18,6 +18,7 @@ package client
 
 import (
 	"fmt"
+	"github.com/simcord-llc/bitbon-system-blockchain/signals"
 	"runtime"
 	"sync"
 	"time"
@@ -116,6 +117,13 @@ func (c *Client) APIs() []rpc.API {
 }
 
 func (c *Client) Start(_ *p2p.Server) error {
+	// wait until eth core would start
+	log.Debug("wait until eth core will start...")
+	ethStartedCh := signals.GetEthStartedChannel()
+	<-ethStartedCh
+	time.Sleep(1 * time.Second)
+	log.Debug("eth core started - starting up bitbon client...")
+
 	if !c.cfg.WaitSync {
 		log.Debug("starting bitbon client with sync ignore")
 		return c.init()

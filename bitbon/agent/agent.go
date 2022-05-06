@@ -95,10 +95,14 @@ func (a *Agent) Start(_ *p2p.Server) (err error) {
 	}
 
 	go a.watchAssetboxInfo(assetboxInfoChangedRK)
+	go a.watchAssetboxInfoDeleted(assetboxInfoDeletedRK)
 	go a.watchAssetboxBalance(assetboxBalanceChangedRK)
 	go a.watchTransaction(transactionsChangedRK)
 	go a.watchExpiredTransfers(transferExpiredRK)
 	go a.watchBlocks(blocksMinedRK)
+	go a.watchFeeValueChanged(feeValueChangedRK)
+	go a.watchExceptionalAccountsChanged(exceptionalAccountsChangedRK)
+	go a.watchFeeDistributionSettingsChanged(feeDistributionSettingsChangedRK)
 
 	log.Info("Bitbon agent service started")
 	return nil

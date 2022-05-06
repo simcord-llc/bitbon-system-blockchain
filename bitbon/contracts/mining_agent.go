@@ -130,7 +130,7 @@ func (m *Manager) AddMiningAgent(ctx context.Context, address common.Address, ke
 
 // RemoveMiningAgent removes a mining agent to blockchain
 func (m *Manager) RemoveMiningAgent(ctx context.Context, address common.Address, key *ecdsa.PrivateKey) (err error) {
-	m.logger.Debug("contracts manager AddMiningAgent called", "address", address.Hex())
+	m.logger.Debug("contracts manager RemoveMiningAgent called", "address", address.Hex())
 
 	defer func() {
 		if err != nil {

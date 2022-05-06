@@ -7,7 +7,6 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/accounts/keystore"
 
 	"github.com/golang/mock/gomock"
-	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/common"
 	"github.com/stretchr/testify/assert"
 )
@@ -25,14 +24,14 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(true, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(1), nil)
 
 		blockNum, txHash := createTransferResponse()
 
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
+		key, err := keystore.DecryptKey(destWallet, string(destPassphrase))
 		if err != nil {
 			panic("Error during key decryption")
 		}
@@ -54,7 +53,7 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
 
 		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
@@ -71,7 +70,7 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 		transfer := prepareApproveWPCSafeTransferObject()
 
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
 
 		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
 
@@ -86,24 +85,14 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(true, nil)
-
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
-		if err != nil {
-			panic("Error during key decryption")
-		}
-
-		mockContractManager.EXPECT().
-			ApproveWPCSafeTransfer(ctx, []byte(transfer.TransferID), nil, key.PrivateKey, false).
-			Return(uint64(0), [32]byte{}, ErrTransferHasExpired)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(3), nil)
 
 		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
 
-		assert.EqualError(t, err, errors.Wrap(ErrTransferHasExpired,
-			"error approving WPC safe transfer in blockchain").Error(), "Expected TransferHasExpired error")
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -114,15 +103,14 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(false, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(0), nil)
 
 		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
 
-		assert.EqualError(t, err, errors.Errorf("transfer with id %q does not exist", transfer.TransferID).
-			Error(), "Expected TransferDoesntExist error")
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -165,6 +153,220 @@ func TestApproveWPCSafeTransfer(t *testing.T) {
 		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
+
+	t.Run("ApproveWPCSafeTransferNegative_TransferIsApproved", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(2), nil)
+
+		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveWPCSafeTransferNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = sourceAssetbox
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+}
+
+func TestApproveFullBalanceWPCSafeTransfer(t *testing.T) {
+	ctx := context.TODO()
+
+	mockController := gomock.NewController(t)
+	defer mockController.Finish()
+
+	t.Run("ApproveFullBalanceWPCSafeTransferPositive", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(1), nil)
+
+		blockNum, txHash := createTransferResponse()
+
+		key, err := keystore.DecryptKey(destWallet, string(destPassphrase))
+		if err != nil {
+			panic("Error during key decryption")
+		}
+
+		mockContractManager.EXPECT().
+			ApproveFullBalanceWPCSafeTransfer(ctx, []byte(transfer.TransferID), nil, key.PrivateKey, false).
+			Return(blockNum, txHash, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.NoError(t, err, "Unexpected error")
+		assert.Equal(t, mapTransferResponse(blockNum, txHash), response, "Response differs from expected")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_InvalidWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFailedToParseKey.Error(), "Expected InvalidWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_WrongPassphrase", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrWrongPassphrase.Error(), "Expected WrongPassphrase error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferHasExpired", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(3), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferMissing", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(0), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_MissingTransferID", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.TransferID = ""
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIDRequire.Error(), "Expected TransferIDRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_MissingAddress", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = common.Address{}
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAddressRequire.Error(), "Expected AddressRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_ManagerIsNotReady", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferIsApproved", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(2), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = sourceAssetbox
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
 }
 
 func TestApproveWPCSafeTransferAsync(t *testing.T) {
@@ -180,14 +382,14 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(true, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(1), nil)
 
 		blockNum, txHash := createTransferResponse()
 
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
+		key, err := keystore.DecryptKey(destWallet, string(destPassphrase))
 		if err != nil {
 			panic("Error during key decryption")
 		}
@@ -209,7 +411,7 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
 
 		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
@@ -226,7 +428,7 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 		transfer := prepareApproveWPCSafeTransferObject()
 
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
 
 		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
 
@@ -241,24 +443,14 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(true, nil)
-
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
-		if err != nil {
-			panic("Error during key decryption")
-		}
-
-		mockContractManager.EXPECT().
-			ApproveWPCSafeTransfer(ctx, []byte(transfer.TransferID), nil, key.PrivateKey, true).
-			Return(uint64(0), [32]byte{}, ErrTransferHasExpired)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(3), nil)
 
 		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
 
-		assert.EqualError(t, err, errors.Wrap(ErrTransferHasExpired,
-			"error approving WPC safe transfer in blockchain").Error(), "Expected TransferHasExpired error")
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -269,15 +461,14 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 
 		transfer := prepareApproveWPCSafeTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
-		mockContractManager.EXPECT().TransferExists(ctx, []byte(transfer.TransferID)).
-			Return(false, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(0), nil)
 
 		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
 
-		assert.EqualError(t, err, errors.Errorf("transfer with id %q does not exist", transfer.TransferID).
-			Error(), "Expected TransferDoesntExist error")
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -318,6 +509,220 @@ func TestApproveWPCSafeTransferAsync(t *testing.T) {
 		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
 
 		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveWPCSafeTransferAsyncNegative_TransferIsApproved", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(2), nil)
+
+		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveWPCSafeTransferAsyncNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = sourceAssetbox
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+}
+
+func TestApproveFullBalanceWPCSafeTransferAsync(t *testing.T) {
+	ctx := context.TODO()
+
+	mockController := gomock.NewController(t)
+	defer mockController.Finish()
+
+	t.Run("ApproveFullBalanceWPCSafeTransferPositive", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(1), nil)
+
+		blockNum, txHash := createTransferResponse()
+
+		key, err := keystore.DecryptKey(destWallet, string(destPassphrase))
+		if err != nil {
+			panic("Error during key decryption")
+		}
+
+		mockContractManager.EXPECT().
+			ApproveFullBalanceWPCSafeTransfer(ctx, []byte(transfer.TransferID), nil, key.PrivateKey, true).
+			Return(blockNum, txHash, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.NoError(t, err, "Unexpected error")
+		assert.Equal(t, mapTransferResponse(blockNum, txHash), response, "Response differs from expected")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_InvalidWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFailedToParseKey.Error(), "Expected InvalidWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_WrongPassphrase", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrWrongPassphrase.Error(), "Expected WrongPassphrase error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferHasExpired", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(3), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferMissing", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(0), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_MissingTransferID", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.TransferID = ""
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIDRequire.Error(), "Expected TransferIDRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_MissingAddress", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = common.Address{}
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAddressRequire.Error(), "Expected AddressRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_ManagerIsNotReady", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_TransferIsApproved", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+		mockContractManager.EXPECT().GetTransferState(ctx, []byte(transfer.TransferID)).
+			Return(uint8(2), nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferIsNotPending.Error())
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("ApproveFullBalanceWPCSafeTransferNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareSafeTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+		tm.obtainKeys()
+
+		transfer := prepareApproveWPCSafeTransferObject()
+		transfer.Address = sourceAssetbox
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 }

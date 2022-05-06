@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/crypto"
+	"github.com/simcord-llc/bitbon-system-blockchain/signals"
 	"math/big"
 	"runtime"
 	"sync"
@@ -249,6 +250,13 @@ func New(ctx *node.ServiceContext, config *Config) (*Ethereum, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	go func() {
+		// tell bitbon system that eth core is started
+		ethStartedCh := signals.GetEthStartedChannel()
+		ethStartedCh <- struct{}{}
+		log.Debug("eth core started")
+	}()
 
 	return eth, nil
 }

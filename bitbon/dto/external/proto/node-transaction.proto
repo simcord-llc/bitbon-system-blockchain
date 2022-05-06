@@ -3,6 +3,7 @@ package dto;
 option go_package = ".;external";
 
 import "error.proto";
+import "transfer.proto";
 
 message TransactionResult {
     oneof transaction {
@@ -47,6 +48,15 @@ enum Method {
     APPROVE_WPC_SAFE_TRANSFER = 7;
     CANCEL_WPC_SAFE_TRANSFER = 8;
     EXPIRE_TRANSFER = 9;
+    SERVICE_FEE_TRANSFER = 10;
+    FRAME_TRANSFER = 11;
+    FULL_BALANCE_QUICK_TRANSFER = 12;
+    CREATE_FULL_BALANCE_SAFE_TRANSFER = 13;
+    APPROVE_FULL_BALANCE_SAFE_TRANSFER = 14;
+    CANCEL_FULL_BALANCE_SAFE_TRANSFER = 15;
+    CREATE_FULL_BALANCE_WPC_SAFE_TRANSFER = 16;
+    APPROVE_FULL_BALANCE_WPC_SAFE_TRANSFER = 17;
+    CANCEL_FULL_BALANCE_WPC_SAFE_TRANSFER = 18;
 }
 
 message BitbonArgs {
@@ -56,6 +66,7 @@ message BitbonArgs {
         DirectTransferArgs directTransferArgs = 3;
         QuickTransferArgs quickTransferArgs = 4;
         ExpireSafeTransferArgs expireSafeTransferArgs = 5;
+        ServiceFeeTransferArgs serviceFeeTransferArgs = 6;
     }
 }
 
@@ -91,6 +102,11 @@ message ExpireSafeTransferArgs {
     repeated string transferIds = 1;
 }
 
+message ServiceFeeTransferArgs {
+    string from = 1;
+    repeated ServiceFeeOperation serviceFeeOperations = 2;
+}
+
 message Balance {
     string address = 1;
     string balance = 2;
@@ -99,11 +115,18 @@ message Balance {
 message Event {
     oneof event {
         TransferExpiredEvent transferExpiredEvent = 1;
+        FeeChargedEvent feeChargedEvent = 2;
     }
 }
 
 message TransferExpiredEvent {
     string transferId = 1;
+}
+
+message FeeChargedEvent {
+    string from = 1;
+    string to = 2;
+    string amount = 3;
 }
 
 

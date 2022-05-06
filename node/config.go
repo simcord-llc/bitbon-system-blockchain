@@ -47,7 +47,6 @@ const (
 	datadirDefaultKeyStore = "keystore"           // Path within the datadir to the keystore
 	datadirStaticNodes     = "static-nodes.json"  // Path within the datadir to the static node list
 	datadirTrustedNodes    = "trusted-nodes.json" // Path within the datadir to the trusted node list
-	datadirArchiveNodes    = "archive-nodes.json" // Path within the datadir to the archive node list
 	datadirNodeDatabase    = "nodes"              // Path within the datadir to store the node infos
 )
 
@@ -404,11 +403,6 @@ func (c *Config) StaticNodes() []*enode.Node {
 // TrustedNodes returns a list of node enode URLs configured as trusted nodes.
 func (c *Config) TrustedNodes() []*enode.Node {
 	return c.parsePersistentNodes(&c.trustedNodesWarning, c.ResolvePath(datadirTrustedNodes))
-}
-
-// ArchiveNodes returns a list of node enode URLs configured as archive nodes.
-func (c *Config) ArchiveNodes() []*enode.Node {
-	return c.parsePersistentNodes(&c.archiveNodesWarning, c.ResolvePath(datadirArchiveNodes))
 }
 
 // parsePersistentNodes parses a list of discovery node URLs loaded from a .json

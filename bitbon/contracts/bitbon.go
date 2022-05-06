@@ -22,6 +22,8 @@ import (
 	"math/big"
 	"time"
 
+	loggerContext "github.com/simcord-llc/bitbon-system-blockchain/bitbon/context"
+	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/dto"
 	"github.com/simcord-llc/bitbon-system-blockchain/core"
 	"github.com/simcord-llc/bitbon-system-blockchain/core/types"
 
@@ -89,6 +91,30 @@ func (m *Manager) GetAssetboxBalance(ctx context.Context, addr common.Address) (
 	return contract.BalanceOf(opts, addr)
 }
 
+// BalanceOfLocked gets assetbox locked balance by assetbox address from blockchain
+func (m *Manager) BalanceOfLocked(ctx context.Context, addr common.Address) (balance *big.Int, err error) {
+	m.logger.Debug("contracts manager BalanceOfLocked called", "address", addr.Hex())
+
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return nil, err
+	}
+
+	opts := &bind.CallOpts{
+		Pending: false,
+		From:    addr,
+		Context: ctx,
+	}
+
+	return contract.BalanceOfLocked(opts, addr)
+}
+
 // GetAssetboxBalances gets assetbox balances by assetbox addresses from blockchain
 func (m *Manager) GetAssetboxBalances(ctx context.Context, addresses []common.Address) (balances map[common.Address]*big.Int, err error) {
 	m.logger.Debug("contracts manager GetAssetboxBalances called", "addresses", addresses)
@@ -146,7 +172,7 @@ func (m *Manager) GetAssetboxBalancesSum(ctx context.Context, addresses []common
 	return contract.GetScopeBalance(opts, addresses)
 }
 
-func (m *Manager) ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (hash common.Hash, err error) {
+func (m *Manager) ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (blockNum uint64, txHash common.Hash, err error) {
 	m.logger.Debug("contracts manager ExpireSafeTransfers called", "IdsLen", len(ids))
 	defer func() {
 		if err != nil {
@@ -167,12 +193,15 @@ func (m *Manager) ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *
 		return
 	}
 
-	hash = tx.Hash()
+	txHash = tx.Hash()
 
 	m.logger.Debug("Waiting mining tx ExpireSafeTransfers", "ids", ids, "txHash", tx.Hash())
-	_, err = m.waitAndCheckTransaction(ctx, tx)
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
 
-	return
+	return m.getReceiptParams(receipt)
 }
 
 func (m *Manager) QuickTransfer(ctx context.Context, to common.Address, value *big.Int, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
@@ -204,6 +233,81 @@ func (m *Manager) QuickTransfer(ctx context.Context, to common.Address, value *b
 	}
 
 	m.logger.Debug("Waiting mining tx QuickTransfer", "to", to.Hex(), "value", value.String(), "async", async)
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) FrameTransfer(ctx context.Context, to common.Address, value *big.Int, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	m.logger.Debug("contracts manager FrameTransfer called", "to", to.Hex(), "value", value.String(), "async", async)
+
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := contract.FrameTransfer(opts, to, value, extraData)
+	if err != nil {
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	m.logger.Debug("Waiting mining tx FrameTransfer", "to", to.Hex(), "value", value.String(), "async", async)
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) ServiceFeeTransfer(ctx context.Context, params dto.ServiceFeeTransferParams, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager ServiceFeeTransfer called", "operationType", params.OperationType, "async", async)
+
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, params.Key)
+	if err != nil {
+		return
+	}
+
+	tx, err := contract.FeeTransfer(opts, params.OperationType, params.From)
+	if err != nil {
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining tx ServiceFeeTransfer", "operationType", params.OperationType, "async", async)
 	receipt, err := m.waitAndCheckTransaction(ctx, tx)
 	if err != nil {
 		return
@@ -531,6 +635,382 @@ func (m *Manager) CancelWPCSafeTransfer(ctx context.Context, transferId []byte, 
 
 	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
 		return contract.CancelWPCSafeTransfer(opts, transferId, extraData)
+	})
+	if err != nil {
+		return
+	}
+
+	txHash = tx.Hash()
+
+	if async {
+		return
+	}
+
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) FullBalanceQuickTransfer(ctx context.Context, to common.Address, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager FullBalanceQuickTransfer called", "to", to.Hex(), "async", async)
+
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := contract.QuickTransferAll(opts, to, extraData)
+	if err != nil {
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining tx FullBalanceQuickTransfer", "to", to.Hex(), "async", async)
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) CreateFullBalanceSafeTransfer(ctx context.Context, t *Transfer, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager CreateFullBalanceSafeTransfer called", "TransferID", string(t.TransferID))
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.CreateSafeTransferAll(opts, t.To, t.Proof, t.VK, t.TransferID, t.Retries, t.ExpiresAt, t.ExtraData)
+	})
+	if err != nil {
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining for CreateFullBalanceSafeTransfer tx", "TransferID", string(t.TransferID))
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) CreateFullBalanceWPCSafeTransfer(ctx context.Context, t *Transfer, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager CreateFullBalanceWPCSafeTransfer called", "TransferID", string(t.TransferID))
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.CreateWPCSafeTransferAll(opts, t.To, t.TransferID, t.ExpiresAt, t.ExtraData)
+	})
+	if err != nil {
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining for CreateFullBalanceWPCSafeTransfer tx", "TransferID", string(t.TransferID))
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) ApproveFullBalanceSafeTransfer(ctx context.Context, transferId []byte, protectionCode []byte, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager ApproveSafeTransfer called", "TransferID", string(transferId))
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	transferContract, err := m.getTransferImpl()
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.ApproveSafeTransferAll(opts, transferId, protectionCode, extraData)
+	})
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining for ApproveFullBalanceSafeTransfer tx", "TransferID", string(transferId))
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	// in ApproveSafeTransfer we need to save the state to decrease retry limit
+	// so method in solidity do not use assert or require
+	// Thus we must look at logs, catch SafeTransferApprovalResult event and look at status of this event to understand the result of approve method
+	blockNum, txHash, err = m.getReceiptParams(receipt)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	it, err := transferContract.FilterSafeTransferApprovalResult(&bind.FilterOpts{Start: blockNum, End: &blockNum})
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+	defer it.Close()
+
+	for it.Next() {
+		// if event exists with our transferId and status is Success - everything is ok and transfer is approved
+		if bytes.Equal(it.Event.TransferId, transferId) {
+			switch StatusType(it.Event.Status) {
+			case SafeTransferStatusSuccess:
+				logger.Warn("obtained 'success' status in SafeTransferApprovalResult event")
+				err = nil
+				return
+			case SafeTransferStatusUndefined:
+				err = bitbonErrors.NewSafeTransferUndefinedError(errors.New("transfer approve failed. Status is 'undefined'"))
+				return
+			case SafeTransferStatusWrongProtectionCode:
+				err = bitbonErrors.NewSafeTransferWrongProtectionCodeError(errors.New("transfer approve failed. Status is 'wrong protection code'"))
+				return
+			case SafeTransferStatusWrongProtectionCodeLimitExceeded:
+				err = bitbonErrors.NewSafeTransferWrongProtectionCodeLimitError(errors.New("transfer approve failed. Status is 'wrong protection code limit exceeded'"))
+				return
+			case SafeTransferStatusExpired:
+				err = bitbonErrors.NewSafeTransferExpiredError(errors.New("transfer approve failed. Status is 'expired'"))
+				return
+			}
+		}
+	}
+	if it.Error() != nil {
+		logger.Error(it.Error().Error())
+		err = bitbonErrors.NewContractCallError(it.Error())
+		return
+	}
+
+	err = bitbonErrors.NewSafeTransferUnknownReasonError(errors.New("transfer approve failed for unknown reason"))
+	return
+}
+
+func (m *Manager) ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transferId []byte, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager ApproveFullBalanceWPCSafeTransfer called", "TransferID", string(transferId))
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	transferContract, err := m.getTransferImpl()
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.ApproveWPCSafeTransferAll(opts, transferId, extraData)
+	})
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	if async {
+		return 0, tx.Hash(), nil
+	}
+
+	logger.Warn("Waiting mining for ApproveFullBalanceSafeTransfer tx", "TransferID", string(transferId))
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	// in ApproveSafeTransfer we need to save the state to decrease retry limit
+	// so method in solidity do not use assert or require
+	// Thus we must look at logs, catch SafeTransferApprovalResult event and look at status of this event to understand the result of approve method
+	blockNum, txHash, err = m.getReceiptParams(receipt)
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+
+	it, err := transferContract.FilterSafeTransferApprovalResult(&bind.FilterOpts{Start: blockNum, End: &blockNum})
+	if err != nil {
+		err = bitbonErrors.NewContractCallError(err)
+		return
+	}
+	defer it.Close()
+
+	for it.Next() {
+		// if event exists with our transferId and status is Success - everything is ok and transfer is approved
+		if bytes.Equal(it.Event.TransferId, transferId) {
+			switch StatusType(it.Event.Status) {
+			case SafeTransferStatusSuccess:
+				logger.Warn("obtained 'success' status in SafeTransferApprovalResult event")
+				err = nil
+				return
+			case SafeTransferStatusUndefined:
+				err = bitbonErrors.NewSafeTransferUndefinedError(errors.New("transfer approve failed. Status is 'undefined'"))
+				return
+			case SafeTransferStatusWrongProtectionCode:
+				err = bitbonErrors.NewSafeTransferWrongProtectionCodeError(errors.New("transfer approve failed. Status is 'wrong protection code'"))
+				return
+			case SafeTransferStatusWrongProtectionCodeLimitExceeded:
+				err = bitbonErrors.NewSafeTransferWrongProtectionCodeLimitError(errors.New("transfer approve failed. Status is 'wrong protection code limit exceeded'"))
+				return
+			case SafeTransferStatusExpired:
+				err = bitbonErrors.NewSafeTransferExpiredError(errors.New("transfer approve failed. Status is 'expired'"))
+				return
+			}
+		}
+	}
+	if it.Error() != nil {
+		logger.Error(it.Error().Error())
+		err = bitbonErrors.NewContractCallError(it.Error())
+		return
+	}
+
+	err = bitbonErrors.NewSafeTransferUnknownReasonError(errors.New("transfer approve failed for unknown reason"))
+	return
+}
+
+func (m *Manager) CancelFullBalanceSafeTransfer(ctx context.Context, transferId []byte, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager CancelFullBalanceSafeTransfer called", "TransferID", string(transferId))
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.CancelSafeTransferAll(opts, transferId, extraData)
+	})
+	if err != nil {
+		return
+	}
+
+	txHash = tx.Hash()
+
+	if async {
+		return
+	}
+
+	receipt, err := m.waitAndCheckTransaction(ctx, tx)
+	if err != nil {
+		return
+	}
+
+	return m.getReceiptParams(receipt)
+}
+
+func (m *Manager) CancelFullBalanceWPCSafeTransfer(ctx context.Context, transferId []byte, extraData []byte, key *ecdsa.PrivateKey, async bool) (blockNum uint64, txHash common.Hash, err error) {
+	logger := loggerContext.LoggerFromContext(ctx)
+	logger.Warn("contracts manager CancelFullBalanceWPCSafeTransfer called", "TransferID", string(transferId))
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getBitbonImpl()
+	if err != nil {
+		return
+	}
+
+	opts, err := m.prepareTransactOpts(ctx, key)
+	if err != nil {
+		return
+	}
+
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.CancelWPCSafeTransferAll(opts, transferId, extraData)
 	})
 	if err != nil {
 		return

@@ -33,4 +33,5 @@ type Config struct {
 	AmqpBlockExchange       string
 	AmqpTransactionExchange string
 	AmqpMiningExchange      string
+	AmqpFeeExchange         string
 }

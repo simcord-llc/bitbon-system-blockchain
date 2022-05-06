@@ -206,7 +206,7 @@ func (q *Quorum) runProtocol(p *p2p.Peer, rw p2p.MsgReadWriter) (err error) {
 	<-q.started
 	q.logger.Debug("quorum protocol", "peer", p)
 	defer func() {
-		q.logger.Warn("quorum protocol terminated", "peer", p, "error", err)
+		q.logger.Debug("quorum protocol terminated", "peer", p, "error", err)
 	}() // wait for the ping protocol to perform the handshake
 	state, _ := q.ping.GetState(p.ID())
 	defer q.ping.RemoveState(p.ID())

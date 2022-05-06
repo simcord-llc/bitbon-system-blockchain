@@ -20,16 +20,48 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type ServiceFeeOperation int32
+
+const (
+	// enum listing all operations that fee can be charged for
+	ServiceFeeOperation_SERVICE_FEE_OPERATION_UNSPECIFIED ServiceFeeOperation = 0
+	// 0xx codes are reserved for random stuff (like temporary feeable operations for some events)
+	// 1xx codes are reserved for transfer fees which are charged automatically by transfer smart-contracts
+	// do not add 1xx codes to this enum, API will reject it as not valid
+	// 2xx codes are codes for service operations
+	ServiceFeeOperation_SERVICE_FEE_OPERATION_ASSETBOX_CREATION ServiceFeeOperation = 201
+	ServiceFeeOperation_SERVICE_FEE_OPERATION_NUMBER_CHANGE     ServiceFeeOperation = 202
+)
+
+var ServiceFeeOperation_name = map[int32]string{
+	0:   "SERVICE_FEE_OPERATION_UNSPECIFIED",
+	201: "SERVICE_FEE_OPERATION_ASSETBOX_CREATION",
+	202: "SERVICE_FEE_OPERATION_NUMBER_CHANGE",
+}
+
+var ServiceFeeOperation_value = map[string]int32{
+	"SERVICE_FEE_OPERATION_UNSPECIFIED":       0,
+	"SERVICE_FEE_OPERATION_ASSETBOX_CREATION": 201,
+	"SERVICE_FEE_OPERATION_NUMBER_CHANGE":     202,
+}
+
+func (x ServiceFeeOperation) String() string {
+	return proto.EnumName(ServiceFeeOperation_name, int32(x))
+}
+
+func (ServiceFeeOperation) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{0}
+}
+
 type QuickTransferRequest struct {
 	// rountig key : r.transfer.SENDER.QuickTransferRequest
 	// rountig key : r.transfer.SENDER.QuickTransferAsyncRequest
 	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
-	AccountId            string              `protobuf:"bytes,3,opt,name=accountId,proto3" json:"accountId,omitempty"`
-	To                   string              `protobuf:"bytes,4,opt,name=to,proto3" json:"to,omitempty"`
-	Value                string              `protobuf:"bytes,5,opt,name=value,proto3" json:"value,omitempty"`
-	ExtraData            []byte              `protobuf:"bytes,6,opt,name=extraData,proto3" json:"extraData,omitempty"`
-	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,7,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	Value                string              `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,5,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,6,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
 	XXX_unrecognized     []byte              `json:"-"`
 	XXX_sizecache        int32               `json:"-"`
@@ -74,13 +106,6 @@ func (m *QuickTransferRequest) GetFrom() string {
 	return ""
 }
 
-func (m *QuickTransferRequest) GetAccountId() string {
-	if m != nil {
-		return m.AccountId
-	}
-	return ""
-}
-
 func (m *QuickTransferRequest) GetTo() string {
 	if m != nil {
 		return m.To
@@ -109,18 +134,90 @@ func (m *QuickTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type FullBalanceQuickTransferRequest struct {
+	// rountig key : r.transfer.SENDER.FullBalanceQuickTransferRequest
+	// rountig key : r.transfer.SENDER.FullBalanceQuickTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,4,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,5,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *FullBalanceQuickTransferRequest) Reset()         { *m = FullBalanceQuickTransferRequest{} }
+func (m *FullBalanceQuickTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*FullBalanceQuickTransferRequest) ProtoMessage()    {}
+func (*FullBalanceQuickTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{1}
+}
+
+func (m *FullBalanceQuickTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_FullBalanceQuickTransferRequest.Unmarshal(m, b)
+}
+func (m *FullBalanceQuickTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_FullBalanceQuickTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *FullBalanceQuickTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FullBalanceQuickTransferRequest.Merge(m, src)
+}
+func (m *FullBalanceQuickTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_FullBalanceQuickTransferRequest.Size(m)
+}
+func (m *FullBalanceQuickTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_FullBalanceQuickTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FullBalanceQuickTransferRequest proto.InternalMessageInfo
+
+func (m *FullBalanceQuickTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *FullBalanceQuickTransferRequest) GetFrom() string {
+	if m != nil {
+		return m.From
+	}
+	return ""
+}
+
+func (m *FullBalanceQuickTransferRequest) GetTo() string {
+	if m != nil {
+		return m.To
+	}
+	return ""
+}
+
+func (m *FullBalanceQuickTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *FullBalanceQuickTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.FromCryptoData
+	}
+	return nil
+}
+
 type CreateWPCSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.CreateWPCSafeTransferRequest
 	// rountig key : r.transfer.SENDER.CreateWPCSafeTransferAsyncRequest
 	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
-	AccountId            string              `protobuf:"bytes,3,opt,name=accountId,proto3" json:"accountId,omitempty"`
-	To                   string              `protobuf:"bytes,4,opt,name=to,proto3" json:"to,omitempty"`
-	Value                string              `protobuf:"bytes,5,opt,name=value,proto3" json:"value,omitempty"`
-	TransferId           string              `protobuf:"bytes,6,opt,name=transferId,proto3" json:"transferId,omitempty"`
-	ExpiresAt            int64               `protobuf:"varint,7,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
-	ExtraData            []byte              `protobuf:"bytes,8,opt,name=extraData,proto3" json:"extraData,omitempty"`
-	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,9,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	Value                string              `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
+	TransferId           string              `protobuf:"bytes,5,opt,name=transferId,proto3" json:"transferId,omitempty"`
+	ExpiresAt            int64               `protobuf:"varint,6,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,7,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,8,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
 	XXX_unrecognized     []byte              `json:"-"`
 	XXX_sizecache        int32               `json:"-"`
@@ -130,7 +227,7 @@ func (m *CreateWPCSafeTransferRequest) Reset()         { *m = CreateWPCSafeTrans
 func (m *CreateWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateWPCSafeTransferRequest) ProtoMessage()    {}
 func (*CreateWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{1}
+	return fileDescriptor_96c3e6bcafb460d3, []int{2}
 }
 
 func (m *CreateWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -161,13 +258,6 @@ func (m *CreateWPCSafeTransferRequest) GetId() string {
 func (m *CreateWPCSafeTransferRequest) GetFrom() string {
 	if m != nil {
 		return m.From
-	}
-	return ""
-}
-
-func (m *CreateWPCSafeTransferRequest) GetAccountId() string {
-	if m != nil {
-		return m.AccountId
 	}
 	return ""
 }
@@ -214,6 +304,154 @@ func (m *CreateWPCSafeTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type CreateFullBalanceWPCSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.CreateFullBalanceWPCSafeTransferRequest
+	// rountig key : r.transfer.SENDER.CreateFullBalanceWPCSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	TransferId           string              `protobuf:"bytes,4,opt,name=transferId,proto3" json:"transferId,omitempty"`
+	ExpiresAt            int64               `protobuf:"varint,5,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,6,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,7,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) Reset() {
+	*m = CreateFullBalanceWPCSafeTransferRequest{}
+}
+func (m *CreateFullBalanceWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateFullBalanceWPCSafeTransferRequest) ProtoMessage()    {}
+func (*CreateFullBalanceWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{3}
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *CreateFullBalanceWPCSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateFullBalanceWPCSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest.Merge(m, src)
+}
+func (m *CreateFullBalanceWPCSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest.Size(m)
+}
+func (m *CreateFullBalanceWPCSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateFullBalanceWPCSafeTransferRequest proto.InternalMessageInfo
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetFrom() string {
+	if m != nil {
+		return m.From
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetTo() string {
+	if m != nil {
+		return m.To
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetTransferId() string {
+	if m != nil {
+		return m.TransferId
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetExpiresAt() int64 {
+	if m != nil {
+		return m.ExpiresAt
+	}
+	return 0
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *CreateFullBalanceWPCSafeTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.FromCryptoData
+	}
+	return nil
+}
+
+type ServiceFeeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.ServiceFeeTransferRequest
+	// rountig key : r.transfer.SENDER.ServiceFeeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	OperationType        ServiceFeeOperation `protobuf:"varint,3,opt,name=operation_type,json=operationType,proto3,enum=dto.ServiceFeeOperation" json:"operation_type,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *ServiceFeeTransferRequest) Reset()         { *m = ServiceFeeTransferRequest{} }
+func (m *ServiceFeeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*ServiceFeeTransferRequest) ProtoMessage()    {}
+func (*ServiceFeeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{4}
+}
+
+func (m *ServiceFeeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ServiceFeeTransferRequest.Unmarshal(m, b)
+}
+func (m *ServiceFeeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ServiceFeeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *ServiceFeeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ServiceFeeTransferRequest.Merge(m, src)
+}
+func (m *ServiceFeeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_ServiceFeeTransferRequest.Size(m)
+}
+func (m *ServiceFeeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ServiceFeeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ServiceFeeTransferRequest proto.InternalMessageInfo
+
+func (m *ServiceFeeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *ServiceFeeTransferRequest) GetFrom() string {
+	if m != nil {
+		return m.From
+	}
+	return ""
+}
+
+func (m *ServiceFeeTransferRequest) GetOperationType() ServiceFeeOperation {
+	if m != nil {
+		return m.OperationType
+	}
+	return ServiceFeeOperation_SERVICE_FEE_OPERATION_UNSPECIFIED
+}
+
 type ApproveWPCSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.ApproveWPCSafeTransferRequest
 	// rountig key : r.transfer.SENDER.ApproveWPCSafeTransferAsyncRequest
@@ -231,7 +469,7 @@ func (m *ApproveWPCSafeTransferRequest) Reset()         { *m = ApproveWPCSafeTra
 func (m *ApproveWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*ApproveWPCSafeTransferRequest) ProtoMessage()    {}
 func (*ApproveWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{2}
+	return fileDescriptor_96c3e6bcafb460d3, []int{5}
 }
 
 func (m *ApproveWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -287,6 +525,81 @@ func (m *ApproveWPCSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type ApproveFullBalanceWPCSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.ApproveFullBalanceWPCSafeTransferRequest
+	// rountig key : r.transfer.SENDER.ApproveFullBalanceWPCSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Address              string              `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	TransferID           string              `protobuf:"bytes,3,opt,name=transferID,proto3" json:"transferID,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,4,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	CryptoData           *AssetboxCryptoData `protobuf:"bytes,5,opt,name=crypto_data,json=cryptoData,proto3" json:"crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) Reset() {
+	*m = ApproveFullBalanceWPCSafeTransferRequest{}
+}
+func (m *ApproveFullBalanceWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*ApproveFullBalanceWPCSafeTransferRequest) ProtoMessage()    {}
+func (*ApproveFullBalanceWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{6}
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *ApproveFullBalanceWPCSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *ApproveFullBalanceWPCSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest.Merge(m, src)
+}
+func (m *ApproveFullBalanceWPCSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest.Size(m)
+}
+func (m *ApproveFullBalanceWPCSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ApproveFullBalanceWPCSafeTransferRequest proto.InternalMessageInfo
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) GetTransferID() string {
+	if m != nil {
+		return m.TransferID
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *ApproveFullBalanceWPCSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.CryptoData
+	}
+	return nil
+}
+
 type CancelWPCSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.CancelWPCSafeTransferRequest
 	// rountig key : r.transfer.SENDER.CancelWPCSafeTransferAsyncRequest
@@ -304,7 +617,7 @@ func (m *CancelWPCSafeTransferRequest) Reset()         { *m = CancelWPCSafeTrans
 func (m *CancelWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*CancelWPCSafeTransferRequest) ProtoMessage()    {}
 func (*CancelWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{3}
+	return fileDescriptor_96c3e6bcafb460d3, []int{7}
 }
 
 func (m *CancelWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -360,20 +673,94 @@ func (m *CancelWPCSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type CancelFullBalanceWPCSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.CancelFullBalanceWPCSafeTransferRequest
+	// rountig key : r.transfer.SENDER.CancelFullBalanceWPCSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Address              string              `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	TransferID           string              `protobuf:"bytes,3,opt,name=transferID,proto3" json:"transferID,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,4,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	CryptoData           *AssetboxCryptoData `protobuf:"bytes,5,opt,name=crypto_data,json=cryptoData,proto3" json:"crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) Reset() {
+	*m = CancelFullBalanceWPCSafeTransferRequest{}
+}
+func (m *CancelFullBalanceWPCSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*CancelFullBalanceWPCSafeTransferRequest) ProtoMessage()    {}
+func (*CancelFullBalanceWPCSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{8}
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *CancelFullBalanceWPCSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *CancelFullBalanceWPCSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest.Merge(m, src)
+}
+func (m *CancelFullBalanceWPCSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest.Size(m)
+}
+func (m *CancelFullBalanceWPCSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CancelFullBalanceWPCSafeTransferRequest proto.InternalMessageInfo
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) GetTransferID() string {
+	if m != nil {
+		return m.TransferID
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *CancelFullBalanceWPCSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.CryptoData
+	}
+	return nil
+}
+
 type CreateSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.CreateSafeTransferRequest
 	// rountig key : r.transfer.SENDER.CreateSafeTransferAsyncRequest
 	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
-	AccountId            string              `protobuf:"bytes,3,opt,name=accountId,proto3" json:"accountId,omitempty"`
-	To                   string              `protobuf:"bytes,4,opt,name=to,proto3" json:"to,omitempty"`
-	Value                string              `protobuf:"bytes,5,opt,name=value,proto3" json:"value,omitempty"`
-	TransferId           string              `protobuf:"bytes,6,opt,name=transferId,proto3" json:"transferId,omitempty"`
-	ProtectionCode       string              `protobuf:"bytes,7,opt,name=protectionCode,proto3" json:"protectionCode,omitempty"`
-	Retries              uint64              `protobuf:"varint,8,opt,name=retries,proto3" json:"retries,omitempty"`
-	ExpiresAt            int64               `protobuf:"varint,9,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
-	ExtraData            []byte              `protobuf:"bytes,10,opt,name=extraData,proto3" json:"extraData,omitempty"`
-	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,11,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	Value                string              `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
+	TransferId           string              `protobuf:"bytes,5,opt,name=transferId,proto3" json:"transferId,omitempty"`
+	ProtectionCode       string              `protobuf:"bytes,6,opt,name=protectionCode,proto3" json:"protectionCode,omitempty"`
+	Retries              uint64              `protobuf:"varint,7,opt,name=retries,proto3" json:"retries,omitempty"`
+	ExpiresAt            int64               `protobuf:"varint,8,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,9,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,10,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
 	XXX_unrecognized     []byte              `json:"-"`
 	XXX_sizecache        int32               `json:"-"`
@@ -383,7 +770,7 @@ func (m *CreateSafeTransferRequest) Reset()         { *m = CreateSafeTransferReq
 func (m *CreateSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateSafeTransferRequest) ProtoMessage()    {}
 func (*CreateSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{4}
+	return fileDescriptor_96c3e6bcafb460d3, []int{9}
 }
 
 func (m *CreateSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -414,13 +801,6 @@ func (m *CreateSafeTransferRequest) GetId() string {
 func (m *CreateSafeTransferRequest) GetFrom() string {
 	if m != nil {
 		return m.From
-	}
-	return ""
-}
-
-func (m *CreateSafeTransferRequest) GetAccountId() string {
-	if m != nil {
-		return m.AccountId
 	}
 	return ""
 }
@@ -481,6 +861,111 @@ func (m *CreateSafeTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type CreateFullBalanceSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.CreateFullBalanceSafeTransferRequest
+	// rountig key : r.transfer.SENDER.CreateFullBalanceSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	From                 string              `protobuf:"bytes,2,opt,name=from,proto3" json:"from,omitempty"`
+	To                   string              `protobuf:"bytes,3,opt,name=to,proto3" json:"to,omitempty"`
+	TransferId           string              `protobuf:"bytes,4,opt,name=transferId,proto3" json:"transferId,omitempty"`
+	ProtectionCode       string              `protobuf:"bytes,5,opt,name=protectionCode,proto3" json:"protectionCode,omitempty"`
+	Retries              uint64              `protobuf:"varint,6,opt,name=retries,proto3" json:"retries,omitempty"`
+	ExpiresAt            int64               `protobuf:"varint,7,opt,name=expiresAt,proto3" json:"expiresAt,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,8,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	FromCryptoData       *AssetboxCryptoData `protobuf:"bytes,9,opt,name=from_crypto_data,json=fromCryptoData,proto3" json:"from_crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) Reset()         { *m = CreateFullBalanceSafeTransferRequest{} }
+func (m *CreateFullBalanceSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateFullBalanceSafeTransferRequest) ProtoMessage()    {}
+func (*CreateFullBalanceSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{10}
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateFullBalanceSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *CreateFullBalanceSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateFullBalanceSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateFullBalanceSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateFullBalanceSafeTransferRequest.Merge(m, src)
+}
+func (m *CreateFullBalanceSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateFullBalanceSafeTransferRequest.Size(m)
+}
+func (m *CreateFullBalanceSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateFullBalanceSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateFullBalanceSafeTransferRequest proto.InternalMessageInfo
+
+func (m *CreateFullBalanceSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetFrom() string {
+	if m != nil {
+		return m.From
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetTo() string {
+	if m != nil {
+		return m.To
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetTransferId() string {
+	if m != nil {
+		return m.TransferId
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetProtectionCode() string {
+	if m != nil {
+		return m.ProtectionCode
+	}
+	return ""
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetRetries() uint64 {
+	if m != nil {
+		return m.Retries
+	}
+	return 0
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetExpiresAt() int64 {
+	if m != nil {
+		return m.ExpiresAt
+	}
+	return 0
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *CreateFullBalanceSafeTransferRequest) GetFromCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.FromCryptoData
+	}
+	return nil
+}
+
 type ApproveSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.ApproveSafeTransferRequest
 	// rountig key : r.transfer.SENDER.ApproveSafeTransferAsyncRequest
@@ -499,7 +984,7 @@ func (m *ApproveSafeTransferRequest) Reset()         { *m = ApproveSafeTransferR
 func (m *ApproveSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*ApproveSafeTransferRequest) ProtoMessage()    {}
 func (*ApproveSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{5}
+	return fileDescriptor_96c3e6bcafb460d3, []int{11}
 }
 
 func (m *ApproveSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -562,6 +1047,87 @@ func (m *ApproveSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type ApproveFullBalanceSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.ApproveFullBalanceSafeTransferRequest
+	// rountig key : r.transfer.SENDER.ApproveFullBalanceSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Address              string              `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	TransferID           string              `protobuf:"bytes,3,opt,name=transferID,proto3" json:"transferID,omitempty"`
+	ProtectionCode       string              `protobuf:"bytes,4,opt,name=protectionCode,proto3" json:"protectionCode,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,5,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	CryptoData           *AssetboxCryptoData `protobuf:"bytes,6,opt,name=crypto_data,json=cryptoData,proto3" json:"crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) Reset()         { *m = ApproveFullBalanceSafeTransferRequest{} }
+func (m *ApproveFullBalanceSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*ApproveFullBalanceSafeTransferRequest) ProtoMessage()    {}
+func (*ApproveFullBalanceSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{12}
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ApproveFullBalanceSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *ApproveFullBalanceSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ApproveFullBalanceSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *ApproveFullBalanceSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ApproveFullBalanceSafeTransferRequest.Merge(m, src)
+}
+func (m *ApproveFullBalanceSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_ApproveFullBalanceSafeTransferRequest.Size(m)
+}
+func (m *ApproveFullBalanceSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ApproveFullBalanceSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ApproveFullBalanceSafeTransferRequest proto.InternalMessageInfo
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetTransferID() string {
+	if m != nil {
+		return m.TransferID
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetProtectionCode() string {
+	if m != nil {
+		return m.ProtectionCode
+	}
+	return ""
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *ApproveFullBalanceSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.CryptoData
+	}
+	return nil
+}
+
 type CancelSafeTransferRequest struct {
 	// rountig key : r.transfer.SENDER.CancelSafeTransferRequest
 	// rountig key : r.transfer.SENDER.CancelSafeTransferAsyncRequest
@@ -579,7 +1145,7 @@ func (m *CancelSafeTransferRequest) Reset()         { *m = CancelSafeTransferReq
 func (m *CancelSafeTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*CancelSafeTransferRequest) ProtoMessage()    {}
 func (*CancelSafeTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{6}
+	return fileDescriptor_96c3e6bcafb460d3, []int{13}
 }
 
 func (m *CancelSafeTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -635,6 +1201,79 @@ func (m *CancelSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
 	return nil
 }
 
+type CancelFullBalanceSafeTransferRequest struct {
+	// rountig key : r.transfer.SENDER.CancelFullBalanceSafeTransferRequest
+	// rountig key : r.transfer.SENDER.CancelFullBalanceSafeTransferAsyncRequest
+	Id                   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Address              string              `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	TransferID           string              `protobuf:"bytes,3,opt,name=transferID,proto3" json:"transferID,omitempty"`
+	ExtraData            []byte              `protobuf:"bytes,4,opt,name=extraData,proto3" json:"extraData,omitempty"`
+	CryptoData           *AssetboxCryptoData `protobuf:"bytes,5,opt,name=crypto_data,json=cryptoData,proto3" json:"crypto_data,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) Reset()         { *m = CancelFullBalanceSafeTransferRequest{} }
+func (m *CancelFullBalanceSafeTransferRequest) String() string { return proto.CompactTextString(m) }
+func (*CancelFullBalanceSafeTransferRequest) ProtoMessage()    {}
+func (*CancelFullBalanceSafeTransferRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_96c3e6bcafb460d3, []int{14}
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CancelFullBalanceSafeTransferRequest.Unmarshal(m, b)
+}
+func (m *CancelFullBalanceSafeTransferRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CancelFullBalanceSafeTransferRequest.Marshal(b, m, deterministic)
+}
+func (m *CancelFullBalanceSafeTransferRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CancelFullBalanceSafeTransferRequest.Merge(m, src)
+}
+func (m *CancelFullBalanceSafeTransferRequest) XXX_Size() int {
+	return xxx_messageInfo_CancelFullBalanceSafeTransferRequest.Size(m)
+}
+func (m *CancelFullBalanceSafeTransferRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CancelFullBalanceSafeTransferRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CancelFullBalanceSafeTransferRequest proto.InternalMessageInfo
+
+func (m *CancelFullBalanceSafeTransferRequest) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) GetTransferID() string {
+	if m != nil {
+		return m.TransferID
+	}
+	return ""
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) GetExtraData() []byte {
+	if m != nil {
+		return m.ExtraData
+	}
+	return nil
+}
+
+func (m *CancelFullBalanceSafeTransferRequest) GetCryptoData() *AssetboxCryptoData {
+	if m != nil {
+		return m.CryptoData
+	}
+	return nil
+}
+
 type DirectTransferRequest struct {
 	// rountig key : r.transfer.SENDER.DirectTransferRequest
 	// rountig key : r.transfer.SENDER.DirectTransferAsyncRequest
@@ -652,7 +1291,7 @@ func (m *DirectTransferRequest) Reset()         { *m = DirectTransferRequest{} }
 func (m *DirectTransferRequest) String() string { return proto.CompactTextString(m) }
 func (*DirectTransferRequest) ProtoMessage()    {}
 func (*DirectTransferRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{7}
+	return fileDescriptor_96c3e6bcafb460d3, []int{15}
 }
 
 func (m *DirectTransferRequest) XXX_Unmarshal(b []byte) error {
@@ -729,7 +1368,7 @@ func (m *TransferAsyncResponse) Reset()         { *m = TransferAsyncResponse{} }
 func (m *TransferAsyncResponse) String() string { return proto.CompactTextString(m) }
 func (*TransferAsyncResponse) ProtoMessage()    {}
 func (*TransferAsyncResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{8}
+	return fileDescriptor_96c3e6bcafb460d3, []int{16}
 }
 
 func (m *TransferAsyncResponse) XXX_Unmarshal(b []byte) error {
@@ -793,7 +1432,7 @@ func (m *TransferResponse) Reset()         { *m = TransferResponse{} }
 func (m *TransferResponse) String() string { return proto.CompactTextString(m) }
 func (*TransferResponse) ProtoMessage()    {}
 func (*TransferResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{9}
+	return fileDescriptor_96c3e6bcafb460d3, []int{17}
 }
 
 func (m *TransferResponse) XXX_Unmarshal(b []byte) error {
@@ -845,6 +1484,7 @@ func (m *TransferResponse) GetError() *Error {
 type ExpireTransfersRequest struct {
 	// rountig key : r.transfer.SENDER.ExpireTransfersRequest
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TransferIds          []string `protobuf:"bytes,2,rep,name=transfer_ids,json=transferIds,proto3" json:"transfer_ids,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -854,7 +1494,7 @@ func (m *ExpireTransfersRequest) Reset()         { *m = ExpireTransfersRequest{}
 func (m *ExpireTransfersRequest) String() string { return proto.CompactTextString(m) }
 func (*ExpireTransfersRequest) ProtoMessage()    {}
 func (*ExpireTransfersRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{10}
+	return fileDescriptor_96c3e6bcafb460d3, []int{18}
 }
 
 func (m *ExpireTransfersRequest) XXX_Unmarshal(b []byte) error {
@@ -882,6 +1522,13 @@ func (m *ExpireTransfersRequest) GetId() string {
 	return ""
 }
 
+func (m *ExpireTransfersRequest) GetTransferIds() []string {
+	if m != nil {
+		return m.TransferIds
+	}
+	return nil
+}
+
 type ExpireTransfersResponse struct {
 	// rountig key : r.transfer.bitbon-node.ExpireTransfersResponse
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -896,7 +1543,7 @@ func (m *ExpireTransfersResponse) Reset()         { *m = ExpireTransfersResponse
 func (m *ExpireTransfersResponse) String() string { return proto.CompactTextString(m) }
 func (*ExpireTransfersResponse) ProtoMessage()    {}
 func (*ExpireTransfersResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_96c3e6bcafb460d3, []int{11}
+	return fileDescriptor_96c3e6bcafb460d3, []int{19}
 }
 
 func (m *ExpireTransfersResponse) XXX_Unmarshal(b []byte) error {
@@ -939,13 +1586,22 @@ func (m *ExpireTransfersResponse) GetError() *Error {
 }
 
 func init() {
+	proto.RegisterEnum("dto.ServiceFeeOperation", ServiceFeeOperation_name, ServiceFeeOperation_value)
 	proto.RegisterType((*QuickTransferRequest)(nil), "dto.QuickTransferRequest")
+	proto.RegisterType((*FullBalanceQuickTransferRequest)(nil), "dto.FullBalanceQuickTransferRequest")
 	proto.RegisterType((*CreateWPCSafeTransferRequest)(nil), "dto.CreateWPCSafeTransferRequest")
+	proto.RegisterType((*CreateFullBalanceWPCSafeTransferRequest)(nil), "dto.CreateFullBalanceWPCSafeTransferRequest")
+	proto.RegisterType((*ServiceFeeTransferRequest)(nil), "dto.ServiceFeeTransferRequest")
 	proto.RegisterType((*ApproveWPCSafeTransferRequest)(nil), "dto.ApproveWPCSafeTransferRequest")
+	proto.RegisterType((*ApproveFullBalanceWPCSafeTransferRequest)(nil), "dto.ApproveFullBalanceWPCSafeTransferRequest")
 	proto.RegisterType((*CancelWPCSafeTransferRequest)(nil), "dto.CancelWPCSafeTransferRequest")
+	proto.RegisterType((*CancelFullBalanceWPCSafeTransferRequest)(nil), "dto.CancelFullBalanceWPCSafeTransferRequest")
 	proto.RegisterType((*CreateSafeTransferRequest)(nil), "dto.CreateSafeTransferRequest")
+	proto.RegisterType((*CreateFullBalanceSafeTransferRequest)(nil), "dto.CreateFullBalanceSafeTransferRequest")
 	proto.RegisterType((*ApproveSafeTransferRequest)(nil), "dto.ApproveSafeTransferRequest")
+	proto.RegisterType((*ApproveFullBalanceSafeTransferRequest)(nil), "dto.ApproveFullBalanceSafeTransferRequest")
 	proto.RegisterType((*CancelSafeTransferRequest)(nil), "dto.CancelSafeTransferRequest")
+	proto.RegisterType((*CancelFullBalanceSafeTransferRequest)(nil), "dto.CancelFullBalanceSafeTransferRequest")
 	proto.RegisterType((*DirectTransferRequest)(nil), "dto.DirectTransferRequest")
 	proto.RegisterType((*TransferAsyncResponse)(nil), "dto.TransferAsyncResponse")
 	proto.RegisterType((*TransferResponse)(nil), "dto.TransferResponse")
@@ -956,41 +1612,57 @@ func init() {
 func init() { proto.RegisterFile("transfer.proto", fileDescriptor_96c3e6bcafb460d3) }
 
 var fileDescriptor_96c3e6bcafb460d3 = []byte{
-	// 572 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x56, 0xdd, 0x8a, 0xd3, 0x40,
-	0x14, 0x26, 0x4d, 0xda, 0x35, 0x27, 0x4b, 0x29, 0x61, 0x7f, 0xb2, 0xa5, 0x4a, 0xe9, 0x85, 0xf4,
-	0xaa, 0x17, 0xeb, 0x8d, 0xe0, 0x55, 0x6d, 0x17, 0xdc, 0x1b, 0xd1, 0x51, 0x10, 0x04, 0x59, 0xa6,
-	0x33, 0xa7, 0x18, 0xb6, 0x9b, 0x89, 0x33, 0x93, 0xa5, 0x7b, 0xa3, 0x4f, 0xe3, 0x63, 0x08, 0xfa,
-	0x24, 0xde, 0x88, 0xcf, 0x21, 0x33, 0x49, 0x49, 0x7f, 0xcc, 0xda, 0x55, 0x44, 0xf7, 0x2e, 0xe7,
-	0x9b, 0x99, 0x73, 0xce, 0xf7, 0xcd, 0x77, 0x3a, 0x85, 0xa6, 0x96, 0x34, 0x51, 0x53, 0x94, 0x83,
-	0x54, 0x0a, 0x2d, 0x42, 0x97, 0x6b, 0xd1, 0x0e, 0x50, 0x4a, 0x51, 0x20, 0xed, 0x26, 0x55, 0x0a,
-	0xf5, 0x44, 0xcc, 0xf3, 0xb8, 0xf7, 0xd5, 0x81, 0xbd, 0xe7, 0x59, 0xcc, 0xce, 0x5f, 0x16, 0x27,
-	0x09, 0xbe, 0xcb, 0x50, 0xe9, 0xb0, 0x09, 0xb5, 0x98, 0x47, 0x4e, 0xd7, 0xe9, 0xfb, 0xa4, 0x16,
-	0xf3, 0x30, 0x04, 0x6f, 0x2a, 0xc5, 0x45, 0x54, 0xb3, 0x88, 0xfd, 0x0e, 0x3b, 0xe0, 0x53, 0xc6,
-	0x44, 0x96, 0xe8, 0x53, 0x1e, 0xb9, 0x76, 0xa1, 0x04, 0x4c, 0x06, 0x2d, 0x22, 0x2f, 0xcf, 0xa0,
-	0x45, 0xb8, 0x07, 0xf5, 0x4b, 0x3a, 0xcb, 0x30, 0xaa, 0x5b, 0x28, 0x0f, 0x4c, 0x0e, 0x9c, 0x6b,
-	0x49, 0xc7, 0x54, 0xd3, 0xa8, 0xd1, 0x75, 0xfa, 0xbb, 0xa4, 0x04, 0xc2, 0x21, 0xb4, 0x4c, 0xa5,
-	0x33, 0x26, 0xaf, 0x52, 0x2d, 0xce, 0xb8, 0xd9, 0xb4, 0xd3, 0x75, 0xfa, 0xc1, 0xf1, 0xe1, 0x80,
-	0x6b, 0x31, 0x18, 0x16, 0x6c, 0x46, 0x76, 0xdd, 0x1c, 0x21, 0x4d, 0x73, 0xa0, 0x8c, 0x7b, 0x1f,
-	0x6b, 0xd0, 0x19, 0x49, 0xa4, 0x1a, 0x5f, 0x3d, 0x1b, 0xbd, 0xa0, 0x53, 0xfc, 0x57, 0x4c, 0xef,
-	0x01, 0x2c, 0xae, 0xe7, 0x94, 0x5b, 0xaa, 0x3e, 0x59, 0x42, 0x72, 0x25, 0xd2, 0x58, 0xa2, 0x1a,
-	0x6a, 0x4b, 0xd2, 0x25, 0x25, 0xb0, 0xaa, 0xd3, 0x9d, 0x6d, 0x74, 0xf2, 0x6f, 0xa6, 0xd3, 0x17,
-	0x07, 0xee, 0x0e, 0xd3, 0x54, 0x8a, 0xcb, 0x6d, 0x85, 0x8a, 0x60, 0x87, 0x72, 0x2e, 0x51, 0xa9,
-	0x42, 0xab, 0x45, 0xb8, 0x42, 0x75, 0x5c, 0xe8, 0xb5, 0x84, 0xac, 0x92, 0xf1, 0xd6, 0xc9, 0x3c,
-	0x84, 0x60, 0x99, 0x47, 0xfd, 0x7a, 0x1e, 0xc0, 0x4a, 0x0e, 0x9f, 0x1d, 0xe8, 0x8c, 0x68, 0xc2,
-	0x70, 0x76, 0x6b, 0x29, 0x7c, 0xab, 0xc1, 0x51, 0x6e, 0xd7, 0xff, 0xd9, 0xab, 0xf7, 0xa1, 0x69,
-	0x7e, 0x3f, 0x90, 0xe9, 0x58, 0x24, 0x23, 0xc1, 0xd1, 0x1a, 0xd6, 0x27, 0x6b, 0xa8, 0xd1, 0x57,
-	0xa2, 0x96, 0x31, 0x2a, 0xeb, 0x59, 0x8f, 0x2c, 0xc2, 0x55, 0xb7, 0xfb, 0xd7, 0xba, 0x1d, 0xb6,
-	0x71, 0x7b, 0x70, 0x33, 0xb7, 0x7f, 0x77, 0xa0, 0x5d, 0xb8, 0xfd, 0xef, 0xfa, 0x64, 0x53, 0x29,
-	0xef, 0xa7, 0x4a, 0xad, 0x30, 0xae, 0xff, 0xc2, 0x4f, 0x8d, 0xed, 0xfd, 0xf4, 0xc9, 0x81, 0xa3,
-	0x7c, 0x24, 0x6e, 0xe7, 0x3c, 0x7c, 0x80, 0xfd, 0x71, 0x2c, 0x91, 0xe9, 0xdf, 0x19, 0x85, 0xdc,
-	0xec, 0xee, 0xa6, 0xd9, 0xbd, 0xca, 0x27, 0x68, 0x5d, 0xfa, 0x1e, 0x85, 0xfd, 0x45, 0xe9, 0xa1,
-	0xba, 0x4a, 0x18, 0x41, 0x95, 0x8a, 0x44, 0xe1, 0x46, 0x03, 0x07, 0xd0, 0xd0, 0xf3, 0x27, 0x54,
-	0xbd, 0x2d, 0x0a, 0x16, 0x51, 0xd8, 0x85, 0xba, 0x7d, 0x81, 0x6d, 0xd1, 0xe0, 0x18, 0x2c, 0xeb,
-	0x13, 0x83, 0x90, 0x7c, 0xa1, 0xf7, 0x1e, 0x5a, 0x25, 0xbb, 0x8a, 0xec, 0x5d, 0x08, 0x26, 0x33,
-	0xc1, 0xce, 0x9f, 0x66, 0x17, 0x13, 0x94, 0x05, 0xcb, 0x65, 0xe8, 0x0f, 0xea, 0xf7, 0xe1, 0xe0,
-	0xc4, 0x8e, 0xde, 0xa2, 0x0b, 0x55, 0x21, 0x72, 0xef, 0x0d, 0x1c, 0x6e, 0xec, 0xac, 0x68, 0xb8,
-	0x05, 0x6e, 0x92, 0xe5, 0xd7, 0xe1, 0x11, 0xf3, 0x59, 0x36, 0xe2, 0x56, 0x34, 0xf2, 0x78, 0xf7,
-	0x35, 0x0c, 0x1e, 0xe1, 0x5c, 0xa3, 0x4c, 0xe8, 0x6c, 0xd2, 0xb0, 0x7f, 0x51, 0x1e, 0xfc, 0x08,
-	0x00, 0x00, 0xff, 0xff, 0x69, 0x30, 0xcd, 0x9e, 0xd6, 0x08, 0x00, 0x00,
+	// 821 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xdc, 0x57, 0xcb, 0x6e, 0xdb, 0x46,
+	0x14, 0xed, 0xe8, 0x69, 0x5d, 0xb9, 0x82, 0xc0, 0xfa, 0x21, 0x1b, 0x6e, 0x2b, 0xab, 0x76, 0x2d,
+	0x14, 0x85, 0x16, 0xee, 0xa6, 0x40, 0x17, 0x05, 0x45, 0x51, 0xb5, 0x50, 0x54, 0x72, 0x47, 0x72,
+	0x1b, 0x04, 0x08, 0x08, 0x8a, 0x1c, 0x23, 0x84, 0x65, 0x0d, 0x33, 0x1c, 0x19, 0xd2, 0x26, 0xc9,
+	0x2e, 0x3f, 0x90, 0x6f, 0xc9, 0x26, 0x08, 0x90, 0x6c, 0x82, 0xbc, 0xbe, 0x23, 0xfb, 0xec, 0xb3,
+	0x08, 0x38, 0xa4, 0x42, 0xc9, 0x7a, 0x58, 0x4a, 0xec, 0x38, 0xf6, 0x4e, 0xf7, 0xf2, 0x72, 0xe6,
+	0x9c, 0x73, 0xe7, 0x1e, 0x71, 0x20, 0xc5, 0x99, 0xde, 0x76, 0x0e, 0x09, 0x2b, 0xd8, 0x8c, 0x72,
+	0x2a, 0x85, 0x4d, 0x4e, 0xd7, 0x93, 0x84, 0x31, 0xea, 0x67, 0xd6, 0x53, 0xba, 0xe3, 0x10, 0xde,
+	0xa4, 0x5d, 0x2f, 0xce, 0x3d, 0x43, 0xb0, 0xf4, 0x6f, 0xc7, 0x32, 0x8e, 0x1a, 0xfe, 0x9b, 0x98,
+	0xdc, 0xe9, 0x10, 0x87, 0x4b, 0x29, 0x08, 0x59, 0x66, 0x06, 0x65, 0x51, 0x3e, 0x81, 0x43, 0x96,
+	0x29, 0x49, 0x10, 0x39, 0x64, 0xf4, 0x38, 0x13, 0x12, 0x19, 0xf1, 0xdb, 0xad, 0xe1, 0x34, 0x13,
+	0xf6, 0x6a, 0x38, 0x95, 0x96, 0x20, 0x7a, 0xa2, 0xb7, 0x3a, 0x24, 0x13, 0x11, 0x29, 0x2f, 0x90,
+	0x36, 0x20, 0x41, 0xba, 0x9c, 0xe9, 0x25, 0x9d, 0xeb, 0x99, 0x68, 0x16, 0xe5, 0x17, 0x71, 0x90,
+	0x90, 0x64, 0x48, 0xbb, 0x6b, 0x69, 0x06, 0xeb, 0xd9, 0x9c, 0x6a, 0xa6, 0x5b, 0x14, 0xcb, 0xa2,
+	0x7c, 0x72, 0x77, 0xb5, 0x60, 0x72, 0x5a, 0x90, 0x7d, 0xbc, 0x8a, 0x78, 0xee, 0xbe, 0x82, 0x53,
+	0xee, 0x0b, 0x41, 0x9c, 0x7b, 0x84, 0xe0, 0xc7, 0x72, 0xa7, 0xd5, 0x2a, 0xea, 0x2d, 0xbd, 0x6d,
+	0x90, 0x73, 0xa3, 0x33, 0x04, 0x3c, 0x32, 0x0b, 0xf0, 0xe8, 0x7c, 0xc0, 0x1f, 0x84, 0x60, 0x43,
+	0x61, 0x44, 0xe7, 0xe4, 0xff, 0x7d, 0xa5, 0xae, 0x1f, 0x92, 0x8b, 0x6b, 0xc2, 0x0f, 0x00, 0xfd,
+	0xb3, 0x51, 0x31, 0x05, 0xce, 0x04, 0x1e, 0xc8, 0x78, 0x5c, 0x6d, 0x8b, 0x11, 0x47, 0xe6, 0x42,
+	0xff, 0x30, 0x0e, 0x12, 0xc3, 0x4a, 0xc4, 0x67, 0x51, 0x62, 0x61, 0x3e, 0x25, 0xde, 0x23, 0xd8,
+	0xf1, 0x94, 0x18, 0x68, 0xe4, 0x39, 0x8a, 0x32, 0x4c, 0x3f, 0x32, 0x9d, 0x7e, 0x74, 0x2a, 0xfd,
+	0xd8, 0x2c, 0xf4, 0xe3, 0xf3, 0xd1, 0xbf, 0x8f, 0x60, 0xad, 0x4e, 0xd8, 0x89, 0x65, 0x90, 0x32,
+	0xf9, 0x24, 0xc2, 0x7f, 0x42, 0x8a, 0xda, 0x84, 0xe9, 0xdc, 0xa2, 0x6d, 0x8d, 0xf7, 0x6c, 0x22,
+	0xc8, 0xa7, 0x76, 0x33, 0x02, 0x42, 0xb0, 0x76, 0xad, 0x5f, 0x84, 0xbf, 0xfd, 0x58, 0xdf, 0xe8,
+	0xd9, 0xc4, 0x35, 0x82, 0xef, 0x65, 0xdb, 0x66, 0xf4, 0x64, 0x56, 0xdd, 0x33, 0x10, 0xd7, 0x4d,
+	0x93, 0x11, 0xc7, 0xf1, 0x91, 0xf4, 0xc3, 0x21, 0xb5, 0x4b, 0x7e, 0x17, 0x06, 0x32, 0x67, 0x0c,
+	0xd6, 0xef, 0x90, 0x9c, 0x63, 0xa6, 0xc0, 0x08, 0x64, 0x7c, 0x83, 0x20, 0xef, 0x73, 0x98, 0xff,
+	0x18, 0x7d, 0x7d, 0x74, 0x9e, 0x22, 0xd8, 0x50, 0x5c, 0x06, 0xad, 0x2b, 0x4b, 0xe1, 0xb5, 0x3b,
+	0xd7, 0x82, 0xc2, 0x75, 0x68, 0xc8, 0xf3, 0x10, 0xac, 0x79, 0x2e, 0x75, 0xb9, 0x66, 0xfd, 0x33,
+	0xa4, 0xdc, 0x7f, 0x6f, 0x62, 0xb8, 0xd3, 0xab, 0x50, 0x93, 0x08, 0x53, 0x4a, 0xe0, 0x53, 0x59,
+	0x57, 0x41, 0x46, 0x38, 0xb3, 0x88, 0x23, 0x0c, 0x29, 0x82, 0xfb, 0xe1, 0xb0, 0xdf, 0x2d, 0x4c,
+	0xf5, 0xbb, 0xc4, 0x2c, 0x7e, 0x07, 0xf3, 0xf9, 0xdd, 0xe3, 0x10, 0x6c, 0x8d, 0xd8, 0xfd, 0x97,
+	0xf2, 0xfa, 0x51, 0xf5, 0xa2, 0x67, 0xa9, 0x17, 0x9b, 0xa2, 0x5e, 0x7c, 0xaa, 0x7a, 0x0b, 0xb3,
+	0xa8, 0x97, 0x98, 0x4f, 0xbd, 0xb7, 0x08, 0xd6, 0x7d, 0x9b, 0xbb, 0xd8, 0x39, 0x1a, 0x55, 0x2a,
+	0x32, 0x56, 0xa9, 0xe9, 0x5f, 0x78, 0xa7, 0xe6, 0x2d, 0x36, 0xfb, 0xbc, 0xbd, 0x43, 0xb0, 0x3d,
+	0xea, 0xe7, 0xd7, 0x9b, 0xf3, 0x13, 0x04, 0x6b, 0x9e, 0x63, 0x5e, 0x4d, 0x8f, 0x7c, 0x81, 0x60,
+	0x6b, 0xc4, 0xf1, 0xaf, 0x26, 0x95, 0x7b, 0xb0, 0x5c, 0xb2, 0x18, 0x31, 0xf8, 0x25, 0xdd, 0x8d,
+	0x72, 0x3a, 0x2c, 0xf7, 0xb7, 0x96, 0x9d, 0x5e, 0xdb, 0xc0, 0xc4, 0xb1, 0x69, 0xdb, 0x21, 0x23,
+	0x00, 0x56, 0x20, 0xc6, 0xbb, 0x7b, 0xba, 0x73, 0xdb, 0xdf, 0xd0, 0x8f, 0xa4, 0x2c, 0x44, 0xc5,
+	0xe5, 0x4f, 0x6c, 0x9a, 0xdc, 0x05, 0xc1, 0x5a, 0x75, 0x33, 0xd8, 0x7b, 0x90, 0xbb, 0x0b, 0xe9,
+	0x80, 0xdd, 0x84, 0xd5, 0xb3, 0x90, 0x6c, 0xb6, 0xa8, 0x71, 0x54, 0xed, 0x1c, 0x37, 0x09, 0xf3,
+	0x59, 0x0e, 0xa6, 0x3e, 0x63, 0xff, 0xbf, 0x61, 0x45, 0x15, 0xce, 0xd9, 0x47, 0xe1, 0x4c, 0x12,
+	0x79, 0x13, 0x16, 0xfb, 0x3d, 0xd7, 0x2c, 0xd3, 0x3d, 0x24, 0x61, 0x17, 0x46, 0x60, 0xec, 0x4e,
+	0xee, 0x16, 0xac, 0x8e, 0x2c, 0x36, 0x81, 0x53, 0x1a, 0xc2, 0xed, 0x8e, 0xd7, 0xb1, 0x08, 0x76,
+	0x7f, 0x06, 0x58, 0xc3, 0x13, 0xb0, 0xfe, 0xf2, 0x10, 0xc1, 0x77, 0x63, 0xbe, 0xa4, 0xa5, 0x6d,
+	0xd8, 0xac, 0xab, 0xf8, 0xbf, 0x8a, 0xa2, 0x6a, 0x65, 0x55, 0xd5, 0x6a, 0xfb, 0x2a, 0x96, 0x1b,
+	0x95, 0x5a, 0x55, 0x3b, 0xa8, 0xd6, 0xf7, 0x55, 0xa5, 0x52, 0xae, 0xa8, 0xa5, 0xf4, 0x37, 0xd2,
+	0xaf, 0xb0, 0x33, 0xbe, 0x4c, 0xae, 0xd7, 0xd5, 0x46, 0xb1, 0x76, 0x43, 0x53, 0xb0, 0x2a, 0x32,
+	0xe9, 0x97, 0x48, 0xca, 0xc3, 0x4f, 0xe3, 0xab, 0xab, 0x07, 0xff, 0x14, 0x55, 0xac, 0x29, 0x7b,
+	0x72, 0xf5, 0x2f, 0x35, 0xfd, 0x0a, 0x15, 0x17, 0x6f, 0x42, 0xe1, 0x0f, 0xd2, 0xe5, 0x84, 0xb5,
+	0xf5, 0x56, 0x33, 0x26, 0xee, 0xf5, 0xbf, 0x7d, 0x08, 0x00, 0x00, 0xff, 0xff, 0x65, 0x01, 0x03,
+	0xd2, 0x0b, 0x10, 0x00, 0x00,
 }

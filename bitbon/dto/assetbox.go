@@ -30,8 +30,7 @@ type PrepareAssetboxesRequest struct {
 }
 
 type DeleteAssetboxRequest struct {
-	Address    common.Address     `json:"address"`   // assetbox address to delete
-	AccountID  string             `json:"accountId"` // accountId of assetbox (deletion)
+	Address    common.Address     `json:"address"` // assetbox address to delete
 	CryptoData AssetboxCryptoData `json:"crypto_data"`
 }
 

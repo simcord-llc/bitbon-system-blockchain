@@ -18,9 +18,11 @@
 package bitbon
 
 import (
+	"crypto/ecdsa"
+
 	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/accounts/keystore"
-	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/models"
+	"github.com/simcord-llc/bitbon-system-blockchain/common"
 )
 
 // Bitbon constants
@@ -34,28 +36,41 @@ const (
 	MaxPrepareAssetboxRetries       = 2
 )
 
-func DecryptAssetboxWallet(a *models.Assetbox, password string, decryptFn func(data, key []byte) ([]byte, error)) error {
-	if a.Wallet == nil {
-		return errors.New("empty wallet")
+func DecryptAssetboxWallet(walletEncrypted, passPhraseEncrypted []byte, password string, decryptFn func(data, key []byte) ([]byte, error)) (*keystore.Key, error) {
+	if walletEncrypted == nil {
+		return nil, errors.New("empty wallet")
 	}
-	if len(a.PassPhrase) == 0 {
-		return errors.New("empty pass phrase")
-	}
-
-	passPhrase, err := decryptFn(a.PassPhrase, []byte(password))
-	if err != nil {
-		return err
+	if len(passPhraseEncrypted) == 0 {
+		return nil, errors.New("empty pass phrase")
 	}
 
-	wallet, err := decryptFn(a.Wallet, []byte(password))
+	passPhrase, err := decryptFn(passPhraseEncrypted, []byte(password))
 	if err != nil {
-		return err
+		return nil, err
+	}
+
+	wallet, err := decryptFn(walletEncrypted, []byte(password))
+	if err != nil {
+		return nil, err
 	}
 
 	key, err := keystore.DecryptKey(wallet, string(passPhrase))
 	if err != nil {
-		return errors.Wrap(err, "error decrypting assetbox wallet")
+		return nil, errors.Wrap(err, "error decrypting assetbox wallet")
 	}
-	a.Pk = key.PrivateKey
-	return nil
+
+	return key, nil
+}
+
+func DecryptPrivateKeyForAssetbox(address common.Address, walletEncrypted, passPhraseEncrypted []byte, password string, decryptFn func(data, key []byte) ([]byte, error)) (*ecdsa.PrivateKey, error) {
+	key, err := DecryptAssetboxWallet(walletEncrypted, passPhraseEncrypted, password, decryptFn)
+	if err != nil {
+		return nil, err
+	}
+
+	if address != key.Address {
+		return nil, errors.New("assetbox is not owner of wallet")
+	}
+
+	return key.PrivateKey, nil
 }

@@ -34,7 +34,7 @@ test: dep zksnark_generate
 citest: test
 
 check-lint:
-	@which $(GOLINT) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.25.0
+	@which $(GOLINT) || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.25.0
 
 check-mockgen:
 	@which mockgen || go get github.com/golang/mock/mockgen@v1.5.0
@@ -67,6 +67,7 @@ abi-gen: abigen-build
 	docker run -v `pwd`:/sources abigen-local --abi /sources/bitbon/contracts/abi/AccessStorageImpl.abi --pkg contracts --type AccessStorageImpl --out /sources/bitbon/contracts/gen_AccessStorageImpl.go
 	docker run -v `pwd`:/sources abigen-local --abi /sources/bitbon/contracts/abi/DistributionStorageImpl.abi --pkg contracts --type DistributionStorageImpl --out /sources/bitbon/contracts/gen_DistributionStorageImpl.go
 	docker run -v `pwd`:/sources abigen-local --abi /sources/bitbon/contracts/abi/MiningAgentStorageImpl.abi --pkg contracts --type MiningAgentStorageImpl --out /sources/bitbon/contracts/gen_MiningAgentStorageImpl.go
+	docker run -v `pwd`:/sources abigen-local --abi /sources/bitbon/contracts/abi/FeeStorageImpl.abi --pkg contracts --type FeeStorageImpl --out /sources/bitbon/contracts/gen_FeeStorageImpl.go
 
 proto-generate:
 	docker run --rm -v `pwd`:/defs namely/protoc-all:1.30_0 -i bitbon/dto/external/proto -f assetbox.proto -l go -o bitbon/dto/external
@@ -81,9 +82,16 @@ proto-generate:
 	docker run --rm -v `pwd`:/defs namely/protoc-all:1.30_0 -i bitbon/dto/external/proto -f node-transaction.proto -l go -o bitbon/dto/external
 	docker run --rm -v `pwd`:/defs namely/protoc-all:1.30_0 -i bitbon/dto/external/proto -f transaction.proto -l go -o bitbon/dto/external
 	docker run --rm -v `pwd`:/defs namely/protoc-all:1.30_0 -i bitbon/dto/external/proto -f transfer.proto -l go -o bitbon/dto/external
+	docker run --rm -v `pwd`:/defs namely/protoc-all:1.30_0 -i bitbon/dto/external/proto -f fee.proto -l go -o bitbon/dto/external
 
 abigen-build:
 	docker build -t abigen-local -f Dockerfile-abigen .
 
 fmt: ## format source files
 	go fmt github.com/simcord-llc/bitbon-system-blockchain/...
+
+$(ENUMER):
+	@go get -u github.com/dmarkham/enumer
+
+enumer-generate: $(ENUMER)
+	$(HOME)/go/bin/enumer -type=OperationType ./bitbon/dto/bitbon_tx.go

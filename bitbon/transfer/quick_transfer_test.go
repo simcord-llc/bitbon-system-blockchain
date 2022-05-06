@@ -24,11 +24,11 @@ func TestQuickTransfer(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
 
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
+		key, err := keystore.DecryptKey(sourceWallet, string(sourcePassphrase))
 		if err != nil {
 			panic("Error during key decryption")
 		}
@@ -51,7 +51,7 @@ func TestQuickTransfer(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
 
 		response, err := tm.QuickTransfer(ctx, transfer)
@@ -67,7 +67,7 @@ func TestQuickTransfer(t *testing.T) {
 		transfer := prepareQuickTransferObject()
 
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 
 		response, err := tm.QuickTransfer(ctx, transfer)
 
@@ -81,8 +81,8 @@ func TestQuickTransfer(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getInsufficientBalance(), nil)
 
 		response, err := tm.QuickTransfer(ctx, transfer)
@@ -127,19 +127,6 @@ func TestQuickTransfer(t *testing.T) {
 		response, err := tm.QuickTransfer(ctx, transfer)
 
 		assert.EqualError(t, err, ErrValueRequire.Error(), "Expected RequiredValue error")
-		assert.Empty(t, response, "Response wasn't empty")
-	})
-
-	t.Run("QuickTransferNegative_EmptyAccountID", func(t *testing.T) {
-		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
-		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
-
-		transfer := prepareQuickTransferObject()
-		transfer.AccountID = ""
-
-		response, err := tm.QuickTransfer(ctx, transfer)
-
-		assert.EqualError(t, err, ErrAccountIDRequire.Error(), "Expected EmptyAccountId error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -196,6 +183,188 @@ func TestQuickTransfer(t *testing.T) {
 		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
+
+	t.Run("QuickTransferNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.QuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+}
+
+func TestFullBalanceQuickTransfer(t *testing.T) {
+	ctx := context.TODO()
+
+	mockController := gomock.NewController(t)
+	defer mockController.Finish()
+
+	t.Run("FullBalanceQuickTransferPositive", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
+		mockContractManager.EXPECT().BalanceOfLocked(ctx, transfer.From).Return(big.NewInt(0), nil)
+
+		key, err := keystore.DecryptKey(sourceWallet, string(sourcePassphrase))
+		if err != nil {
+			panic("Error during key decryption")
+		}
+
+		blockNum, txHash := createTransferResponse()
+
+		mockContractManager.EXPECT().
+			FullBalanceQuickTransfer(ctx, transfer.To, transfer.ExtraData, key.PrivateKey, false).
+			Return(blockNum, txHash, nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.NoError(t, err, "Unexpected error occurred")
+		assert.Equal(t, mapTransferResponse(blockNum, txHash), response, "Response differs from expected")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_InvalidWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFailedToParseKey.Error(), "Expected InvalidWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_WrongPassphrase", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrWrongPassphrase.Error(), "Expected WrongPassphrase error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_ZeroBalance", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(big.NewInt(0), nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrLowAssetboxBalance.Error(), "Expected LowAssetboxBalance error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_FromAndToAreIdentical", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.To = transfer.From
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrSameAccount.Error(), "Expected SameAccount error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_MissingTo", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.To = common.Address{}
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrToRequire.Error(), "Expected ToRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_MissingFrom", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.From = common.Address{}
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFromRequire.Error(), "Expected FromRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_ManagerNotReady", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		// Recreating ready channel of transfer manager to make it not ready
+		tm.ready = make(chan struct{})
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferNegative_AssetboxHasLockedBalance", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
+		mockContractManager.EXPECT().BalanceOfLocked(ctx, transfer.From).Return(big.NewInt(1), nil)
+
+		response, err := tm.FullBalanceQuickTransfer(ctx, transfer)
+
+		assert.EqualError(t, err, ErrHasLockedBalanceError.Error(), "Expected HasLockedBalanceError error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
 }
 
 func TestQuickTransferAsync(t *testing.T) {
@@ -210,11 +379,11 @@ func TestQuickTransferAsync(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
 
-		key, err := keystore.DecryptKey(wallet, string(passphrase))
+		key, err := keystore.DecryptKey(sourceWallet, string(sourcePassphrase))
 		if err != nil {
 			panic("Error during key decryption")
 		}
@@ -238,7 +407,7 @@ func TestQuickTransferAsync(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
 
 		response, err := tm.QuickTransferAsync(ctx, transfer)
@@ -254,7 +423,7 @@ func TestQuickTransferAsync(t *testing.T) {
 		transfer := prepareQuickTransferObject()
 
 		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 
 		response, err := tm.QuickTransferAsync(ctx, transfer)
 
@@ -268,8 +437,8 @@ func TestQuickTransferAsync(t *testing.T) {
 
 		transfer := prepareQuickTransferObject()
 
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(passphrase, nil)
-		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(wallet, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
 		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getInsufficientBalance(), nil)
 
 		response, err := tm.QuickTransferAsync(ctx, transfer)
@@ -314,19 +483,6 @@ func TestQuickTransferAsync(t *testing.T) {
 		response, err := tm.QuickTransferAsync(ctx, transfer)
 
 		assert.EqualError(t, err, ErrValueRequire.Error(), "Expected RequiredValue error")
-		assert.Empty(t, response, "Response wasn't empty")
-	})
-
-	t.Run("QuickTransferAsyncNegative_EmptyAccountID", func(t *testing.T) {
-		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
-		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
-
-		transfer := prepareQuickTransferObject()
-		transfer.AccountID = ""
-
-		response, err := tm.QuickTransferAsync(ctx, transfer)
-
-		assert.EqualError(t, err, ErrAccountIDRequire.Error(), "Expected EmptyAccountId error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 
@@ -381,6 +537,172 @@ func TestQuickTransferAsync(t *testing.T) {
 		response, err := tm.QuickTransferAsync(ctx, transfer)
 
 		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("QuickTransferAsyncNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.QuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+}
+
+func TestFullBalanceQuickTransferAsync(t *testing.T) {
+	ctx := context.TODO()
+
+	mockController := gomock.NewController(t)
+	defer mockController.Finish()
+
+	t.Run("FullBalanceQuickTransferAsyncPositive", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
+		mockContractManager.EXPECT().BalanceOfLocked(ctx, transfer.From).Return(big.NewInt(0), nil)
+
+		key, err := keystore.DecryptKey(sourceWallet, string(sourcePassphrase))
+		if err != nil {
+			panic("Error during key decryption")
+		}
+
+		blockNum, txHash := createTransferResponse()
+
+		mockContractManager.EXPECT().
+			FullBalanceQuickTransfer(ctx, transfer.To, transfer.ExtraData, key.PrivateKey, true).
+			Return(blockNum, txHash, nil)
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.NoError(t, err, "Unexpected error occurred")
+		assert.Equal(t, mapTransferResponse(blockNum, txHash), response, "Response differs from expected")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_InvalidWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(invalidWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFailedToParseKey.Error(), "Expected InvalidWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_WrongPassphrase", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(wrongPass, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrWrongPassphrase.Error(), "Expected WrongPassphrase error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_FromAndToAreIdentical", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.To = transfer.From
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrSameAccount.Error(), "Expected SameAccount error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_MissingTo", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.To = common.Address{}
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrToRequire.Error(), "Expected ToRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_MissingFrom", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+		transfer.From = common.Address{}
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrFromRequire.Error(), "Expected FromRequired error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_ManagerNotReady", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		// Recreating ready channel of transfer manager to make it not ready
+		tm.ready = make(chan struct{})
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrTransferNotReady.Error(), "Expected ManagerIsNotReady error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_AssetboxIsNotOwnerOfWallet", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(destPassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(destWallet, nil)
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrAssetboxIsNotOwnerOfWallet.Error(), "Expected AssetboxIsNotOwnerOfWallet error")
+		assert.Empty(t, response, "Response wasn't empty")
+	})
+
+	t.Run("FullBalanceQuickTransferAsyncNegative_AssetboxHasLockedBalance", func(t *testing.T) {
+		mockAssetboxManager, mockContractManager, mockEncryptor := prepareMockServices(mockController)
+		tm := prepareQuickTransferManager(mockAssetboxManager, mockContractManager, mockEncryptor)
+
+		transfer := prepareFullBalanceQuickTransferObject()
+
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Passphrase, encryptionKey).Return(sourcePassphrase, nil)
+		mockEncryptor.EXPECT().Decrypt(transfer.CryptoData.Wallet, encryptionKey).Return(sourceWallet, nil)
+		mockContractManager.EXPECT().GetAssetboxBalance(ctx, transfer.From).Return(getSufficientBalance(), nil)
+		mockContractManager.EXPECT().BalanceOfLocked(ctx, transfer.From).Return(big.NewInt(1), nil)
+
+		response, err := tm.FullBalanceQuickTransferAsync(ctx, transfer)
+
+		assert.EqualError(t, err, ErrHasLockedBalanceError.Error(), "Expected HasLockedBalanceError error")
 		assert.Empty(t, response, "Response wasn't empty")
 	})
 }

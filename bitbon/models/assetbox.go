@@ -35,7 +35,6 @@ type Assetbox struct {
 	Address    common.Address `json:"address"`
 	Alias      string         `json:"alias"`
 	ServiceID  string         `json:"serviceID"`
-	AccountID  string         `json:"accountID"`
 	CreatedAt  *time.Time     `json:"createdAt"`
 	UpdatedAt  *time.Time     `json:"updatedAt"`
 	DeletedAt  *time.Time     `json:"deletedAt"`

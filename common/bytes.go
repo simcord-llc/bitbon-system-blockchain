@@ -94,8 +94,13 @@ func Bytes2Hex(d []byte) string {
 }
 
 // Hex2Bytes returns the bytes represented by the hexadecimal string str.
+// If the input is malformed, Hex2Bytes returns the empty slice of bytes.
 func Hex2Bytes(str string) []byte {
-	h, _ := hex.DecodeString(str)
+	h, err := hex.DecodeString(str)
+	if err != nil {
+		return nil
+	}
+
 	return h
 }
 

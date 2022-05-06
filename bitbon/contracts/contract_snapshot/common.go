@@ -32,6 +32,7 @@ const (
 	ContractTypeAccessStorageImpl        ContractType = "AccessStorageImpl"
 	ContractTypeDistributionStorageImpl  ContractType = "DistributionStorageImpl"
 	ContractTypeMiningAgentStorageImpl   ContractType = "MiningAgentStorageImpl"
+	ContractTypeFeeStorageImpl           ContractType = "FeeStorageImpl"
 	ContractTypeContractStorageImpl      ContractType = "ContractStorageImpl"
 )
 
@@ -49,6 +50,7 @@ var contractTypeMap = map[ContractType]struct{}{
 	ContractTypeAccessStorageImpl:        {},
 	ContractTypeDistributionStorageImpl:  {},
 	ContractTypeMiningAgentStorageImpl:   {},
+	ContractTypeFeeStorageImpl:           {},
 	ContractTypeContractStorageImpl:      {},
 }
 

@@ -27,7 +27,6 @@ import (
 
 type QuickTransferRequest struct {
 	From       common.Address     `json:"from"`
-	AccountID  string             `json:"accountId"`
 	To         common.Address     `json:"to"`
 	Value      *big.Int           `json:"value"`
 	ExtraData  []byte             `json:"extraData"`
@@ -49,9 +48,16 @@ func (r *QuickTransferRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type FullBalanceQuickTransferRequest struct {
+	From       common.Address     `json:"from"`
+	To         common.Address     `json:"to"`
+	BTSC       string             `json:"btsc"`
+	ExtraData  []byte             `json:"extraData"`
+	CryptoData AssetboxCryptoData `json:"crypto_data"`
+}
+
 type CreateWPCSafeTransferRequest struct {
 	From       common.Address     `json:"from"`
-	AccountID  string             `json:"accountId"`
 	To         common.Address     `json:"to"`
 	Value      *big.Int           `json:"value"`
 	TransferID string             `json:"transferId"`
@@ -91,7 +97,6 @@ type CancelWPCSafeTransferRequest struct {
 
 type CreateSafeTransferRequest struct {
 	From           common.Address     `json:"from"`
-	AccountID      string             `json:"accountId"`
 	To             common.Address     `json:"to"`
 	Value          *big.Int           `json:"value"`
 	TransferID     string             `json:"transferId"`
@@ -126,6 +131,83 @@ type ApproveSafeTransferRequest struct {
 }
 
 type CancelSafeTransferRequest struct {
+	Address    common.Address     `json:"address"`
+	TransferID string             `json:"transferId"`
+	ExtraData  []byte             `json:"extraData"`
+	CryptoData AssetboxCryptoData `json:"crypto_data"`
+}
+
+type CreateFullBalanceWPCSafeTransferRequest struct {
+	From       common.Address     `json:"from"`
+	To         common.Address     `json:"to"`
+	TransferID string             `json:"transferId"`
+	BTSC       string             `json:"btsc"`
+	ExpiresAt  int64              `json:"expiresAt"`
+	ExtraData  []byte             `json:"extraData"`
+	CryptoData AssetboxCryptoData `json:"crypto_data"`
+}
+
+func (r *CreateFullBalanceWPCSafeTransferRequest) UnmarshalJSON(data []byte) error {
+	type Alias CreateFullBalanceWPCSafeTransferRequest
+	aux := &struct {
+		*Alias
+	}{
+		Alias: (*Alias)(r),
+	}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	return nil
+}
+
+type ApproveFullBalanceWPCSafeTransferRequest struct {
+	Address    common.Address     `json:"address"`
+	TransferID string             `json:"transferId"`
+	ExtraData  []byte             `json:"extraData"`
+	CryptoData AssetboxCryptoData `json:"crypto_data"`
+}
+
+type CancelFullBalanceWPCSafeTransferRequest struct {
+	Address    common.Address     `json:"address"`
+	TransferID string             `json:"transferId"`
+	ExtraData  []byte             `json:"extraData"`
+	CryptoData AssetboxCryptoData `json:"crypto_data"`
+}
+
+type CreateFullBalanceSafeTransferRequest struct {
+	From           common.Address     `json:"from"`
+	To             common.Address     `json:"to"`
+	TransferID     string             `json:"transferId"`
+	ProtectionCode string             `json:"protectionCode"`
+	BTSC           string             `json:"btsc"`
+	Retries        uint64             `json:"retries"`
+	ExpiresAt      int64              `json:"expiresAt"`
+	ExtraData      []byte             `json:"extraData"`
+	CryptoData     AssetboxCryptoData `json:"crypto_data"`
+}
+
+func (r *CreateFullBalanceSafeTransferRequest) UnmarshalJSON(data []byte) error {
+	type Alias CreateFullBalanceSafeTransferRequest
+	aux := &struct {
+		*Alias
+	}{
+		Alias: (*Alias)(r),
+	}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	return nil
+}
+
+type ApproveFullBalanceSafeTransferRequest struct {
+	Address        common.Address     `json:"address"`
+	TransferID     string             `json:"transferId"`
+	ProtectionCode string             `json:"protectionCode"`
+	ExtraData      []byte             `json:"extraData"`
+	CryptoData     AssetboxCryptoData `json:"crypto_data"`
+}
+
+type CancelFullBalanceSafeTransferRequest struct {
 	Address    common.Address     `json:"address"`
 	TransferID string             `json:"transferId"`
 	ExtraData  []byte             `json:"extraData"`
@@ -202,4 +284,9 @@ type TransferResponse struct {
 type ExpireTransferResponse struct {
 	TxHashes   []common.Hash `json:"txHashes"`
 	ExpiredNum int           `json:"expiredNum"`
+}
+
+type ServiceFeeTransferRequest struct {
+	From          common.Address `json:"from"`
+	OperationType *big.Int       `json:"operationType"`
 }

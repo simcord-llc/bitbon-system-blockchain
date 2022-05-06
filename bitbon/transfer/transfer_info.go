@@ -18,68 +18,48 @@ package transfer
 
 import (
 	"context"
+	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/models"
+	"github.com/simcord-llc/bitbon-system-blockchain/crypto"
 	"math/big"
 
 	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/contracts"
-	"github.com/simcord-llc/bitbon-system-blockchain/common"
 )
 
-// Returns
-// the number of transfers expired (num int)
-// the ethereum transaction hashes - contract calls of method ExpireSafeTransfers (hashes []common.Hash)
-func (tm *Manager) ExpireTransfers(ctx context.Context) (hashes []common.Hash, num int, err error) {
-	tm.logger.Debug("ExpireTransfers called")
-	defer func() {
-		if err != nil {
-			tm.logger.Error("ExpireTransfers ended with error", "error", err)
-		}
-	}()
+const (
+	expireMaxBatchSize = 20
+)
 
-	oldestPendingIndex, err := tm.bitbon.GetContractsManager().GetOldestPending(ctx)
+var (
+	errMaxBatchSizeExceeded = errors.Errorf("max batch size of %d exceeded", expireMaxBatchSize)
+)
+
+// nolint:godox
+func (tm *Manager) ExpireTransfersAsync(ctx context.Context, ids []string) (*models.TransferResponseObj, error) {
+	tm.logger.Debug("ExpireTransfersAsync called")
+
+	if len(ids) > expireMaxBatchSize {
+		return nil, errMaxBatchSizeExceeded
+	}
+
+	// todo doesn't look good, maybe can be done in a nice way?
+	idsBytes := make([][32]byte, len(ids))
+	for i := range ids {
+		var idBytes [32]byte
+		copy(idBytes[:], crypto.Keccak256([]byte(ids[i])))
+
+		idsBytes[i] = idBytes
+	}
+
+	blockNumber, txHash, err := tm.bitbon.GetContractsManager().ExpireSafeTransfers(ctx, idsBytes, tm.bitbon.GetServicePk())
 	if err != nil {
-		return nil, num, errors.Wrap(err, "error GetOldestPending() to safe transfer storage contract")
-	}
-	tm.logger.Debug("ExpireTransfers", "oldestPendingIndex", oldestPendingIndex)
-
-	transferLength, err := tm.bitbon.GetContractsManager().GetTransferLength(ctx)
-	if err != nil {
-		return nil, num, errors.Wrap(err, "error GetTransferLength() to safe transfer storage contract")
-	}
-	tm.logger.Debug("ExpireTransfers", "transferLength", transferLength)
-
-	lastIndex := new(big.Int).Sub(transferLength, big.NewInt(1))
-	if oldestPendingIndex.Cmp(lastIndex) == 0 {
-		tm.logger.Debug("not expire safe transfer")
-		return nil, num, nil
+		return nil, errors.Wrap(err, "error expiring safe transfers")
 	}
 
-	batchSize := big.NewInt(batchSearchSize)
-	pendingTransferExists, err := tm.processPending(ctx, oldestPendingIndex, lastIndex, batchSize)
-
-	if !pendingTransferExists {
-		tm.logger.Info("no safe transfers to expire")
-		return nil, num, nil
-	}
-
-	batchExpireSize := big.NewInt(batchExpireSize)
-	for startSearch := new(big.Int).Set(oldestPendingIndex); startSearch.Cmp(lastIndex) <= 0; startSearch.Add(startSearch, batchExpireSize) { // nolint:lll
-		endSearch := new(big.Int).Add(startSearch, batchExpireSize)
-		ids, err := tm.bitbon.GetContractsManager().GetExpiredTransfers(ctx, startSearch, endSearch)
-		tm.logger.Info("GetExpiredTransfers returned", "len(ids)", len(ids))
-		if err != nil {
-			return nil, num, errors.Wrap(err, "error GetExpiredTransfers() to safe transfer storage contract")
-		}
-		if len(ids) > 0 {
-			hash, err := tm.bitbon.GetContractsManager().ExpireSafeTransfers(ctx, ids, tm.bitbon.GetServicePk())
-			if err != nil {
-				return hashes, num, errors.Wrap(err, "error ExpireSafeTransfers() to safe transfer storage contract")
-			}
-			num += len(ids)
-			hashes = append(hashes, hash)
-		}
-	}
-	return hashes, num, nil
+	return &models.TransferResponseObj{
+		BlockNumber: blockNumber,
+		TxHash:      txHash,
+	}, nil
 }
 
 func (tm *Manager) GetTransfer(ctx context.Context, transferID string) (*contracts.ReceiptTransfer, error) {
@@ -98,4 +78,10 @@ func (tm *Manager) TransferExists(ctx context.Context, transferID string) (bool,
 	tm.logger.Trace("TransferExists called")
 
 	return tm.bitbon.GetContractsManager().TransferExists(ctx, []byte(transferID))
+}
+
+func (tm *Manager) GetTransferState(ctx context.Context, transferID string) (uint8, error) {
+	tm.logger.Trace("TransferExists called")
+
+	return tm.bitbon.GetContractsManager().GetTransferState(ctx, []byte(transferID))
 }

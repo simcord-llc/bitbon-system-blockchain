@@ -1,0 +1,25 @@
+syntax = "proto3";
+package dto;
+option go_package = ".;external";
+
+import "error.proto";
+
+message FeeSettingsRequest {
+  string id = 1;
+}
+
+message FeeDistribution {
+  string account = 1;
+  int32 self_percent = 2; // 10_000 = 100%
+}
+
+message FeeDistributionSettings {
+  repeated FeeDistribution distributionSettings = 1;
+}
+
+message FeeSettingsResponse {
+  string id = 1;
+  map<int32, string> valueSettings = 2; // optType -> feeValue
+  map<int32, FeeDistributionSettings> distributionSettings = 3; // optType -> []distribution settings
+  Error error = 4;
+}

@@ -215,6 +215,7 @@ var (
 		utils.BitbonClientAmqpBlockExchange,
 		utils.BitbonClientAmqpTransactionExchange,
 		utils.BitbonClientAmqpMiningExchange,
+		utils.BitbonClientAmqpFeeExchange,
 		utils.BitbonClientAmqpConfirmTimeout,
 		utils.BitbonClientAmqpPublishTimeout,
 		utils.BitbonClientJournalTimeout,

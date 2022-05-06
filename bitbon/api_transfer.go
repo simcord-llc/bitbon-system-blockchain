@@ -30,6 +30,8 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/common"
 )
 
+var errEmptyRequest = errors.New("empty request given")
+
 func (api *API) QuickTransfer(ctx context.Context, transfer *dto.QuickTransferRequest) (*dto.TransferResponse, error) {
 	if api.bitbon.APIStopped() {
 		return nil, ErrAPIStopped
@@ -38,13 +40,47 @@ func (api *API) QuickTransfer(ctx context.Context, transfer *dto.QuickTransferRe
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().QuickTransfer(ctx, models.QuickTransferObjFromDTO(transfer))
 	if err != nil {
 		return nil, err
 	}
 	return resp.ToDTO(), nil
+}
+
+func (api *API) FrameTransfer(ctx context.Context, transfer *dto.QuickTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().FrameTransfer(ctx, models.QuickTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) ServiceFeeTransfer(ctx context.Context, transfer *dto.ServiceFeeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().ServiceFeeTransfer(ctx, models.FeeTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.DTO(), nil
 }
 
 func (api *API) CreateWPCSafeTransfer(ctx context.Context,
@@ -56,7 +92,7 @@ func (api *API) CreateWPCSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().CreateWPCSafeTransfer(ctx, models.CreateWPCTransferObjFromDTO(transfer))
 	if err != nil {
@@ -74,7 +110,7 @@ func (api *API) ApproveWPCSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().ApproveWPCSafeTransfer(ctx, models.ApproveWPCTransferObjFromDTO(transfer))
 	if err != nil {
@@ -92,7 +128,7 @@ func (api *API) CancelWPCSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().CancelWPCSafeTransfer(ctx, models.CancelWPCTransferObjFromDTO(transfer))
 	if err != nil {
@@ -110,7 +146,7 @@ func (api *API) CreateSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().CreateSafeTransfer(ctx, models.CreateTransferObjFromDTO(transfer))
 	if err != nil {
@@ -128,7 +164,7 @@ func (api *API) ApproveSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().ApproveSafeTransfer(ctx, models.ApproveTransferObjFromDTO(transfer))
 	if err != nil {
@@ -146,7 +182,7 @@ func (api *API) CancelSafeTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().CancelSafeTransfer(ctx, models.CancelTransferObjFromDTO(transfer))
 	if err != nil {
@@ -164,9 +200,128 @@ func (api *API) DirectTransfer(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().DirectTransfer(ctx, models.DirectTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) FullBalanceQuickTransfer(ctx context.Context, transfer *dto.FullBalanceQuickTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().FullBalanceQuickTransfer(ctx, models.FullBalanceQuickTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) CreateFullBalanceWPCSafeTransfer(ctx context.Context, transfer *dto.CreateFullBalanceWPCSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CreateFullBalanceWPCSafeTransfer(ctx, models.CreateFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transfer *dto.ApproveFullBalanceWPCSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().ApproveFullBalanceWPCSafeTransfer(ctx, models.ApproveFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) CancelFullBalanceWPCSafeTransfer(ctx context.Context, transfer *dto.CancelFullBalanceWPCSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CancelFullBalanceWPCSafeTransfer(ctx, models.CancelFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) CreateFullBalanceSafeTransfer(ctx context.Context, transfer *dto.CreateFullBalanceSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CreateFullBalanceSafeTransfer(ctx, models.CreateFullBalanceTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) ApproveFullBalanceSafeTransfer(ctx context.Context, transfer *dto.ApproveFullBalanceSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().ApproveFullBalanceSafeTransfer(ctx, models.ApproveFullBalanceTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return resp.ToDTO(), nil
+}
+
+func (api *API) CancelFullBalanceSafeTransfer(ctx context.Context, transfer *dto.CancelFullBalanceSafeTransferRequest) (*dto.TransferResponse, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CancelFullBalanceSafeTransfer(ctx, models.CancelFullBalanceTransferObjFromDTO(transfer))
 	if err != nil {
 		return nil, err
 	}
@@ -182,10 +337,28 @@ func (api *API) QuickTransferAsync(ctx context.Context, transfer *dto.QuickTrans
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	resp, err := api.bitbon.GetTransferManager().QuickTransferAsync(ctx, models.QuickTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) FrameTransferAsync(ctx context.Context, transfer *dto.QuickTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+
+	resp, err := api.bitbon.GetTransferManager().FrameTransferAsync(ctx, models.QuickTransferObjFromDTO(transfer))
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +374,7 @@ func (api *API) CreateWPCSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	resp, err := api.bitbon.GetTransferManager().
@@ -221,7 +394,7 @@ func (api *API) ApproveWPCSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().
 		ApproveWPCSafeTransferAsync(ctx, models.ApproveWPCTransferObjFromDTO(transfer))
@@ -240,7 +413,7 @@ func (api *API) CancelWPCSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().
 		CancelWPCSafeTransferAsync(ctx, models.CancelWPCTransferObjFromDTO(transfer))
@@ -260,7 +433,7 @@ func (api *API) CreateSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	resp, err := api.bitbon.GetTransferManager().CreateSafeTransferAsync(ctx, models.CreateTransferObjFromDTO(transfer))
@@ -279,9 +452,27 @@ func (api *API) ApproveSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().ApproveSafeTransferAsync(ctx, models.ApproveTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) FeeTransferAsync(ctx context.Context, transfer *dto.ServiceFeeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+
+	resp, err := api.bitbon.GetTransferManager().ServiceFeeTransferAsync(ctx, models.FeeTransferObjFromDTO(transfer))
 	if err != nil {
 		return nil, err
 	}
@@ -297,7 +488,7 @@ func (api *API) CancelSafeTransferAsync(ctx context.Context,
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().CancelSafeTransferAsync(ctx, models.CancelTransferObjFromDTO(transfer))
 	if err != nil {
@@ -315,7 +506,7 @@ func (api *API) DirectTransferAsync(ctx context.Context, transfer *dto.DirectTra
 	defer api.bitbon.apiWG.Done()
 
 	if transfer == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	resp, err := api.bitbon.GetTransferManager().DirectTransferAsync(ctx, models.DirectTransferObjFromDTO(transfer))
 	if err != nil {
@@ -324,22 +515,143 @@ func (api *API) DirectTransferAsync(ctx context.Context, transfer *dto.DirectTra
 	return &resp.TxHash, nil
 }
 
-func (api *API) ExpireTransfers(ctx context.Context) (*dto.ExpireTransferResponse, error) {
+func (api *API) FullBalanceQuickTransferAsync(ctx context.Context, transfer *dto.FullBalanceQuickTransferRequest) (*common.Hash, error) {
 	if api.bitbon.APIStopped() {
 		return nil, ErrAPIStopped
 	}
 	api.bitbon.apiWG.Add(1)
 	defer api.bitbon.apiWG.Done()
 
-	hashes, num, err := api.bitbon.GetTransferManager().ExpireTransfers(ctx)
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+
+	resp, err := api.bitbon.GetTransferManager().FullBalanceQuickTransferAsync(ctx, models.FullBalanceQuickTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) CreateFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *dto.CreateFullBalanceWPCSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+
+	resp, err := api.bitbon.GetTransferManager().CreateFullBalanceWPCSafeTransferAsync(ctx, models.CreateFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) ApproveFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *dto.ApproveFullBalanceWPCSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().ApproveFullBalanceWPCSafeTransferAsync(ctx, models.ApproveFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) CancelFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *dto.CancelFullBalanceWPCSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CancelFullBalanceWPCSafeTransferAsync(ctx, models.CancelFullBalanceWPCTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp.TxHash, nil
+}
+
+func (api *API) CreateFullBalanceSafeTransferAsync(ctx context.Context, transfer *dto.CreateFullBalanceSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+
+	resp, err := api.bitbon.GetTransferManager().CreateFullBalanceSafeTransferAsync(ctx, models.CreateFullBalanceTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) ApproveFullBalanceSafeTransferAsync(ctx context.Context, transfer *dto.ApproveFullBalanceSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().ApproveFullBalanceSafeTransferAsync(ctx, models.ApproveFullBalanceTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+	return &resp.TxHash, nil
+}
+
+func (api *API) CancelFullBalanceSafeTransferAsync(ctx context.Context, transfer *dto.CancelFullBalanceSafeTransferRequest) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	if transfer == nil {
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
+	}
+	resp, err := api.bitbon.GetTransferManager().CancelFullBalanceSafeTransferAsync(ctx, models.CancelFullBalanceTransferObjFromDTO(transfer))
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp.TxHash, nil
+}
+
+func (api *API) ExpireTransfersAsync(ctx context.Context, ids []string) (*common.Hash, error) {
+	if api.bitbon.APIStopped() {
+		return nil, ErrAPIStopped
+	}
+	api.bitbon.apiWG.Add(1)
+	defer api.bitbon.apiWG.Done()
+
+	resp, err := api.bitbon.GetTransferManager().ExpireTransfersAsync(ctx, ids)
 	if err != nil {
 		return nil, bitbonErrors.NewInternalError(err)
 	}
 
-	return &dto.ExpireTransferResponse{
-		TxHashes:   hashes,
-		ExpiredNum: num,
-	}, nil
+	return &resp.TxHash, nil
 }
 
 // GetTransfer gets transfer data from blockchain
@@ -351,7 +663,7 @@ func (api *API) GetTransfer(ctx context.Context, transferID string) (*contracts.
 	defer api.bitbon.apiWG.Done()
 
 	if transferID == "" {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	return api.bitbon.GetTransferManager().GetTransfer(ctx, transferID)
@@ -366,7 +678,7 @@ func (api *API) GetTransferByIndex(ctx context.Context, index *big.Int) (*contra
 	defer api.bitbon.apiWG.Done()
 
 	if index == nil {
-		return nil, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return nil, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 	fmt.Println(index.String())
 
@@ -382,7 +694,7 @@ func (api *API) TransferExists(ctx context.Context, transferID string) (bool, er
 	defer api.bitbon.apiWG.Done()
 
 	if transferID == "" {
-		return false, bitbonErrors.NewInvalidRequestError(errors.New("empty request given"))
+		return false, bitbonErrors.NewInvalidRequestError(errEmptyRequest)
 	}
 
 	return api.bitbon.GetTransferManager().TransferExists(ctx, transferID)

@@ -42,6 +42,66 @@ func (m *MockTransferManager) EXPECT() *MockTransferManagerMockRecorder {
 	return m.recorder
 }
 
+// ApproveFullBalanceSafeTransfer mocks base method.
+func (m *MockTransferManager) ApproveFullBalanceSafeTransfer(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ApproveFullBalanceSafeTransfer indicates an expected call of ApproveFullBalanceSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) ApproveFullBalanceSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).ApproveFullBalanceSafeTransfer), ctx, transfer)
+}
+
+// ApproveFullBalanceSafeTransferAsync mocks base method.
+func (m *MockTransferManager) ApproveFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ApproveFullBalanceSafeTransferAsync indicates an expected call of ApproveFullBalanceSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) ApproveFullBalanceSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).ApproveFullBalanceSafeTransferAsync), ctx, transfer)
+}
+
+// ApproveFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockTransferManager) ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceWPCSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ApproveFullBalanceWPCSafeTransfer indicates an expected call of ApproveFullBalanceWPCSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) ApproveFullBalanceWPCSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).ApproveFullBalanceWPCSafeTransfer), ctx, transfer)
+}
+
+// ApproveFullBalanceWPCSafeTransferAsync mocks base method.
+func (m *MockTransferManager) ApproveFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceWPCSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ApproveFullBalanceWPCSafeTransferAsync indicates an expected call of ApproveFullBalanceWPCSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) ApproveFullBalanceWPCSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceWPCSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).ApproveFullBalanceWPCSafeTransferAsync), ctx, transfer)
+}
+
 // ApproveSafeTransfer mocks base method.
 func (m *MockTransferManager) ApproveSafeTransfer(ctx context.Context, transfer *models.ApproveTransferObj) (*models.TransferResponseObj, error) {
 	m.ctrl.T.Helper()
@@ -102,6 +162,66 @@ func (mr *MockTransferManagerMockRecorder) ApproveWPCSafeTransferAsync(ctx, tran
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveWPCSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).ApproveWPCSafeTransferAsync), ctx, transfer)
 }
 
+// CancelFullBalanceSafeTransfer mocks base method.
+func (m *MockTransferManager) CancelFullBalanceSafeTransfer(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CancelFullBalanceSafeTransfer indicates an expected call of CancelFullBalanceSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) CancelFullBalanceSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).CancelFullBalanceSafeTransfer), ctx, transfer)
+}
+
+// CancelFullBalanceSafeTransferAsync mocks base method.
+func (m *MockTransferManager) CancelFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CancelFullBalanceSafeTransferAsync indicates an expected call of CancelFullBalanceSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) CancelFullBalanceSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).CancelFullBalanceSafeTransferAsync), ctx, transfer)
+}
+
+// CancelFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockTransferManager) CancelFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceWPCSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CancelFullBalanceWPCSafeTransfer indicates an expected call of CancelFullBalanceWPCSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) CancelFullBalanceWPCSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).CancelFullBalanceWPCSafeTransfer), ctx, transfer)
+}
+
+// CancelFullBalanceWPCSafeTransferAsync mocks base method.
+func (m *MockTransferManager) CancelFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceWPCSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CancelFullBalanceWPCSafeTransferAsync indicates an expected call of CancelFullBalanceWPCSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) CancelFullBalanceWPCSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceWPCSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).CancelFullBalanceWPCSafeTransferAsync), ctx, transfer)
+}
+
 // CancelSafeTransfer mocks base method.
 func (m *MockTransferManager) CancelSafeTransfer(ctx context.Context, transfer *models.CancelTransferObj) (*models.TransferResponseObj, error) {
 	m.ctrl.T.Helper()
@@ -160,6 +280,66 @@ func (m *MockTransferManager) CancelWPCSafeTransferAsync(ctx context.Context, tr
 func (mr *MockTransferManagerMockRecorder) CancelWPCSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelWPCSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).CancelWPCSafeTransferAsync), ctx, transfer)
+}
+
+// CreateFullBalanceSafeTransfer mocks base method.
+func (m *MockTransferManager) CreateFullBalanceSafeTransfer(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateFullBalanceSafeTransfer indicates an expected call of CreateFullBalanceSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) CreateFullBalanceSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).CreateFullBalanceSafeTransfer), ctx, transfer)
+}
+
+// CreateFullBalanceSafeTransferAsync mocks base method.
+func (m *MockTransferManager) CreateFullBalanceSafeTransferAsync(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateFullBalanceSafeTransferAsync indicates an expected call of CreateFullBalanceSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) CreateFullBalanceSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).CreateFullBalanceSafeTransferAsync), ctx, transfer)
+}
+
+// CreateFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockTransferManager) CreateFullBalanceWPCSafeTransfer(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceWPCSafeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateFullBalanceWPCSafeTransfer indicates an expected call of CreateFullBalanceWPCSafeTransfer.
+func (mr *MockTransferManagerMockRecorder) CreateFullBalanceWPCSafeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockTransferManager)(nil).CreateFullBalanceWPCSafeTransfer), ctx, transfer)
+}
+
+// CreateFullBalanceWPCSafeTransferAsync mocks base method.
+func (m *MockTransferManager) CreateFullBalanceWPCSafeTransferAsync(ctx context.Context, transfer *models.CreateTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceWPCSafeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateFullBalanceWPCSafeTransferAsync indicates an expected call of CreateFullBalanceWPCSafeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) CreateFullBalanceWPCSafeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceWPCSafeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).CreateFullBalanceWPCSafeTransferAsync), ctx, transfer)
 }
 
 // CreateSafeTransfer mocks base method.
@@ -252,20 +432,79 @@ func (mr *MockTransferManagerMockRecorder) DirectTransferAsync(ctx, transfer int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DirectTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).DirectTransferAsync), ctx, transfer)
 }
 
-// ExpireTransfers mocks base method.
-func (m *MockTransferManager) ExpireTransfers(ctx context.Context) ([]common.Hash, int, error) {
+// ExpireTransfersAsync mocks base method.
+func (m *MockTransferManager) ExpireTransfersAsync(ctx context.Context, ids []string) (*models.TransferResponseObj, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExpireTransfers", ctx)
-	ret0, _ := ret[0].([]common.Hash)
-	ret1, _ := ret[1].(int)
-	ret2, _ := ret[2].(error)
-	return ret0, ret1, ret2
+	ret := m.ctrl.Call(m, "ExpireTransfersAsync", ctx, ids)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
-// ExpireTransfers indicates an expected call of ExpireTransfers.
-func (mr *MockTransferManagerMockRecorder) ExpireTransfers(ctx interface{}) *gomock.Call {
+// ExpireTransfersAsync indicates an expected call of ExpireTransfersAsync.
+func (mr *MockTransferManagerMockRecorder) ExpireTransfersAsync(ctx, ids interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpireTransfers", reflect.TypeOf((*MockTransferManager)(nil).ExpireTransfers), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpireTransfersAsync", reflect.TypeOf((*MockTransferManager)(nil).ExpireTransfersAsync), ctx, ids)
+}
+
+// FrameTransfer mocks base method.
+func (m *MockTransferManager) FrameTransfer(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FrameTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FrameTransfer indicates an expected call of FrameTransfer.
+func (mr *MockTransferManagerMockRecorder) FrameTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FrameTransfer", reflect.TypeOf((*MockTransferManager)(nil).FrameTransfer), ctx, transfer)
+}
+
+// FrameTransferAsync mocks base method.
+func (m *MockTransferManager) FrameTransferAsync(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FrameTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FrameTransferAsync indicates an expected call of FrameTransferAsync.
+func (mr *MockTransferManagerMockRecorder) FrameTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FrameTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).FrameTransferAsync), ctx, transfer)
+}
+
+// FullBalanceQuickTransfer mocks base method.
+func (m *MockTransferManager) FullBalanceQuickTransfer(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FullBalanceQuickTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FullBalanceQuickTransfer indicates an expected call of FullBalanceQuickTransfer.
+func (mr *MockTransferManagerMockRecorder) FullBalanceQuickTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FullBalanceQuickTransfer", reflect.TypeOf((*MockTransferManager)(nil).FullBalanceQuickTransfer), ctx, transfer)
+}
+
+// FullBalanceQuickTransferAsync mocks base method.
+func (m *MockTransferManager) FullBalanceQuickTransferAsync(ctx context.Context, transfer *models.QuickTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FullBalanceQuickTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FullBalanceQuickTransferAsync indicates an expected call of FullBalanceQuickTransferAsync.
+func (mr *MockTransferManagerMockRecorder) FullBalanceQuickTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FullBalanceQuickTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).FullBalanceQuickTransferAsync), ctx, transfer)
 }
 
 // GetTransfer mocks base method.
@@ -326,6 +565,36 @@ func (m *MockTransferManager) QuickTransferAsync(ctx context.Context, transfer *
 func (mr *MockTransferManagerMockRecorder) QuickTransferAsync(ctx, transfer interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QuickTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).QuickTransferAsync), ctx, transfer)
+}
+
+// ServiceFeeTransfer mocks base method.
+func (m *MockTransferManager) ServiceFeeTransfer(ctx context.Context, transfer *models.ServiceFeeTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ServiceFeeTransfer", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ServiceFeeTransfer indicates an expected call of ServiceFeeTransfer.
+func (mr *MockTransferManagerMockRecorder) ServiceFeeTransfer(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServiceFeeTransfer", reflect.TypeOf((*MockTransferManager)(nil).ServiceFeeTransfer), ctx, transfer)
+}
+
+// ServiceFeeTransferAsync mocks base method.
+func (m *MockTransferManager) ServiceFeeTransferAsync(ctx context.Context, transfer *models.ServiceFeeTransferObj) (*models.TransferResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ServiceFeeTransferAsync", ctx, transfer)
+	ret0, _ := ret[0].(*models.TransferResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ServiceFeeTransferAsync indicates an expected call of ServiceFeeTransferAsync.
+func (mr *MockTransferManagerMockRecorder) ServiceFeeTransferAsync(ctx, transfer interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServiceFeeTransferAsync", reflect.TypeOf((*MockTransferManager)(nil).ServiceFeeTransferAsync), ctx, transfer)
 }
 
 // Stop mocks base method.
@@ -562,6 +831,89 @@ func (mr *MockMiningAgentMockRecorder) RemoveMiningAgent(ctx, address interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveMiningAgent", reflect.TypeOf((*MockMiningAgent)(nil).RemoveMiningAgent), ctx, address)
 }
 
+// MockFeeManager is a mock of FeeManager interface.
+type MockFeeManager struct {
+	ctrl     *gomock.Controller
+	recorder *MockFeeManagerMockRecorder
+}
+
+// MockFeeManagerMockRecorder is the mock recorder for MockFeeManager.
+type MockFeeManagerMockRecorder struct {
+	mock *MockFeeManager
+}
+
+// NewMockFeeManager creates a new mock instance.
+func NewMockFeeManager(ctrl *gomock.Controller) *MockFeeManager {
+	mock := &MockFeeManager{ctrl: ctrl}
+	mock.recorder = &MockFeeManagerMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockFeeManager) EXPECT() *MockFeeManagerMockRecorder {
+	return m.recorder
+}
+
+// GetFee mocks base method.
+func (m *MockFeeManager) GetFee(ctx context.Context, opType dto.OperationType) (*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFee", ctx, opType)
+	ret0, _ := ret[0].(*big.Int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFee indicates an expected call of GetFee.
+func (mr *MockFeeManagerMockRecorder) GetFee(ctx, opType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFee", reflect.TypeOf((*MockFeeManager)(nil).GetFee), ctx, opType)
+}
+
+// GetFeeDistributionAccounts mocks base method.
+func (m *MockFeeManager) GetFeeDistributionAccounts(ctx context.Context, operationType *big.Int) ([]common.Address, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeDistributionAccounts", ctx, operationType)
+	ret0, _ := ret[0].([]common.Address)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFeeDistributionAccounts indicates an expected call of GetFeeDistributionAccounts.
+func (mr *MockFeeManagerMockRecorder) GetFeeDistributionAccounts(ctx, operationType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeDistributionAccounts", reflect.TypeOf((*MockFeeManager)(nil).GetFeeDistributionAccounts), ctx, operationType)
+}
+
+// GetFeeDistributionAmounts mocks base method.
+func (m *MockFeeManager) GetFeeDistributionAmounts(ctx context.Context, operationType *big.Int) ([]*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeDistributionAmounts", ctx, operationType)
+	ret0, _ := ret[0].([]*big.Int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFeeDistributionAmounts indicates an expected call of GetFeeDistributionAmounts.
+func (mr *MockFeeManagerMockRecorder) GetFeeDistributionAmounts(ctx, operationType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeDistributionAmounts", reflect.TypeOf((*MockFeeManager)(nil).GetFeeDistributionAmounts), ctx, operationType)
+}
+
+// GetFeeSettings mocks base method.
+func (m *MockFeeManager) GetFeeSettings(ctx context.Context) (*models.FeeSettingsResponseObj, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeSettings", ctx)
+	ret0, _ := ret[0].(*models.FeeSettingsResponseObj)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFeeSettings indicates an expected call of GetFeeSettings.
+func (mr *MockFeeManagerMockRecorder) GetFeeSettings(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeSettings", reflect.TypeOf((*MockFeeManager)(nil).GetFeeSettings), ctx)
+}
+
 // MockPkEncryptor is a mock of PkEncryptor interface.
 type MockPkEncryptor struct {
 	ctrl     *gomock.Controller
@@ -652,6 +1004,38 @@ func (mr *MockContractManagerMockRecorder) AddMiningAgent(ctx, address, key inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMiningAgent", reflect.TypeOf((*MockContractManager)(nil).AddMiningAgent), ctx, address, key)
 }
 
+// ApproveFullBalanceSafeTransfer mocks base method.
+func (m *MockContractManager) ApproveFullBalanceSafeTransfer(ctx context.Context, transferID, protectionCode, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceSafeTransfer", ctx, transferID, protectionCode, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// ApproveFullBalanceSafeTransfer indicates an expected call of ApproveFullBalanceSafeTransfer.
+func (mr *MockContractManagerMockRecorder) ApproveFullBalanceSafeTransfer(ctx, transferID, protectionCode, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).ApproveFullBalanceSafeTransfer), ctx, transferID, protectionCode, extraData, key, async)
+}
+
+// ApproveFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockContractManager) ApproveFullBalanceWPCSafeTransfer(ctx context.Context, transferID, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ApproveFullBalanceWPCSafeTransfer", ctx, transferID, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// ApproveFullBalanceWPCSafeTransfer indicates an expected call of ApproveFullBalanceWPCSafeTransfer.
+func (mr *MockContractManagerMockRecorder) ApproveFullBalanceWPCSafeTransfer(ctx, transferID, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).ApproveFullBalanceWPCSafeTransfer), ctx, transferID, extraData, key, async)
+}
+
 // ApproveSafeTransfer mocks base method.
 func (m *MockContractManager) ApproveSafeTransfer(ctx context.Context, transferID, protectionCode, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
 	m.ctrl.T.Helper()
@@ -684,6 +1068,53 @@ func (mr *MockContractManagerMockRecorder) ApproveWPCSafeTransfer(ctx, transferI
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApproveWPCSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).ApproveWPCSafeTransfer), ctx, transferID, extraData, key, async)
 }
 
+// BalanceOfLocked mocks base method.
+func (m *MockContractManager) BalanceOfLocked(ctx context.Context, addr common.Address) (*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "BalanceOfLocked", ctx, addr)
+	ret0, _ := ret[0].(*big.Int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// BalanceOfLocked indicates an expected call of BalanceOfLocked.
+func (mr *MockContractManagerMockRecorder) BalanceOfLocked(ctx, addr interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BalanceOfLocked", reflect.TypeOf((*MockContractManager)(nil).BalanceOfLocked), ctx, addr)
+}
+
+// CancelFullBalanceSafeTransfer mocks base method.
+func (m *MockContractManager) CancelFullBalanceSafeTransfer(ctx context.Context, transferID, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceSafeTransfer", ctx, transferID, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// CancelFullBalanceSafeTransfer indicates an expected call of CancelFullBalanceSafeTransfer.
+func (mr *MockContractManagerMockRecorder) CancelFullBalanceSafeTransfer(ctx, transferID, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).CancelFullBalanceSafeTransfer), ctx, transferID, extraData, key, async)
+}
+
+// CancelFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockContractManager) CancelFullBalanceWPCSafeTransfer(ctx context.Context, transferID, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CancelFullBalanceWPCSafeTransfer", ctx, transferID, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// CancelFullBalanceWPCSafeTransfer indicates an expected call of CancelFullBalanceWPCSafeTransfer.
+func (mr *MockContractManagerMockRecorder) CancelFullBalanceWPCSafeTransfer(ctx, transferID, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).CancelFullBalanceWPCSafeTransfer), ctx, transferID, extraData, key, async)
+}
+
 // CancelSafeTransfer mocks base method.
 func (m *MockContractManager) CancelSafeTransfer(ctx context.Context, transferID, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
 	m.ctrl.T.Helper()
@@ -714,6 +1145,38 @@ func (m *MockContractManager) CancelWPCSafeTransfer(ctx context.Context, transfe
 func (mr *MockContractManagerMockRecorder) CancelWPCSafeTransfer(ctx, transferID, extraData, key, async interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CancelWPCSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).CancelWPCSafeTransfer), ctx, transferID, extraData, key, async)
+}
+
+// CreateFullBalanceSafeTransfer mocks base method.
+func (m *MockContractManager) CreateFullBalanceSafeTransfer(ctx context.Context, t *contracts.Transfer, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceSafeTransfer", ctx, t, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// CreateFullBalanceSafeTransfer indicates an expected call of CreateFullBalanceSafeTransfer.
+func (mr *MockContractManagerMockRecorder) CreateFullBalanceSafeTransfer(ctx, t, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).CreateFullBalanceSafeTransfer), ctx, t, key, async)
+}
+
+// CreateFullBalanceWPCSafeTransfer mocks base method.
+func (m *MockContractManager) CreateFullBalanceWPCSafeTransfer(ctx context.Context, t *contracts.Transfer, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFullBalanceWPCSafeTransfer", ctx, t, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// CreateFullBalanceWPCSafeTransfer indicates an expected call of CreateFullBalanceWPCSafeTransfer.
+func (mr *MockContractManagerMockRecorder) CreateFullBalanceWPCSafeTransfer(ctx, t, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFullBalanceWPCSafeTransfer", reflect.TypeOf((*MockContractManager)(nil).CreateFullBalanceWPCSafeTransfer), ctx, t, key, async)
 }
 
 // CreateSafeTransfer mocks base method.
@@ -793,18 +1256,51 @@ func (mr *MockContractManagerMockRecorder) EmitEther(ctx, to, value, nonce inter
 }
 
 // ExpireSafeTransfers mocks base method.
-func (m *MockContractManager) ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (common.Hash, error) {
+func (m *MockContractManager) ExpireSafeTransfers(ctx context.Context, ids [][32]byte, key *ecdsa.PrivateKey) (uint64, common.Hash, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ExpireSafeTransfers", ctx, ids, key)
-	ret0, _ := ret[0].(common.Hash)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // ExpireSafeTransfers indicates an expected call of ExpireSafeTransfers.
 func (mr *MockContractManagerMockRecorder) ExpireSafeTransfers(ctx, ids, key interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpireSafeTransfers", reflect.TypeOf((*MockContractManager)(nil).ExpireSafeTransfers), ctx, ids, key)
+}
+
+// FrameTransfer mocks base method.
+func (m *MockContractManager) FrameTransfer(ctx context.Context, to common.Address, value *big.Int, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FrameTransfer", ctx, to, value, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FrameTransfer indicates an expected call of FrameTransfer.
+func (mr *MockContractManagerMockRecorder) FrameTransfer(ctx, to, value, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FrameTransfer", reflect.TypeOf((*MockContractManager)(nil).FrameTransfer), ctx, to, value, extraData, key, async)
+}
+
+// FullBalanceQuickTransfer mocks base method.
+func (m *MockContractManager) FullBalanceQuickTransfer(ctx context.Context, to common.Address, extraData []byte, key *ecdsa.PrivateKey, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FullBalanceQuickTransfer", ctx, to, extraData, key, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FullBalanceQuickTransfer indicates an expected call of FullBalanceQuickTransfer.
+func (mr *MockContractManagerMockRecorder) FullBalanceQuickTransfer(ctx, to, extraData, key, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FullBalanceQuickTransfer", reflect.TypeOf((*MockContractManager)(nil).FullBalanceQuickTransfer), ctx, to, extraData, key, async)
 }
 
 // GetAllMiningAgents mocks base method.
@@ -1150,6 +1646,67 @@ func (mr *MockContractManagerMockRecorder) GetExpiredTransfers(ctx, firstTransfe
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExpiredTransfers", reflect.TypeOf((*MockContractManager)(nil).GetExpiredTransfers), ctx, firstTransfer, lastTransfer)
 }
 
+// GetFee mocks base method.
+func (m *MockContractManager) GetFee(ctx context.Context, opType dto.OperationType) (*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFee", ctx, opType)
+	ret0, _ := ret[0].(*big.Int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFee indicates an expected call of GetFee.
+func (mr *MockContractManagerMockRecorder) GetFee(ctx, opType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFee", reflect.TypeOf((*MockContractManager)(nil).GetFee), ctx, opType)
+}
+
+// GetFeeDistributionAccounts mocks base method.
+func (m *MockContractManager) GetFeeDistributionAccounts(ctx context.Context, operationType *big.Int) ([]common.Address, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeDistributionAccounts", ctx, operationType)
+	ret0, _ := ret[0].([]common.Address)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFeeDistributionAccounts indicates an expected call of GetFeeDistributionAccounts.
+func (mr *MockContractManagerMockRecorder) GetFeeDistributionAccounts(ctx, operationType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeDistributionAccounts", reflect.TypeOf((*MockContractManager)(nil).GetFeeDistributionAccounts), ctx, operationType)
+}
+
+// GetFeeDistributionAmounts mocks base method.
+func (m *MockContractManager) GetFeeDistributionAmounts(ctx context.Context, operationType *big.Int) ([]*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeDistributionAmounts", ctx, operationType)
+	ret0, _ := ret[0].([]*big.Int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFeeDistributionAmounts indicates an expected call of GetFeeDistributionAmounts.
+func (mr *MockContractManagerMockRecorder) GetFeeDistributionAmounts(ctx, operationType interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeDistributionAmounts", reflect.TypeOf((*MockContractManager)(nil).GetFeeDistributionAmounts), ctx, operationType)
+}
+
+// GetFeeValueSettings mocks base method.
+func (m *MockContractManager) GetFeeValueSettings(ctx context.Context) ([]*big.Int, []*big.Int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFeeValueSettings", ctx)
+	ret0, _ := ret[0].([]*big.Int)
+	ret1, _ := ret[1].([]*big.Int)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// GetFeeValueSettings indicates an expected call of GetFeeValueSettings.
+func (mr *MockContractManagerMockRecorder) GetFeeValueSettings(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFeeValueSettings", reflect.TypeOf((*MockContractManager)(nil).GetFeeValueSettings), ctx)
+}
+
 // GetNoncer mocks base method.
 func (m *MockContractManager) GetNoncer() *noncer.Noncer {
 	m.ctrl.T.Helper()
@@ -1222,6 +1779,21 @@ func (m *MockContractManager) GetTransferLength(ctx context.Context) (*big.Int, 
 func (mr *MockContractManagerMockRecorder) GetTransferLength(ctx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTransferLength", reflect.TypeOf((*MockContractManager)(nil).GetTransferLength), ctx)
+}
+
+// GetTransferState mocks base method.
+func (m *MockContractManager) GetTransferState(ctx context.Context, transferID []byte) (uint8, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTransferState", ctx, transferID)
+	ret0, _ := ret[0].(uint8)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTransferState indicates an expected call of GetTransferState.
+func (mr *MockContractManagerMockRecorder) GetTransferState(ctx, transferID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTransferState", reflect.TypeOf((*MockContractManager)(nil).GetTransferState), ctx, transferID)
 }
 
 // IsMiningAgent mocks base method.
@@ -1327,6 +1899,22 @@ func (mr *MockContractManagerMockRecorder) SearchOldestPending(ctx, firstTransfe
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchOldestPending", reflect.TypeOf((*MockContractManager)(nil).SearchOldestPending), ctx, firstTransfer, lastTransfer)
 }
 
+// ServiceFeeTransfer mocks base method.
+func (m *MockContractManager) ServiceFeeTransfer(ctx context.Context, params dto.ServiceFeeTransferParams, async bool) (uint64, common.Hash, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ServiceFeeTransfer", ctx, params, async)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(common.Hash)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// ServiceFeeTransfer indicates an expected call of ServiceFeeTransfer.
+func (mr *MockContractManagerMockRecorder) ServiceFeeTransfer(ctx, params, async interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServiceFeeTransfer", reflect.TypeOf((*MockContractManager)(nil).ServiceFeeTransfer), ctx, params, async)
+}
+
 // SetAssetboxInfo mocks base method.
 func (m *MockContractManager) SetAssetboxInfo(ctx context.Context, a *contracts.Assetbox, key *ecdsa.PrivateKey) error {
 	m.ctrl.T.Helper()
@@ -1426,6 +2014,20 @@ func (mr *MockContractManagerMockRecorder) WaitReady(exit interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitReady", reflect.TypeOf((*MockContractManager)(nil).WaitReady), exit)
 }
 
+// WatchAssetboxInfoDeleted mocks base method.
+func (m *MockContractManager) WatchAssetboxInfoDeleted(sink chan<- *contracts.Assetbox) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WatchAssetboxInfoDeleted", sink)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WatchAssetboxInfoDeleted indicates an expected call of WatchAssetboxInfoDeleted.
+func (mr *MockContractManagerMockRecorder) WatchAssetboxInfoDeleted(sink interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchAssetboxInfoDeleted", reflect.TypeOf((*MockContractManager)(nil).WatchAssetboxInfoDeleted), sink)
+}
+
 // WatchAssetboxInfoSet mocks base method.
 func (m *MockContractManager) WatchAssetboxInfoSet(sink chan<- *contracts.Assetbox) error {
 	m.ctrl.T.Helper()
@@ -1480,6 +2082,48 @@ func (m *MockContractManager) WatchBitbonBalanceUnLocked(sink chan<- *contracts.
 func (mr *MockContractManagerMockRecorder) WatchBitbonBalanceUnLocked(sink interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchBitbonBalanceUnLocked", reflect.TypeOf((*MockContractManager)(nil).WatchBitbonBalanceUnLocked), sink)
+}
+
+// WatchExceptionalAccountsChanged mocks base method.
+func (m *MockContractManager) WatchExceptionalAccountsChanged(sink chan<- *contracts.ExceptionalAccountsChanged) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WatchExceptionalAccountsChanged", sink)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WatchExceptionalAccountsChanged indicates an expected call of WatchExceptionalAccountsChanged.
+func (mr *MockContractManagerMockRecorder) WatchExceptionalAccountsChanged(sink interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchExceptionalAccountsChanged", reflect.TypeOf((*MockContractManager)(nil).WatchExceptionalAccountsChanged), sink)
+}
+
+// WatchFeeDistributionSettingsChanged mocks base method.
+func (m *MockContractManager) WatchFeeDistributionSettingsChanged(sink chan<- *contracts.DistributionSettingsChanged) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WatchFeeDistributionSettingsChanged", sink)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WatchFeeDistributionSettingsChanged indicates an expected call of WatchFeeDistributionSettingsChanged.
+func (mr *MockContractManagerMockRecorder) WatchFeeDistributionSettingsChanged(sink interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchFeeDistributionSettingsChanged", reflect.TypeOf((*MockContractManager)(nil).WatchFeeDistributionSettingsChanged), sink)
+}
+
+// WatchFeeValueChanged mocks base method.
+func (m *MockContractManager) WatchFeeValueChanged(sink chan<- *contracts.FeeValueChanged) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WatchFeeValueChanged", sink)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WatchFeeValueChanged indicates an expected call of WatchFeeValueChanged.
+func (mr *MockContractManagerMockRecorder) WatchFeeValueChanged(sink interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchFeeValueChanged", reflect.TypeOf((*MockContractManager)(nil).WatchFeeValueChanged), sink)
 }
 
 // WatchTransferExpired mocks base method.

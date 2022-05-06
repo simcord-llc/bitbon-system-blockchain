@@ -241,7 +241,7 @@ var (
 		Usage: `Blockchain garbage collection mode ("full", "archive")`,
 		Value: "archive",
 	}
-	SnapshotFlag = cli.BoolFlag{
+	SnapshotFlag = cli.BoolTFlag{
 		Name:  "snapshot",
 		Usage: `Enables snapshot-database mode -- experimental work in progress feature`,
 	}
@@ -719,6 +719,11 @@ var (
 		Name:  "bitbon.client.amqp.miningexchange",
 		Usage: "RabbitMQ mining exchange",
 		Value: client.DefaultMiningExchange,
+	}
+	BitbonClientAmqpFeeExchange = cli.StringFlag{
+		Name:  "bitbon.client.amqp.feeexchange",
+		Usage: "RabbitMQ fee exchange",
+		Value: client.DefaultFeeExchange,
 	}
 	BitbonClientAmqpConfirmTimeout = cli.DurationFlag{
 		Name:  "bitbon.client.amqp.confirmtimeout",
@@ -1753,6 +1758,7 @@ func SetBitbonClientConfig(ctx *cli.Context, cfg *client.Config) {
 	cfg.AmqpBlockExchange = ctx.GlobalString(BitbonClientAmqpBlockExchange.Name)
 	cfg.AmqpTransactionExchange = ctx.GlobalString(BitbonClientAmqpTransactionExchange.Name)
 	cfg.AmqpMiningExchange = ctx.GlobalString(BitbonClientAmqpMiningExchange.Name)
+	cfg.AmqpFeeExchange = ctx.GlobalString(BitbonClientAmqpFeeExchange.Name)
 	cfg.AmqpConfirmTimeout = ctx.GlobalDuration(BitbonClientAmqpConfirmTimeout.Name)
 	cfg.AmqpPublishTimeout = ctx.GlobalDuration(BitbonClientAmqpPublishTimeout.Name)
 	cfg.JournalTimeout = ctx.GlobalDuration(BitbonClientJournalTimeout.Name)
@@ -1878,6 +1884,7 @@ func RegisterBitbonService(stack *node.Node, cfg *bitbon.Config) {
 		b.InjectTransferManager(tm)
 		b.InjectAssetboxManager(assetbox.NewAssetboxManager(b, aes.New()))
 		b.InjectMiningAgent(mining_agent.NewMiningAgentManager(b, aes.New()))
+		b.InjectFeeManager(bitbon.NewFeeManager(b))
 		b.InjectContractManager(contractManager)
 		b.InitBitbonParser(b.GetContractsManager().GetEthAPIWrapper(), b.GetStorage())
 

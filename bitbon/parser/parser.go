@@ -41,6 +41,7 @@ type Parser struct {
 	logger log.Logger
 }
 
+// nolint:funlen
 func NewParser(ethAPIWrapper interfaces.Contract, storage interfaces.BitbonStorage) *Parser {
 	return &Parser{
 		logger: loggerContext.LoggerFromContext(loggerContext.NewLoggerContext(context.Background(),
@@ -98,11 +99,20 @@ func NewParser(ethAPIWrapper interfaces.Contract, storage interfaces.BitbonStora
 				dto.CreateSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewCreateSafeTransferParser(ethAPIWrapper, c)
 				},
+				dto.CreateFullBalanceSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewCreateFullBalanceSafeTransferParser(ethAPIWrapper, c)
+				},
 				dto.ApproveSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewApproveSafeTransferParser(ethAPIWrapper, c)
 				},
+				dto.ApproveFullBalanceSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewApproveFullBalanceSafeTransferParser(ethAPIWrapper, c)
+				},
 				dto.CancelSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewCancelSafeTransferParser(ethAPIWrapper, c)
+				},
+				dto.CancelFullBalanceSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewCancelFullBalanceSafeTransferParser(ethAPIWrapper, c)
 				},
 				dto.ExpireSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewExpireSafeTransferParser(ethAPIWrapper, c)
@@ -110,14 +120,32 @@ func NewParser(ethAPIWrapper interfaces.Contract, storage interfaces.BitbonStora
 				dto.QuickTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewQuickTransferParser(ethAPIWrapper, c)
 				},
+				dto.FullBalanceQuickTransferV3MethodId: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewFullBalanceQuickTransferParser(ethAPIWrapper, c)
+				},
+				dto.FrameTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewFrameTransferParser(ethAPIWrapper, c)
+				},
 				dto.CreateWPCSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewCreateWPCSafeTransferParser(ethAPIWrapper, c)
+				},
+				dto.CreateFullBalanceWPCSafeTransferV3MethodId: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewCreateFullBalanceWpcSafeTransferParser(ethAPIWrapper, c)
 				},
 				dto.ApproveWPCSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewApproveWPCSafeTransferParser(ethAPIWrapper, c)
 				},
+				dto.ApproveFullBalanceWPCSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewApproveFullBalanceWpcSafeTransferParser(ethAPIWrapper, c)
+				},
 				dto.CancelWPCSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
 					return v3.NewCancelWPCSafeTransferParser(ethAPIWrapper, c)
+				},
+				dto.CancelFullBalanceWPCSafeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewCancelFullBalanceWpcSafeTransferParser(ethAPIWrapper, c)
+				},
+				dto.ServiceFeeTransferV3MethodID: func(c *scs.StorageContractSnapshot) interfaces.MethodParser {
+					return v3.NewServiceFeeTransferParser(ethAPIWrapper, c)
 				},
 			},
 		},
@@ -145,7 +173,7 @@ func (p *Parser) Parse(ctx context.Context, tx *types.Transaction) *dto.BitbonTx
 
 	methodParserConstructor, ok := p.methodParsers[storage.Version][methodID]
 	if !ok {
-		p.logger.Warn("no parser found for transaction", "version", storage.Version)
+		p.logger.Warn("no parser found for transaction", "version", storage.Version, "txHash", tx.Hash(), "methodID", methodID)
 		return nil
 	}
 

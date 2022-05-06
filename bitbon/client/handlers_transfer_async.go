@@ -65,10 +65,13 @@ func (c *Client) handleQuickTransferAsync(body []byte) (protoMessage protoMessag
 
 	apiRequest := &apiDto.QuickTransferRequest{
 		From:      common.HexToAddress(req.GetFrom()),
-		AccountID: req.GetAccountId(),
 		To:        common.HexToAddress(req.GetTo()),
 		Value:     value,
 		ExtraData: req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
 	}
 
 	hash, err := c.bitbon.GetAPI().QuickTransferAsync(
@@ -80,6 +83,101 @@ func (c *Client) handleQuickTransferAsync(body []byte) (protoMessage protoMessag
 
 	response.TxHash = strings.ToLower(hash.Hex())
 	logger.Debug("handleQuickTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleFrameTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.QuickTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleFrameTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	value, ok := new(big.Int).SetString(req.GetValue(), 10)
+	if !ok {
+		err = errors.New("failed to create big int from string")
+		return
+	}
+
+	apiRequest := &apiDto.QuickTransferRequest{
+		From:      common.HexToAddress(req.GetFrom()),
+		To:        common.HexToAddress(req.GetTo()),
+		Value:     value,
+		ExtraData: req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
+	}
+
+	hash, err := c.bitbon.GetAPI().FrameTransferAsync(
+		loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Debug("handleFrameTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleServiceFeeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.ServiceFeeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleServiceFeeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.ServiceFeeTransferRequest{
+		From:          common.HexToAddress(req.GetFrom()),
+		OperationType: big.NewInt(int64(req.OperationType)),
+	}
+
+	hash, err := c.bitbon.GetAPI().FeeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleServiceFeeTransferAsync method ended with success", "TxHash", response.TxHash)
 	return
 }
 
@@ -116,12 +214,15 @@ func (c *Client) handleCreateWPCSafeTransferAsync(body []byte) (protoMessage pro
 
 	apiRequest := &apiDto.CreateWPCSafeTransferRequest{
 		From:       common.HexToAddress(req.GetFrom()),
-		AccountID:  req.GetAccountId(),
 		To:         common.HexToAddress(req.GetTo()),
 		Value:      value,
 		TransferID: req.GetTransferId(),
 		ExpiresAt:  req.GetExpiresAt(),
 		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
 	}
 
 	hash, err := c.bitbon.GetAPI().CreateWPCSafeTransferAsync(
@@ -164,6 +265,10 @@ func (c *Client) handleApproveWPCSafeTransferAsync(body []byte) (protoMessage pr
 		Address:    common.HexToAddress(req.GetAddress()),
 		TransferID: req.GetTransferID(),
 		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
 	}
 	hash, err := c.bitbon.GetAPI().ApproveWPCSafeTransferAsync(
 		loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
@@ -205,6 +310,10 @@ func (c *Client) handleCancelWPCSafeTransferAsync(body []byte) (protoMessage pro
 		Address:    common.HexToAddress(req.GetAddress()),
 		TransferID: req.GetTransferID(),
 		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
 	}
 	hash, err := c.bitbon.GetAPI().CancelWPCSafeTransferAsync(
 		loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
@@ -250,7 +359,6 @@ func (c *Client) handleCreateSafeTransferAsync(body []byte) (protoMessage protoM
 
 	apiRequest := &apiDto.CreateSafeTransferRequest{
 		From:           common.HexToAddress(req.GetFrom()),
-		AccountID:      req.GetAccountId(),
 		To:             common.HexToAddress(req.GetTo()),
 		Value:          value,
 		TransferID:     req.GetTransferId(),
@@ -258,6 +366,10 @@ func (c *Client) handleCreateSafeTransferAsync(body []byte) (protoMessage protoM
 		Retries:        req.GetRetries(),
 		ExpiresAt:      req.GetExpiresAt(),
 		ExtraData:      req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
 	}
 
 	hash, err := c.bitbon.GetAPI().CreateSafeTransferAsync(
@@ -301,6 +413,10 @@ func (c *Client) handleApproveSafeTransferAsync(body []byte) (protoMessage proto
 		TransferID:     req.GetTransferID(),
 		ProtectionCode: req.GetProtectionCode(),
 		ExtraData:      req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
 	}
 	hash, err := c.bitbon.GetAPI().ApproveSafeTransferAsync(
 		loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
@@ -342,6 +458,10 @@ func (c *Client) handleCancelSafeTransferAsync(body []byte) (protoMessage protoM
 		Address:    common.HexToAddress(req.GetAddress()),
 		TransferID: req.GetTransferID(),
 		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
 	}
 	hash, err := c.bitbon.GetAPI().CancelSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger),
 		apiRequest)
@@ -400,5 +520,361 @@ func (c *Client) handleDirectTransferAsync(body []byte) (protoMessage protoMessa
 
 	response.TxHash = strings.ToLower(hash.Hex())
 	logger.Debug("handleDirectTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleFullBalanceQuickTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.FullBalanceQuickTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleFullBalanceQuickTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.FullBalanceQuickTransferRequest{
+		From:      common.HexToAddress(req.GetFrom()),
+		To:        common.HexToAddress(req.GetTo()),
+		ExtraData: req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
+	}
+
+	hash, err := c.bitbon.GetAPI().FullBalanceQuickTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleFullBalanceQuickTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleCreateFullBalanceWPCSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.CreateFullBalanceWPCSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleCreateFullBalanceWPCSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.CreateFullBalanceWPCSafeTransferRequest{
+		From:       common.HexToAddress(req.GetFrom()),
+		To:         common.HexToAddress(req.GetTo()),
+		TransferID: req.GetTransferId(),
+		ExpiresAt:  req.GetExpiresAt(),
+		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
+	}
+
+	hash, err := c.bitbon.GetAPI().CreateFullBalanceWPCSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleCreateWPCSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleApproveFullBalanceWPCSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.ApproveFullBalanceWPCSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleApproveFullBalanceWPCSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.ApproveFullBalanceWPCSafeTransferRequest{
+		Address:    common.HexToAddress(req.GetAddress()),
+		TransferID: req.GetTransferID(),
+		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
+	}
+	hash, err := c.bitbon.GetAPI().ApproveFullBalanceWPCSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleApproveFullBalanceWPCSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleCancelFullBalanceWPCSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.CancelFullBalanceWPCSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleCancelFullBalanceWPCSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.CancelFullBalanceWPCSafeTransferRequest{
+		Address:    common.HexToAddress(req.GetAddress()),
+		TransferID: req.GetTransferID(),
+		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
+	}
+	hash, err := c.bitbon.GetAPI().CancelFullBalanceWPCSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleCancelFullBalanceWPCSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleCreateFullBalanceSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.CreateFullBalanceSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleCreateFullBalanceSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.CreateFullBalanceSafeTransferRequest{
+		From:           common.HexToAddress(req.GetFrom()),
+		To:             common.HexToAddress(req.GetTo()),
+		TransferID:     req.GetTransferId(),
+		ProtectionCode: req.GetProtectionCode(),
+		Retries:        req.GetRetries(),
+		ExpiresAt:      req.GetExpiresAt(),
+		ExtraData:      req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetFromCryptoData().GetWallet(),
+			Passphrase: req.GetFromCryptoData().GetPassphrase(),
+		},
+	}
+
+	hash, err := c.bitbon.GetAPI().CreateFullBalanceSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleCreateFullBalanceSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleApproveFullBalanceSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.ApproveFullBalanceSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleApproveFullBalanceSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.ApproveFullBalanceSafeTransferRequest{
+		Address:        common.HexToAddress(req.GetAddress()),
+		TransferID:     req.GetTransferID(),
+		ProtectionCode: req.GetProtectionCode(),
+		ExtraData:      req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
+	}
+	hash, err := c.bitbon.GetAPI().ApproveFullBalanceSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleApproveFullBalanceSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleCancelFullBalanceSafeTransferAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.CancelFullBalanceSafeTransferRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleCancelFullBalanceSafeTransferAsync method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	apiRequest := &apiDto.CancelFullBalanceSafeTransferRequest{
+		Address:    common.HexToAddress(req.GetAddress()),
+		TransferID: req.GetTransferID(),
+		ExtraData:  req.GetExtraData(),
+		CryptoData: apiDto.AssetboxCryptoData{
+			Wallet:     req.GetCryptoData().GetWallet(),
+			Passphrase: req.GetCryptoData().GetPassphrase(),
+		},
+	}
+	hash, err := c.bitbon.GetAPI().CancelFullBalanceSafeTransferAsync(loggerContext.NewLoggerContext(context.Background(), logger), apiRequest)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Warn("handleCancelFullBalanceSafeTransferAsync method ended with success", "TxHash", response.TxHash)
+	return
+}
+
+func (c *Client) handleExpireTransfersAsync(body []byte) (protoMessage protoMessageWithID, err error) {
+	req := &external.ExpireTransfersRequest{}
+	err = proto.Unmarshal(body, req)
+	if err != nil {
+		err = errors.Wrap(err, "failed to unmarshal request")
+		return
+	}
+	response := &external.TransferAsyncResponse{
+		Id: req.Id,
+	}
+
+	logger := log.New("requestId", req.GetId())
+	defer func() {
+		if err != nil {
+			jsonReq, _ := json.Marshal(req)
+			logger.Warn("handleExpireTransfers method ended with error", "request", string(jsonReq), "error", err)
+
+			response.Error = c.handleError(err)
+			err = errors.Wrapf(err, "handle request (%s) error", req.GetId())
+		}
+
+		protoMessage = response
+	}()
+
+	hash, err := c.bitbon.GetAPI().
+		ExpireTransfersAsync(loggerContext.NewLoggerContext(context.Background(), logger), req.TransferIds)
+	if err != nil {
+		err = errors.Wrap(err, "error calling api method")
+		return
+	}
+
+	response.TxHash = strings.ToLower(hash.Hex())
+	logger.Debug("handleExpireTransfersAsync method ended with success", "TxHash", response.TxHash)
 	return
 }

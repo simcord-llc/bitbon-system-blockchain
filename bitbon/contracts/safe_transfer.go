@@ -209,6 +209,28 @@ func (m *Manager) TransferExists(ctx context.Context, transferId []byte) (exists
 	return contract.TransferExists(opts, transferId)
 }
 
+//GetTransferState checks if the transfer with id transferId exist in blockchain
+func (m *Manager) GetTransferState(ctx context.Context, transferId []byte) (state uint8, err error) {
+	m.logger.Debug("contracts manager GetTransferState called", "transferId", string(transferId))
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractCallError(err)
+		}
+	}()
+
+	contract, err := m.getSafeTransferStorageImpl()
+	if err != nil {
+		return 0, err
+	}
+
+	opts := &bind.CallOpts{
+		Pending: false,
+		Context: ctx,
+	}
+
+	return contract.GetState(opts, transferId)
+}
+
 func (m *Manager) GetTransfer(ctx context.Context, transferId []byte) (transfer *ReceiptTransfer, err error) {
 	m.logger.Debug("contracts manager getTransfer called", "transferId", string(transferId))
 

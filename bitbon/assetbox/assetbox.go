@@ -109,9 +109,11 @@ func (am *Manager) SetPublicAssetboxInfo(ctx context.Context, req *dto.SetPublic
 		PassPhrase: req.CryptoData.Passphrase,
 	}
 
-	if err := bb.DecryptAssetboxWallet(assetbox, am.bitbon.GetDecryptAssetboxWalletPassword(), am.encryptor.Decrypt); err != nil {
+	privateKey, err := bb.DecryptPrivateKeyForAssetbox(assetbox.Address, assetbox.Wallet, assetbox.PassPhrase, am.bitbon.GetDecryptAssetboxWalletPassword(), am.encryptor.Decrypt)
+	if err != nil {
 		return err
 	}
+	assetbox.Pk = privateKey
 
 	err = am.bitbon.GetContractsManager().SetAssetboxInfo(ctx, assetbox.ToContractsAssetbox(), assetbox.Pk)
 	if err != nil {
@@ -133,17 +135,14 @@ func (am *Manager) SetPublicAssetboxInfos(ctx context.Context, assetboxes []*con
 }
 
 func (am *Manager) DeleteAssetbox(ctx context.Context, req *dto.DeleteAssetboxRequest) (err error) {
-	am.logger.Debug("DeleteAssetbox called", "address", req.Address.Hex(), "accountID", req.AccountID)
+	am.logger.Debug("DeleteAssetbox called", "address", req.Address.Hex())
 
-	assetbox := &models.Assetbox{
-		PassPhrase: req.CryptoData.Passphrase,
-		Wallet:     req.CryptoData.Wallet,
-	}
-	if err := bb.DecryptAssetboxWallet(assetbox, am.bitbon.GetDecryptAssetboxWalletPassword(), am.encryptor.Decrypt); err != nil {
+	privateKey, err := bb.DecryptPrivateKeyForAssetbox(req.Address, req.CryptoData.Wallet, req.CryptoData.Passphrase, am.bitbon.GetDecryptAssetboxWalletPassword(), am.encryptor.Decrypt)
+	if err != nil {
 		return err
 	}
 
-	err = am.deleteAssetbox(ctx, assetbox.Pk)
+	err = am.deleteAssetbox(ctx, privateKey)
 	if err != nil {
 		return bitbonErrors.NewDeleteLastAssetboxError(err)
 	}

@@ -38,7 +38,6 @@ type DirectTransferObj struct {
 
 type QuickTransferObj struct {
 	From       common.Address
-	AccountID  string
 	To         common.Address
 	Value      *big.Int
 	ExtraData  []byte
@@ -47,7 +46,6 @@ type QuickTransferObj struct {
 
 type CreateTransferObj struct {
 	From           common.Address
-	AccountID      string
 	To             common.Address
 	Value          *big.Int
 	TransferID     string
@@ -81,8 +79,20 @@ type TransferResponseObj struct {
 	ExtraData   []byte      `json:"extraData"`
 }
 
+type ServiceFeeTransferObj struct {
+	From          common.Address
+	OperationType *big.Int
+}
+
+func FeeTransferObjFromDTO(cstor *dto.ServiceFeeTransferRequest) *ServiceFeeTransferObj {
+	return &ServiceFeeTransferObj{
+		From:          cstor.From,
+		OperationType: cstor.OperationType,
+	}
+}
+
 func (t *CreateTransferObj) ToContractsTransfer() *contracts.Transfer {
-	ct := &contracts.Transfer{
+	return &contracts.Transfer{
 		To:         t.To,
 		Value:      t.Value,
 		TransferID: []byte(t.TransferID),
@@ -92,33 +102,28 @@ func (t *CreateTransferObj) ToContractsTransfer() *contracts.Transfer {
 		VK:         t.VK,
 		ExtraData:  t.ExtraData,
 	}
-	return ct
 }
 
 func (tr *TransferResponseObj) ToDTO() *dto.TransferResponse {
-	o := &dto.TransferResponse{
+	return &dto.TransferResponse{
 		BlockNumber: tr.BlockNumber,
 		TxHash:      tr.TxHash,
 	}
-	return o
 }
 
 func QuickTransferObjFromDTO(cstor *dto.QuickTransferRequest) *QuickTransferObj {
-	o := &QuickTransferObj{
+	return &QuickTransferObj{
 		From:       cstor.From,
-		AccountID:  cstor.AccountID,
 		To:         cstor.To,
 		Value:      cstor.Value,
 		ExtraData:  cstor.ExtraData,
 		CryptoData: cstor.CryptoData,
 	}
-	return o
 }
 
 func CreateWPCTransferObjFromDTO(cstor *dto.CreateWPCSafeTransferRequest) *CreateTransferObj {
-	o := &CreateTransferObj{
+	return &CreateTransferObj{
 		From:       cstor.From,
-		AccountID:  cstor.AccountID,
 		To:         cstor.To,
 		Value:      cstor.Value,
 		TransferID: cstor.TransferID,
@@ -126,34 +131,30 @@ func CreateWPCTransferObjFromDTO(cstor *dto.CreateWPCSafeTransferRequest) *Creat
 		ExtraData:  cstor.ExtraData,
 		CryptoData: cstor.CryptoData,
 	}
-	return o
 }
 
 func ApproveTransferObjFromDTO(astor *dto.ApproveSafeTransferRequest) *ApproveTransferObj {
-	o := &ApproveTransferObj{
+	return &ApproveTransferObj{
 		Address:        astor.Address,
 		TransferID:     astor.TransferID,
 		ProtectionCode: astor.ProtectionCode,
 		ExtraData:      astor.ExtraData,
 		CryptoData:     astor.CryptoData,
 	}
-	return o
 }
 
 func CancelTransferObjFromDTO(cstor *dto.CancelSafeTransferRequest) *CancelTransferObj {
-	o := &CancelTransferObj{
+	return &CancelTransferObj{
 		Address:    cstor.Address,
 		TransferID: cstor.TransferID,
 		ExtraData:  cstor.ExtraData,
 		CryptoData: cstor.CryptoData,
 	}
-	return o
 }
 
 func CreateTransferObjFromDTO(cstor *dto.CreateSafeTransferRequest) *CreateTransferObj {
-	o := &CreateTransferObj{
+	return &CreateTransferObj{
 		From:           cstor.From,
-		AccountID:      cstor.AccountID,
 		To:             cstor.To,
 		Value:          cstor.Value,
 		TransferID:     cstor.TransferID,
@@ -163,35 +164,108 @@ func CreateTransferObjFromDTO(cstor *dto.CreateSafeTransferRequest) *CreateTrans
 		ExtraData:      cstor.ExtraData,
 		CryptoData:     cstor.CryptoData,
 	}
-	return o
 }
 
 func ApproveWPCTransferObjFromDTO(astor *dto.ApproveWPCSafeTransferRequest) *ApproveTransferObj {
-	o := &ApproveTransferObj{
+	return &ApproveTransferObj{
 		Address:    astor.Address,
 		TransferID: astor.TransferID,
 		ExtraData:  astor.ExtraData,
 		CryptoData: astor.CryptoData,
 	}
-	return o
 }
 
 func CancelWPCTransferObjFromDTO(cstor *dto.CancelWPCSafeTransferRequest) *CancelTransferObj {
-	o := &CancelTransferObj{
+	return &CancelTransferObj{
 		Address:    cstor.Address,
 		TransferID: cstor.TransferID,
 		ExtraData:  cstor.ExtraData,
 		CryptoData: cstor.CryptoData,
 	}
-	return o
 }
 
 func DirectTransferObjFromDTO(dtr *dto.DirectTransferRequest) *DirectTransferObj {
-	o := &DirectTransferObj{
+	return &DirectTransferObj{
 		From:      dtr.From,
 		To:        dtr.To,
 		Value:     dtr.Value,
 		ExtraData: dtr.ExtraData,
 	}
-	return o
+}
+
+func FullBalanceQuickTransferObjFromDTO(cstor *dto.FullBalanceQuickTransferRequest) *QuickTransferObj {
+	return &QuickTransferObj{
+		From:       cstor.From,
+		To:         cstor.To,
+		ExtraData:  cstor.ExtraData,
+		CryptoData: cstor.CryptoData,
+	}
+}
+
+func CreateFullBalanceWPCTransferObjFromDTO(cstor *dto.CreateFullBalanceWPCSafeTransferRequest) *CreateTransferObj {
+	return &CreateTransferObj{
+		From:       cstor.From,
+		To:         cstor.To,
+		TransferID: cstor.TransferID,
+		ExpiresAt:  cstor.ExpiresAt,
+		ExtraData:  cstor.ExtraData,
+		CryptoData: cstor.CryptoData,
+	}
+}
+
+func ApproveFullBalanceTransferObjFromDTO(astor *dto.ApproveFullBalanceSafeTransferRequest) *ApproveTransferObj {
+	return &ApproveTransferObj{
+		Address:        astor.Address,
+		TransferID:     astor.TransferID,
+		ProtectionCode: astor.ProtectionCode,
+		ExtraData:      astor.ExtraData,
+		CryptoData:     astor.CryptoData,
+	}
+}
+
+func CancelFullBalanceTransferObjFromDTO(cstor *dto.CancelFullBalanceSafeTransferRequest) *CancelTransferObj {
+	return &CancelTransferObj{
+		Address:    cstor.Address,
+		TransferID: cstor.TransferID,
+		ExtraData:  cstor.ExtraData,
+		CryptoData: cstor.CryptoData,
+	}
+}
+
+func CreateFullBalanceTransferObjFromDTO(cstor *dto.CreateFullBalanceSafeTransferRequest) *CreateTransferObj {
+	return &CreateTransferObj{
+		From:           cstor.From,
+		To:             cstor.To,
+		TransferID:     cstor.TransferID,
+		ProtectionCode: cstor.ProtectionCode,
+		Retries:        cstor.Retries,
+		ExpiresAt:      cstor.ExpiresAt,
+		ExtraData:      cstor.ExtraData,
+		CryptoData:     cstor.CryptoData,
+	}
+}
+
+func ApproveFullBalanceWPCTransferObjFromDTO(astor *dto.ApproveFullBalanceWPCSafeTransferRequest) *ApproveTransferObj {
+	return &ApproveTransferObj{
+		Address:    astor.Address,
+		TransferID: astor.TransferID,
+		ExtraData:  astor.ExtraData,
+		CryptoData: astor.CryptoData,
+	}
+}
+
+func CancelFullBalanceWPCTransferObjFromDTO(cstor *dto.CancelFullBalanceWPCSafeTransferRequest) *CancelTransferObj {
+	return &CancelTransferObj{
+		Address:    cstor.Address,
+		TransferID: cstor.TransferID,
+		ExtraData:  cstor.ExtraData,
+		CryptoData: cstor.CryptoData,
+	}
+}
+
+func (tr *TransferResponseObj) DTO() *dto.TransferResponse {
+	return &dto.TransferResponse{
+		BlockNumber: tr.BlockNumber,
+		TxHash:      tr.TxHash,
+	}
 }

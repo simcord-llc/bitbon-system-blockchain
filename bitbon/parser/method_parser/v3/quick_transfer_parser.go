@@ -106,8 +106,24 @@ func (p *QuickTransferParser) Parse(ctx context.Context, tx *types.Transaction) 
 		res.ParseError = err
 		return res, err
 	}
-
 	res.Balances = balances
+
+	feeChargedEvents, err := p.ParseFeeChargedLogs(cs.ContractTypeTransferImpl, addr, receipt.Logs)
+	if err != nil {
+		res.ParseStatus = dto.ParseStatusParseLogsError
+		err = errors.Wrap(err, "unable to parse logs")
+		res.ParseError = err
+		return res, err
+	}
+
+	events := make([]dto.CustomEvent, 0, len(feeChargedEvents))
+	for idx := range feeChargedEvents {
+		events = append(
+			events,
+			&feeChargedEvents[idx],
+		)
+	}
+	res.Events = events
 
 	return res, nil
 }

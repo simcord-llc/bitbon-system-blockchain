@@ -26,4 +26,5 @@ message BlockMinedInfo {
     string hash = 4;
     string parentHash = 5;
     string size = 6;
+    uint64 difficulty = 7;
 }

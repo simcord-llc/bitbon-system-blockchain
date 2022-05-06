@@ -81,13 +81,18 @@ services:
     restart: always
 `
 
+const (
+	sealnodeValue = "sealnode"
+	bootnodeValue = "bootnode"
+)
+
 // deployNode deploys a new Ethereum node container to a remote machine via SSH,
 // docker and docker-compose. If an instance with the specified network name
 // already exists there, it will be overwritten!
 func deployNode(client *sshClient, network string, bootnodes []string, config *nodeInfos, nocache bool) ([]byte, error) {
-	kind := "sealnode"
+	kind := sealnodeValue
 	if config.keyJSON == "" && config.etherbase == "" {
-		kind = "bootnode"
+		kind = bootnodeValue
 		bootnodes = make([]string, 0)
 	}
 	// Generate the content to upload to the server
@@ -210,9 +215,9 @@ func (info *nodeInfos) Report() map[string]string {
 // checkNode does a health-check against a boot or seal node server to verify
 // whether it's running, and if yes, whether it's responsive.
 func checkNode(client *sshClient, network string, boot bool) (*nodeInfos, error) {
-	kind := "bootnode"
+	kind := bootnodeValue
 	if !boot {
-		kind = "sealnode"
+		kind = sealnodeValue
 	}
 	// Inspect a possible bootnode container on the host
 	infos, err := inspectContainer(client, fmt.Sprintf("%s_%s_1", network, kind))

@@ -35,15 +35,9 @@ const (
 
 	CodeBalanceTooLowError      = 9
 	CodeTransferExistsError     = 10
-	CodeUnassignedAssetboxError = 11
-	CodeAccountMismatchError    = 12
-	CodeInvalidBTSCError        = 13
 	CodeTransferIsNotExistError = 14
-
-	CodeAlreadyAssignedAssetboxError = 16
-
-	CodeNotZeroAssetboxBalanceError = 17
 
 	CodeUnsuccessfulTxError     = 18
 	CodeDeleteLastAssetboxError = 19
+	CodeHasLockedBalanceError   = 20
 )

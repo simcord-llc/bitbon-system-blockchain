@@ -24,6 +24,10 @@ import (
 	"github.com/simcord-llc/bitbon-system-blockchain/log"
 )
 
+const (
+	walletValue = "wallet"
+)
+
 // deployDashboard queries the user for various input on deploying a web-service
 // dashboard, after which is pushes the container.
 func (w *wizard) deployDashboard() {
@@ -62,7 +66,7 @@ func (w *wizard) deployDashboard() {
 			available[service] = append(available[service], server)
 		}
 	}
-	for _, service := range []string{"ethstats", "explorer", "wallet", "faucet"} {
+	for _, service := range []string{"ethstats", "explorer", walletValue, "faucet"} {
 		// Gather all the locally hosted pages of this type
 		var pages []string
 		for _, server := range available[service] {
@@ -81,7 +85,7 @@ func (w *wizard) deployDashboard() {
 				if infos, err := checkExplorer(client, w.network); err == nil {
 					port = infos.port
 				}
-			case "wallet":
+			case walletValue:
 				if infos, err := checkWallet(client, w.network); err == nil {
 					port = infos.webPort
 				}

@@ -22,6 +22,7 @@ import (
 
 	"github.com/simcord-llc/bitbon-system-blockchain/accounts/abi/bind"
 	bitbonErrors "github.com/simcord-llc/bitbon-system-blockchain/bitbon/errors"
+	"github.com/simcord-llc/bitbon-system-blockchain/log"
 )
 
 func (m *Manager) getAssetboxStorageImpl() (*AssetboxStorageImpl, error) {
@@ -93,6 +94,70 @@ func (m *Manager) WatchAssetboxInfoSet(sink chan<- *Assetbox) (err error) {
 				ass, err := ContractAssetbox(info.Assetbox, info.AliasString, info.ServiceId, info.OtherInfo, info.IsMining)
 				if err != nil {
 					m.logger.Error("WatchAssetboxInfoSet error decoding assetbox other info", "error", err)
+					continue
+				}
+
+				sink <- ass
+			}
+		}
+	}()
+	return nil
+}
+
+// WatchAssetboxInfoDeleted watches public assetbox info deletion blockchain events(logs)
+func (m *Manager) WatchAssetboxInfoDeleted(sink chan<- *Assetbox) (err error) {
+	defer func() {
+		if err != nil {
+			err = bitbonErrors.NewContractWatchError(err)
+		}
+	}()
+
+	contract, err := m.getAssetboxStorageImpl()
+	if err != nil {
+		return err
+	}
+	opts := &bind.WatchOpts{}
+
+	internalSink := make(chan *AssetboxStorageImplAssetboxInfoDeleted, len(sink))
+	sub, err := contract.WatchAssetboxInfoDeleted(opts, internalSink)
+	if err != nil {
+		return err
+	}
+
+	redeploySignal, unsubscribe := m.SubscribeRedeploy()
+
+	log.Warn("WatchAssetboxInfoDeleted started.")
+	go func() {
+		defer func() {
+			sub.Unsubscribe()
+			unsubscribe()
+			log.Warn("WatchAssetboxInfoDeleted unsubscribed.")
+		}()
+
+		for {
+			select {
+			case <-redeploySignal:
+				log.Warn("WatchAssetboxInfoDeleted got redeploy signal. Restarting...")
+				retryTimeout := 10 * time.Second
+				for err = m.WatchAssetboxInfoDeleted(sink); err != nil; {
+					log.Error(fmt.Sprintf("error beginning WatchAssetboxInfoDeleted. Retry in %s", retryTimeout))
+					time.Sleep(retryTimeout)
+				}
+				return
+			case <-m.done:
+				log.Warn("WatchAssetboxInfoDeleted subscription loop terminated.")
+				return
+			case err, ok := <-sub.Err():
+				if !ok {
+					log.Warn("WatchAssetboxInfoDeleted subscription ends")
+				} else {
+					log.Error("WatchAssetboxInfoDeleted subscription error", "err", err)
+				}
+				return
+			case info := <-internalSink:
+				ass, err := ContractAssetbox(info.Assetbox, info.AliasString, info.ServiceId, info.OtherInfo, info.IsMining)
+				if err != nil {
+					log.Error("WatchAssetboxInfoDeleted error decoding assetbox other info", "error", err)
 					continue
 				}
 

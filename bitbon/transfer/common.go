@@ -18,9 +18,6 @@
 package transfer
 
 import (
-	"context"
-	"math/big"
-
 	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/bitbon/models"
 	"github.com/simcord-llc/bitbon-system-blockchain/crypto"
@@ -34,11 +31,8 @@ var (
 	ErrFromRequire           = errors.New("from is required")
 	ErrToRequire             = errors.New("to is required")
 	ErrSameAccount           = errors.New("transfer to the same account (From equals To)")
-	ErrAccountIDRequire      = errors.New("accountID is required")
 	ErrValueRequire          = errors.New("value is required")
 	ErrAssetboxNotAssigned   = errors.New("assetbox is not assigned to any account")
-	ErrAccountIDMismatch     = errors.New("transfer and assetbox AccountID mismatch")
-	ErrBTSCNotValid          = errors.New("btsc is not valid")
 	ErrLowAssetboxBalance    = errors.New("assetbox balance to low to perform transfer")
 	ErrTransferIDRequire     = errors.New("transferID is required")
 	ErrProtectionCodeRequire = errors.New("protectionCode is required")
@@ -46,6 +40,7 @@ var (
 	ErrAddressRequire        = errors.New("address is required")
 	ErrFromNotAssigned       = errors.New("assetbox From is not assigned to any account")
 	ErrToNotAssigned         = errors.New("assetbox To is not assign to any account")
+	ErrRetriesRequired       = errors.New("retries must be greater than 0")
 
 	ErrMsgGettingAssetbox            = "error getting decrypted assetbox"
 	ErrMsgGettingSourceAssetbox      = "error getting decrypted assetbox From"
@@ -69,42 +64,6 @@ func (tm *Manager) generateZkSnark(transfer *models.CreateTransferObj) (err erro
 	tm.logger.Debug("ZK-snark params successfully generated")
 
 	return nil
-}
-
-func (tm *Manager) processPending(ctx context.Context,
-	oldestPendingIndex, lastIndex, batchSize *big.Int) (pendingTransferExists bool, err error) {
-	for startSearch := new(big.Int).Set(oldestPendingIndex); startSearch.Cmp(lastIndex) <= 0; startSearch.Add(startSearch, batchSize) { // nolint:lll
-		newOldestPendingIndex, present, err := tm.bitbon.GetContractsManager().
-			SearchOldestPending(ctx, startSearch, new(big.Int).Add(startSearch, batchSize))
-		tm.logger.Debug("ExpireTransfers SearchOldestPending called",
-			"newOldestPendingIndex", newOldestPendingIndex, "present", present,
-			"error", err, "oldestPendingIndex", oldestPendingIndex)
-
-		if err != nil {
-			return pendingTransferExists, errors.Wrap(err, "error SearchOldestPending() to safe transfer storage contract")
-		}
-		if !present {
-			continue
-		}
-		pendingTransferExists = true
-		if oldestPendingIndex.Cmp(newOldestPendingIndex) != 0 {
-			tm.logger.Debug("ExpireTransfers newOldestPendingIndex found",
-				"newOldestPendingIndex", newOldestPendingIndex, "oldestPendingIndex", oldestPendingIndex)
-
-			oldestPendingIndex = newOldestPendingIndex
-			err := tm.bitbon.GetContractsManager().SetOldestPending(ctx, oldestPendingIndex, tm.bitbon.GetServicePk())
-			if err != nil {
-				return pendingTransferExists, errors.Wrap(err, "error SetOldestPending() to safe transfer storage contract")
-			}
-			tm.logger.Debug("ExpireTransfers newOldestPendingIndex successfully set",
-				"newOldestPendingIndex", oldestPendingIndex)
-		} else {
-			tm.logger.Debug("ExpireTransfers newOldestPendingIndex not found")
-		}
-		break
-	}
-
-	return
 }
 
 // nolint:gocritic

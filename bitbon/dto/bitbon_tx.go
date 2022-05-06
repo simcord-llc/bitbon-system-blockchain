@@ -29,15 +29,24 @@ import (
 )
 
 const (
-	DirectTransfer         = "transferFrom"
-	QuickTransfer          = "quickTransfer"
-	CreateSafeTransfer     = "createSafeTransfer"
-	ApproveSafeTransfer    = "approveSafeTransfer"
-	CancelSafeTransfer     = "cancelSafeTransfer"
-	ExpireSafeTransfer     = "expireSafeTransfers"
-	CreateWPCSafeTransfer  = "createWPCSafeTransfer"
-	ApproveWPCSafeTransfer = "approveWPCSafeTransfer"
-	CancelWPCSafeTransfer  = "cancelWPCSafeTransfer"
+	DirectTransfer                    = "transferFrom"
+	QuickTransfer                     = "quickTransfer"
+	FullBalanceQuickTransfer          = "quickTransferAll"
+	CreateSafeTransfer                = "createSafeTransfer"
+	CreateFullBalanceSafeTransfer     = "createSafeTransferAll"
+	ApproveSafeTransfer               = "approveSafeTransfer"
+	ApproveFullBalanceSafeTransfer    = "approveSafeTransferAll"
+	CancelSafeTransfer                = "cancelSafeTransfer"
+	CancelFullBalanceSafeTransfer     = "cancelSafeTransferAll"
+	ExpireSafeTransfer                = "expireSafeTransfers"
+	CreateWPCSafeTransfer             = "createWPCSafeTransfer"
+	CreateFullBalanceWPCSafeTransfer  = "createWPCSafeTransferAll"
+	ApproveWPCSafeTransfer            = "approveWPCSafeTransfer"
+	ApproveFullBalanceWPCSafeTransfer = "approveWPCSafeTransferAll"
+	CancelWPCSafeTransfer             = "cancelWPCSafeTransfer"
+	CancelFullBalanceWPCSafeTransfer  = "cancelWPCSafeTransferAll"
+	ServiceFeeTransfer                = "feeTransfer"
+	FrameTransfer                     = "frameTransfer"
 )
 
 const (
@@ -59,24 +68,36 @@ const (
 	MonetizeCertificateV2MethodID = "0ceb4c53"
 
 	// v3
-	DirectTransferV3MethodID         = "ab67aa58"
-	QuickTransferV3MethodID          = "536684e7"
-	CreateSafeTransferV3MethodID     = "6c9bcf6f"
-	ApproveSafeTransferV3MethodID    = "fd821f3f"
-	CancelSafeTransferV3MethodID     = "a8389ace"
-	ExpireSafeTransferV3MethodID     = "a5471f24"
-	CreateWPCSafeTransferV3MethodID  = "9ca9dfa7"
-	ApproveWPCSafeTransferV3MethodID = "c48bb729"
-	CancelWPCSafeTransferV3MethodID  = "28b5f788"
+	DirectTransferV3MethodID                    = "ab67aa58"
+	QuickTransferV3MethodID                     = "536684e7"
+	FullBalanceQuickTransferV3MethodId          = "ff0833f9"
+	FrameTransferV3MethodID                     = "2e7cfa0c"
+	CreateSafeTransferV3MethodID                = "6c9bcf6f"
+	CreateFullBalanceSafeTransferV3MethodID     = "e33fe72c"
+	ApproveSafeTransferV3MethodID               = "fd821f3f"
+	ApproveFullBalanceSafeTransferV3MethodID    = "47a17ecb"
+	CancelSafeTransferV3MethodID                = "a8389ace"
+	CancelFullBalanceSafeTransferV3MethodID     = "e48a66f7"
+	ExpireSafeTransferV3MethodID                = "a5471f24"
+	CreateWPCSafeTransferV3MethodID             = "9ca9dfa7"
+	CreateFullBalanceWPCSafeTransferV3MethodId  = "1a9b6d93"
+	ApproveWPCSafeTransferV3MethodID            = "c48bb729"
+	ApproveFullBalanceWPCSafeTransferV3MethodID = "8313ea89"
+	CancelWPCSafeTransferV3MethodID             = "28b5f788"
+	CancelFullBalanceWPCSafeTransferV3MethodID  = "c8c2e567"
+	ServiceFeeTransferV3MethodID                = "4fe06442"
 )
 
 type EventType string
 
 const (
-	BalanceChangedEventType  EventType = "BalanceChanged"
-	BalanceLockedEventType   EventType = "BalanceLocked"
-	BalanceUnLockedEventType EventType = "BalanceUnLocked"
-	TransferExpiredEventType EventType = "TransferExpired"
+	BalanceChangedEventType         EventType = "BalanceChanged"
+	BalanceLockedEventType          EventType = "BalanceLocked"
+	BalanceUnLockedEventType        EventType = "BalanceUnLocked"
+	TransferExpiredEventType        EventType = "TransferExpired"
+	FeeChargedEventType             EventType = "FeeCharged"
+	QuickTransferCompletedEventType EventType = "QuickTransferCompleted"
+	SafeTransferCreatedEventType    EventType = "SafeTransferCreated"
 )
 
 var eventTypeMap = map[EventType]struct{}{
@@ -264,6 +285,50 @@ func (arg *ExpireSafeTransfersArgs) ToExternalDTO() *external.BitbonArgs {
 	}
 }
 
+//go:generate enumer -type=OperationType
+type OperationType int
+
+const (
+	UndefinedOperationType                OperationType = 0
+	QuickTransferOperationType            OperationType = 101
+	QuickTransferAllOperationType         OperationType = 102
+	CreateSafeTransferOperationType       OperationType = 103
+	CreateSafeTransferAllOperationType    OperationType = 104
+	CreateWpcSafeTransferOperationType    OperationType = 105
+	CreateWpcSafeTransferAllOperationType OperationType = 106
+	CreateAssetboxOperationType           OperationType = 201
+)
+
+type ServiceFeeTransferArgs struct {
+	OpType *big.Int       `json:"opType"`
+	From   common.Address `json:"from"`
+}
+
+func (arg *ServiceFeeTransferArgs) MarshalJSON() ([]byte, error) {
+	type Alias ServiceFeeTransferArgs
+
+	return json.Marshal(&struct {
+		OpType string `json:"serviceFeeOperations"`
+		*Alias
+	}{
+		OpType: arg.OpType.String(),
+		Alias:  (*Alias)(arg),
+	})
+}
+
+func (arg *ServiceFeeTransferArgs) ToExternalDTO() *external.BitbonArgs {
+	return &external.BitbonArgs{
+		Args: &external.BitbonArgs_ServiceFeeTransferArgs{
+			ServiceFeeTransferArgs: &external.ServiceFeeTransferArgs{
+				From: strings.ToLower(arg.From.Hex()),
+				ServiceFeeOperations: []external.ServiceFeeOperation{
+					external.ServiceFeeOperation(int32(arg.OpType.Int64())),
+				},
+			},
+		},
+	}
+}
+
 // For SafeTransfer
 type SafeTransferArgs struct {
 	From       common.Address `json:"from"`
@@ -341,6 +406,27 @@ func (arg *QuickTransferArgs) ToExternalDTO() *external.BitbonArgs {
 	}
 }
 
+// For FrameTransfer
+type FrameTransferArgs struct {
+	From      common.Address `json:"from"`
+	To        common.Address `json:"to"`
+	Value     *big.Int       `json:"value"`
+	ExtraData []byte         `json:"extraData"`
+}
+
+func (arg *FrameTransferArgs) ToExternalDTO() *external.BitbonArgs {
+	return &external.BitbonArgs{
+		Args: &external.BitbonArgs_QuickTransferArgs{
+			QuickTransferArgs: &external.QuickTransferArgs{
+				From:      strings.ToLower(arg.From.Hex()),
+				To:        strings.ToLower(arg.To.Hex()),
+				Value:     arg.Value.String(),
+				ExtraData: arg.ExtraData,
+			},
+		},
+	}
+}
+
 // For monetize txs
 type BitbonMonetizeArgs struct {
 	Assetbox common.Address `json:"assetbox"`
@@ -377,10 +463,25 @@ type BitbonBalanceUnlocked struct {
 type CustomEvent interface {
 	GetType() EventType
 	MarshalJSON() ([]byte, error)
+	ToProto() *external.Event
 }
 
 type TransferExpiredEvent struct {
 	TransferId []byte `json:"transferId"`
+}
+
+func (arg *TransferExpiredEvent) ToProto() *external.Event {
+	transferExpiredEventProto := &external.TransferExpiredEvent{
+		TransferId: string(arg.TransferId),
+	}
+	eventProto := &external.Event_TransferExpiredEvent{
+		TransferExpiredEvent: transferExpiredEventProto,
+	}
+	event := &external.Event{
+		Event: eventProto,
+	}
+
+	return event
 }
 
 func (arg *TransferExpiredEvent) GetType() EventType {
@@ -399,4 +500,57 @@ func (arg *TransferExpiredEvent) MarshalJSON() ([]byte, error) {
 		EventType:  string(arg.GetType()),
 		Alias:      (*Alias)(arg),
 	})
+}
+
+type FeeChargedEvent struct {
+	From common.Address `json:"from"`
+	To   common.Address `json:"to"`
+	Fee  *big.Int       `json:"fee"`
+}
+
+func (arg *FeeChargedEvent) GetType() EventType {
+	return FeeChargedEventType
+}
+
+func (arg *FeeChargedEvent) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		From      common.Address `json:"from"`
+		To        common.Address `json:"to"`
+		Fee       *big.Int       `json:"fee"`
+		EventType string         `json:"eventType"`
+	}{
+		From:      arg.From,
+		To:        arg.To,
+		Fee:       arg.Fee,
+		EventType: string(arg.GetType()),
+	})
+}
+
+func (arg *FeeChargedEvent) ToProto() *external.Event {
+	feeChargedEventProto := &external.FeeChargedEvent{
+		From:   strings.ToLower(arg.From.String()),
+		To:     strings.ToLower(arg.To.String()),
+		Amount: arg.Fee.String(),
+	}
+	eventProto := &external.Event_FeeChargedEvent{
+		FeeChargedEvent: feeChargedEventProto,
+	}
+	event := &external.Event{
+		Event: eventProto,
+	}
+
+	return event
+}
+
+type QuickTransferCompleted struct {
+	Source common.Address
+	Dest   common.Address
+	Amount *big.Int
+}
+
+type SafeTransferCreated struct {
+	Source     common.Address
+	Dest       common.Address
+	Value      *big.Int
+	TransferId []byte
 }

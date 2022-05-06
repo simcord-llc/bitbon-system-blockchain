@@ -73,6 +73,9 @@ var addressGetters = map[contract_snapshot.ContractType]func(m *Manager) GetterF
 	contract_snapshot.ContractTypeMiningAgentStorageImpl: func(m *Manager) GetterFunc {
 		return m.GetMiningAgentStorageContractAddress
 	},
+	contract_snapshot.ContractTypeFeeStorageImpl: func(m *Manager) GetterFunc {
+		return m.GetFeeStorageContractAddress
+	},
 }
 
 var contractTypeGenAbi = map[contract_snapshot.ContractType]string{
@@ -88,6 +91,7 @@ var contractTypeGenAbi = map[contract_snapshot.ContractType]string{
 	contract_snapshot.ContractTypeDistributionStorageImpl:  DistributionStorageImplABI,
 	contract_snapshot.ContractTypeMiningAgentStorageImpl:   MiningAgentStorageImplABI,
 	contract_snapshot.ContractTypeContractStorageImpl:      ContractStorageImplABI,
+	contract_snapshot.ContractTypeFeeStorageImpl:           FeeStorageImplABI,
 }
 
 func ContractTypeAbi(contractType contract_snapshot.ContractType) (string, error) {

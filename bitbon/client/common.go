@@ -47,6 +47,7 @@ const (
 	DefaultBlockExchange       = "e.block.forward"
 	DefaultTransactionExchange = "e.transaction.forward"
 	DefaultMiningExchange      = "e.mining.forward"
+	DefaultFeeExchange         = "e.fee.forward"
 
 	LastErrorCleanInterval = 20 * time.Second
 
@@ -66,6 +67,12 @@ const (
 	quickTransferRequestRK  = "r.transfer.#.QuickTransferRequest"
 	quickTransferResponseRK = "r.transfer.bitbon-node.QuickTransferResponse"
 
+	frameTransferRequestRK  = "r.transfer.#.FrameTransferRequest"
+	frameTransferResponseRK = "r.transfer.bitbon-node.FrameTransferResponse"
+
+	serviceFeeTransferRequestRK  = "r.transfer.#.ServiceFeeTransferRequest"
+	serviceFeeTransferResponseRK = "r.transfer.bitbon-node.ServiceFeeTransferResponse"
+
 	createWPCSafeTransferRequestRK  = "r.transfer.#.CreateWPCSafeTransferRequest"
 	createWPCSafeTransferResponseRK = "r.transfer.bitbon-node.CreateWPCSafeTransferResponse"
 
@@ -84,11 +91,38 @@ const (
 	cancelSafeTransferRequestRK  = "r.transfer.#.CancelSafeTransferRequest"
 	cancelSafeTransferResponseRK = "r.transfer.bitbon-node.CancelSafeTransferResponse"
 
+	fullBalanceQuickTransferRequestRK  = "r.transfer.#.FullBalanceQuickTransferRequest"
+	fullBalanceQuickTransferResponseRK = "r.transfer.bitbon-node.FullBalanceQuickTransferResponse"
+
+	createFullBalanceWPCSafeTransferRequestRK  = "r.transfer.#.CreateFullBalanceWPCSafeTransferRequest"
+	createFullBalanceWPCSafeTransferResponseRK = "r.transfer.bitbon-node.CreateFullBalanceWPCSafeTransferResponse"
+
+	approveFullBalanceWPCSafeTransferRequestRK  = "r.transfer.#.ApproveFullBalanceWPCSafeTransferRequest"
+	approveFullBalanceWPCSafeTransferResponseRK = "r.transfer.bitbon-node.ApproveFullBalanceWPCSafeTransferResponse"
+
+	cancelFullBalanceWPCSafeTransferRequestRK  = "r.transfer.#.CancelFullBalanceWPCSafeTransferRequest"
+	cancelFullBalanceWPCSafeTransferResponseRK = "r.transfer.bitbon-node.CancelFullBalanceWPCSafeTransferResponse"
+
+	createFullBalanceSafeTransferRequestRK  = "r.transfer.#.CreateFullBalanceSafeTransferRequest"
+	createFullBalanceSafeTransferResponseRK = "r.transfer.bitbon-node.CreateFullBalanceSafeTransferResponse"
+
+	approveFullBalanceSafeTransferRequestRK  = "r.transfer.#.ApproveFullBalanceSafeTransferRequest"
+	approveFullBalanceSafeTransferResponseRK = "r.transfer.bitbon-node.ApproveFullBalanceSafeTransferResponse"
+
+	cancelFullBalanceSafeTransferRequestRK  = "r.transfer.#.CancelFullBalanceSafeTransferRequest"
+	cancelFullBalanceSafeTransferResponseRK = "r.transfer.bitbon-node.CancelFullBalanceSafeTransferResponse"
+
 	directTransferRequestRK  = "r.transfer.#.DirectTransferRequest"
 	directTransferResponseRK = "r.transfer.bitbon-node.DirectTransferResponse"
 
 	quickTransferRequestAsyncRK  = "r.transfer.#.QuickTransferAsyncRequest"
 	quickTransferResponseAsyncRK = "r.transfer.bitbon-node.QuickTransferAsyncResponse"
+
+	frameTransferRequestAsyncRK  = "r.transfer.#.FrameTransferAsyncRequest"
+	frameTransferResponseAsyncRK = "r.transfer.bitbon-node.FrameTransferAsyncResponse"
+
+	serviceFeeTransferRequestAsyncRK  = "r.transfer.#.ServiceFeeTransferAsyncRequest"
+	serviceFeeTransferResponseAsyncRK = "r.transfer.bitbon-node.ServiceFeeTransferAsyncResponse"
 
 	createWPCSafeTransferRequestAsyncRK  = "r.transfer.#.CreateWPCSafeTransferAsyncRequest"
 	createWPCSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CreateWPCSafeTransferAsyncResponse"
@@ -107,6 +141,27 @@ const (
 
 	cancelSafeTransferRequestAsyncRK  = "r.transfer.#.CancelSafeTransferAsyncRequest"
 	cancelSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CancelSafeTransferAsyncResponse"
+
+	fullBalanceQuickTransferRequestAsyncRK  = "r.transfer.#.FullBalanceQuickTransferAsyncRequest"
+	fullBalanceQuickTransferResponseAsyncRK = "r.transfer.bitbon-node.FullBalanceQuickTransferAsyncResponse"
+
+	createFullBalanceWPCSafeTransferRequestAsyncRK  = "r.transfer.#.CreateFullBalanceWPCSafeTransferAsyncRequest"
+	createFullBalanceWPCSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CreateFullBalanceWPCSafeTransferAsyncResponse"
+
+	approveFullBalanceWPCSafeTransferRequestAsyncRK  = "r.transfer.#.ApproveFullBalanceWPCSafeTransferAsyncRequest"
+	approveFullBalanceWPCSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.ApproveFullBalanceWPCSafeTransferAsyncResponse"
+
+	cancelFullBalanceWPCSafeTransferRequestAsyncRK  = "r.transfer.#.CancelFullBalanceWPCSafeTransferAsyncRequest"
+	cancelFullBalanceWPCSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CancelFullBalanceWPCSafeTransferAsyncResponse"
+
+	createFullBalanceSafeTransferRequestAsyncRK  = "r.transfer.#.CreateFullBalanceSafeTransferAsyncRequest"
+	createFullBalanceSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CreateFullBalanceSafeTransferAsyncResponse"
+
+	approveFullBalanceSafeTransferRequestAsyncRK  = "r.transfer.#.ApproveFullBalanceSafeTransferAsyncRequest"
+	approveFullBalanceSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.ApproveFullBalanceSafeTransferAsyncResponse"
+
+	cancelFullBalanceSafeTransferRequestAsyncRK  = "r.transfer.#.CancelFullBalanceSafeTransferAsyncRequest"
+	cancelFullBalanceSafeTransferResponseAsyncRK = "r.transfer.bitbon-node.CancelFullBalanceSafeTransferAsyncResponse"
 
 	directTransferRequestAsyncRK  = "r.transfer.#.DirectTransferAsyncRequest"
 	directTransferResponseAsyncRK = "r.transfer.bitbon-node.DirectTransferAsyncResponse"
@@ -159,30 +214,52 @@ const (
 	getMinerNodesRequestRK  = "r.mining-agent.#.GetMinerNodesRequest"
 	getMinerNodesResponseRK = "r.mining-agent.bitbon-node.GetMinerNodesResponse"
 
+	// Fee routing config
+	feeSettingsRequestRK  = "r.fee.#.FeeSettingsRequest"
+	feeSettingsResponseRK = "r.fee.bitbon-node.FeeSettingsResponse"
+
 	// keys for configs
-	prepareAssetboxesKey      = "prepareAssetboxes"
-	deleteAssetboxKey         = "deleteAssetbox"
-	setPublicAssetboxInfoKey  = "setPublicAssetboxInfo"
-	assetboxBalancesKey       = "assetboxBalances"
-	quickTransferKey          = "quickTransfer"
-	createWPCSafeTransferKey  = "createWPCSafeTransfer"
-	approveWPCSafeTransferKey = "approveWPCSafeTransfer"
-	cancelWPCSafeTransferKey  = "cancelWPCSafeTransfer"
-	createSafeTransferKey     = "createSafeTransfer"
-	approveSafeTransferKey    = "approveSafeTransfer"
-	cancelSafeTransferKey     = "cancelSafeTransfer"
-	directTransferKey         = "directTransfer"
-	monetizeEmissionKey       = "monetizeEmission"
-	monetizeCertificateKey    = "monetizeCertificate"
+	prepareAssetboxesKey                 = "prepareAssetboxes"
+	deleteAssetboxKey                    = "deleteAssetbox"
+	setPublicAssetboxInfoKey             = "setPublicAssetboxInfo"
+	assetboxBalancesKey                  = "assetboxBalances"
+	quickTransferKey                     = "quickTransfer"
+	frameTransferKey                     = "frameTransfer"
+	serviceFeeTransferKey                = "serviceFeeTransfer"
+	createWPCSafeTransferKey             = "createWPCSafeTransfer"
+	approveWPCSafeTransferKey            = "approveWPCSafeTransfer"
+	cancelWPCSafeTransferKey             = "cancelWPCSafeTransfer"
+	createSafeTransferKey                = "createSafeTransfer"
+	approveSafeTransferKey               = "approveSafeTransfer"
+	cancelSafeTransferKey                = "cancelSafeTransfer"
+	directTransferKey                    = "directTransfer"
+	monetizeEmissionKey                  = "monetizeEmission"
+	monetizeCertificateKey               = "monetizeCertificate"
+	fullBalanceQuickTransferKey          = "fullBalanceQuickTransfer"
+	createFullBalanceWPCSafeTransferKey  = "createFullBalanceWPCSafeTransfer"
+	approveFullBalanceWPCSafeTransferKey = "approveFullBalanceWPCSafeTransfer"
+	cancelFullBalanceWPCSafeTransferKey  = "cancelFullBalanceWPCSafeTransfer"
+	createFullBalanceSafeTransferKey     = "createFullBalanceSafeTransfer"
+	approveFullBalanceSafeTransferKey    = "approveFullBalanceSafeTransfer"
+	cancelFullBalanceSafeTransferKey     = "cancelFullBalanceSafeTransfer"
 	// Async transfers
-	quickTransferAsyncKey          = "quickTransferAsync"
-	createWPCTransferAsyncKey      = "createWPCTransferAsync"
-	approveWPCSafeTransferAsyncKey = "approveWPCSafeTransferAsync"
-	cancelWPCSafeTransferAsyncKey  = "cancelWPCSafeTransferAsync"
-	createSafeTransferAsyncKey     = "createSafeTransferAsync"
-	approveSafeTransferAsyncKey    = "approveSafeTransferAsync"
-	cancelSafeTransferAsyncKey     = "cancelSafeTransferAsync"
-	directTransferAsyncKey         = "directTransferAsync"
+	quickTransferAsyncKey                     = "quickTransferAsync"
+	frameTransferAsyncKey                     = "frameTransferAsync"
+	serviceFeeTransferAsyncKey                = "serviceFeeTransferAsync"
+	createWPCTransferAsyncKey                 = "createWPCTransferAsync"
+	approveWPCSafeTransferAsyncKey            = "approveWPCSafeTransferAsync"
+	cancelWPCSafeTransferAsyncKey             = "cancelWPCSafeTransferAsync"
+	createSafeTransferAsyncKey                = "createSafeTransferAsync"
+	approveSafeTransferAsyncKey               = "approveSafeTransferAsync"
+	cancelSafeTransferAsyncKey                = "cancelSafeTransferAsync"
+	directTransferAsyncKey                    = "directTransferAsync"
+	fullBalanceQuickAllTransferAsyncKey       = "fullBalanceQuickTransferAsync"
+	createFullBalanceWPCSafeTransferAsyncKey  = "createFullBalanceWPCTransferAsync"
+	approveFullBalanceWPCSafeTransferAsyncKey = "approveFullBalanceWPCSafeTransferAsync"
+	cancelFullBalanceWPCSafeTransferAsyncKey  = "cancelFullBalanceWPCSafeTransferAsync"
+	createFullBalanceSafeTransferAsyncKey     = "createFullBalanceSafeTransferAsync"
+	approveFullBalanceSafeTransferAsyncKey    = "approveFullBalanceSafeTransferAsync"
+	cancelFullBalanceSafeTransferAsyncKey     = "cancelFullBalanceSafeTransferAsync"
 
 	// Block key config
 	blockByHashKey         = "blockByHash"
@@ -198,12 +275,15 @@ const (
 	transactionByBlockHashAndIndexKey   = "transactionByBlockHashAndIndex"
 	transactionByBlockNumberAndIndexKey = "transactionByBlockNumberAndIndex"
 	checkTransactionsByTimePeriodKey    = "checkTransactionsByTimePeriod"
-	expireTransactionsKey               = "expireTransaction"
+	expireTransfersKey                  = "expireTransfers"
 
 	// Mining Agent key config
 	proposeDistributionKey    = "proposeDistribution"
 	getCurrentDistributionKey = "getCurrentDistribution"
 	getMinerNodesKey          = "getMinerNodes"
+
+	// Fee key config
+	feeValueSettingsKey = "feeValueSettings"
 )
 
 func (c *Client) getAllModes() map[string]BitbonClientMode {
@@ -252,6 +332,22 @@ func (c *Client) getMutableProcessConfig() map[string]workerConfig {
 			reqRoutingKey:  quickTransferRequestRK,
 			respRoutingKey: quickTransferResponseRK,
 			handle:         c.handleQuickTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		frameTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleFrameTransfer",
+			reqRoutingKey:  frameTransferRequestRK,
+			respRoutingKey: frameTransferResponseRK,
+			handle:         c.handleFrameTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		serviceFeeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleServiceFeeTransfer",
+			reqRoutingKey:  serviceFeeTransferRequestRK,
+			respRoutingKey: serviceFeeTransferResponseRK,
+			handle:         c.handleServiceFeeTransfer,
 			threads:        runtime.NumCPU(),
 		},
 		createWPCSafeTransferKey: {
@@ -310,6 +406,62 @@ func (c *Client) getMutableProcessConfig() map[string]workerConfig {
 			handle:         c.handleDirectTransfer,
 			threads:        1,
 		},
+		fullBalanceQuickTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleFullBalanceQuickTransfer",
+			reqRoutingKey:  fullBalanceQuickTransferRequestRK,
+			respRoutingKey: fullBalanceQuickTransferResponseRK,
+			handle:         c.handleFullBalanceQuickTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		createFullBalanceWPCSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCreateFullBalanceWPCSafeTransfer",
+			reqRoutingKey:  createFullBalanceWPCSafeTransferRequestRK,
+			respRoutingKey: createFullBalanceWPCSafeTransferResponseRK,
+			handle:         c.handleCreateFullBalanceWPCSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		approveFullBalanceWPCSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleApproveFullBalanceWPCSafeTransfer",
+			reqRoutingKey:  approveFullBalanceWPCSafeTransferRequestRK,
+			respRoutingKey: approveFullBalanceWPCSafeTransferResponseRK,
+			handle:         c.handleApproveFullBalanceWPCSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		cancelFullBalanceWPCSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCancelFullBalanceWPCSafeTransfer",
+			reqRoutingKey:  cancelFullBalanceWPCSafeTransferRequestRK,
+			respRoutingKey: cancelFullBalanceWPCSafeTransferResponseRK,
+			handle:         c.handleCancelFullBalanceWPCSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		createFullBalanceSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCreateFullBalanceSafeTransfer",
+			reqRoutingKey:  createFullBalanceSafeTransferRequestRK,
+			respRoutingKey: createFullBalanceSafeTransferResponseRK,
+			handle:         c.handleCreateFullBalanceSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		approveFullBalanceSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleApproveFullBalanceSafeTransfer",
+			reqRoutingKey:  approveFullBalanceSafeTransferRequestRK,
+			respRoutingKey: approveFullBalanceSafeTransferResponseRK,
+			handle:         c.handleApproveFullBalanceSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
+		cancelFullBalanceSafeTransferKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCancelFullBalanceSafeTransfer",
+			reqRoutingKey:  cancelFullBalanceSafeTransferRequestRK,
+			respRoutingKey: cancelFullBalanceSafeTransferResponseRK,
+			handle:         c.handleCancelFullBalanceSafeTransfer,
+			threads:        runtime.NumCPU(),
+		},
 		// Async transfers
 		quickTransferAsyncKey: {
 			exchange:       c.cfg.AmqpTransferExchange,
@@ -317,6 +469,22 @@ func (c *Client) getMutableProcessConfig() map[string]workerConfig {
 			reqRoutingKey:  quickTransferRequestAsyncRK,
 			respRoutingKey: quickTransferResponseAsyncRK,
 			handle:         c.handleQuickTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		frameTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleFrameTransferAsync",
+			reqRoutingKey:  frameTransferRequestAsyncRK,
+			respRoutingKey: frameTransferResponseAsyncRK,
+			handle:         c.handleFrameTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		serviceFeeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleServiceFeeTransferAsync",
+			reqRoutingKey:  serviceFeeTransferRequestAsyncRK,
+			respRoutingKey: serviceFeeTransferResponseAsyncRK,
+			handle:         c.handleServiceFeeTransferAsync,
 			threads:        runtime.NumCPU(),
 		},
 		createWPCTransferAsyncKey: {
@@ -375,12 +543,69 @@ func (c *Client) getMutableProcessConfig() map[string]workerConfig {
 			handle:         c.handleDirectTransferAsync,
 			threads:        1,
 		},
-		expireTransactionsKey: {
+		fullBalanceQuickAllTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleFullBalanceQuickTransferAsync",
+			reqRoutingKey:  fullBalanceQuickTransferRequestAsyncRK,
+			respRoutingKey: fullBalanceQuickTransferResponseAsyncRK,
+			handle:         c.handleFullBalanceQuickTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		createFullBalanceWPCSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCreateFullBalanceWPCSafeTransferAsync",
+			reqRoutingKey:  createFullBalanceWPCSafeTransferRequestAsyncRK,
+			respRoutingKey: createFullBalanceWPCSafeTransferResponseAsyncRK,
+			handle:         c.handleCreateFullBalanceWPCSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		approveFullBalanceWPCSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleApproveFullBalanceWPCSafeTransferAsync",
+			reqRoutingKey:  approveFullBalanceWPCSafeTransferRequestAsyncRK,
+			respRoutingKey: approveFullBalanceWPCSafeTransferResponseAsyncRK,
+			handle:         c.handleApproveFullBalanceWPCSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		cancelFullBalanceWPCSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCancelFullBalanceWPCSafeTransferAsync",
+			reqRoutingKey:  cancelFullBalanceWPCSafeTransferRequestAsyncRK,
+			respRoutingKey: cancelFullBalanceWPCSafeTransferResponseAsyncRK,
+			handle:         c.handleCancelFullBalanceWPCSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+
+		createFullBalanceSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCreateFullBalanceSafeTransferAsync",
+			reqRoutingKey:  createFullBalanceSafeTransferRequestAsyncRK,
+			respRoutingKey: createFullBalanceSafeTransferResponseAsyncRK,
+			handle:         c.handleCreateFullBalanceSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		approveFullBalanceSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleApproveFullBalanceSafeTransferAsync",
+			reqRoutingKey:  approveFullBalanceSafeTransferRequestAsyncRK,
+			respRoutingKey: approveFullBalanceSafeTransferResponseAsyncRK,
+			handle:         c.handleApproveFullBalanceSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		cancelFullBalanceSafeTransferAsyncKey: {
+			exchange:       c.cfg.AmqpTransferExchange,
+			queueName:      "q.bitbon-node.handleCancelFullBalanceSafeTransferAsync",
+			reqRoutingKey:  cancelFullBalanceSafeTransferRequestAsyncRK,
+			respRoutingKey: cancelFullBalanceSafeTransferResponseAsyncRK,
+			handle:         c.handleCancelFullBalanceSafeTransferAsync,
+			threads:        runtime.NumCPU(),
+		},
+		expireTransfersKey: {
 			exchange:       c.cfg.AmqpTransferExchange,
 			queueName:      "q.bitbon-node.handleExpireTransfers",
 			reqRoutingKey:  expireTransfersRequestRK,
 			respRoutingKey: expireTransfersResponseRK,
-			handle:         c.handleExpireTransfers,
+			handle:         c.handleExpireTransfersAsync,
 			threads:        1,
 		},
 		proposeDistributionKey: {
@@ -512,6 +737,16 @@ func (c *Client) getReadableProcessConfig() map[string]workerConfig {
 			reqRoutingKey:  getMinerNodesRequestRK,
 			respRoutingKey: getMinerNodesResponseRK,
 			handle:         c.handleGetMinerNodes,
+			threads:        1,
+		},
+
+		// Fee's
+		feeValueSettingsKey: {
+			exchange:       c.cfg.AmqpFeeExchange,
+			queueName:      "q.bitbon-node.handleFeeValueSettings",
+			reqRoutingKey:  feeSettingsRequestRK,
+			respRoutingKey: feeSettingsResponseRK,
+			handle:         c.handleFeeSettingsRequest,
 			threads:        1,
 		},
 	}

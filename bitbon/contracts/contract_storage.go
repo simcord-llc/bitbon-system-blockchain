@@ -79,6 +79,8 @@ func (m *Manager) getAddress(ctx context.Context, address common.Address, contra
 		addr, err = contract.GetDistributionStorage(opts)
 	case contract_snapshot.ContractTypeMiningAgentStorageImpl:
 		addr, err = contract.GetMiningAgentStorage(opts)
+	case contract_snapshot.ContractTypeFeeStorageImpl:
+		addr, err = contract.GetFeeStorage(opts)
 	default:
 		err = errors.New("undefined contract type")
 	}
@@ -128,6 +130,10 @@ func (m *Manager) GetAccessStorageContractAddress(ctx context.Context, address c
 
 func (m *Manager) GetReservedAliasStorageContractAddress(ctx context.Context, address common.Address) (common.Address, error) {
 	return m.getAddress(ctx, address, contract_snapshot.ContractTypeReservedAliasStorageImpl)
+}
+
+func (m *Manager) GetFeeStorageContractAddress(ctx context.Context, address common.Address) (common.Address, error) {
+	return m.getAddress(ctx, address, contract_snapshot.ContractTypeFeeStorageImpl)
 }
 
 func (m *Manager) GetNewContactStorageAddress(ctx context.Context, address common.Address) (common.Address, error) {

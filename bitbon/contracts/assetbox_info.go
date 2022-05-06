@@ -19,6 +19,7 @@ package contracts
 import (
 	"context"
 	"crypto/ecdsa"
+	"github.com/simcord-llc/bitbon-system-blockchain/core/types"
 
 	"github.com/pkg/errors"
 	"github.com/simcord-llc/bitbon-system-blockchain/accounts/abi/bind"
@@ -80,7 +81,10 @@ func (m *Manager) SetAssetboxInfo(ctx context.Context, assetbox *Assetbox, key *
 		return err
 	}
 
-	tx, err := contract.SetAssetboxInfo(opts, assetbox.Alias, assetbox.ServiceID, assetbox.IsMining, otherInfo)
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.SetAssetboxInfo(opts, assetbox.Alias, assetbox.ServiceID, assetbox.IsMining, otherInfo)
+	})
+
 	if err != nil {
 		return err
 	}
@@ -109,7 +113,10 @@ func (m *Manager) DeleteAssetboxInfo(ctx context.Context, key *ecdsa.PrivateKey)
 		return err
 	}
 
-	tx, err := contract.DeleteAssetboxInfo(opts)
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.DeleteAssetboxInfo(opts)
+	})
+
 	if err != nil {
 		return err
 	}
@@ -164,7 +171,10 @@ func (m *Manager) SetAssetboxInfos(ctx context.Context, a []*Assetbox, key *ecds
 		return err
 	}
 
-	tx, err := contract.SetAssetboxInfosAdmin(opts, assetboxes, aliases, serviceIds, isMinings, otherInfos)
+	tx, err := m.retryTransaction(func() (*types.Transaction, error) {
+		return contract.SetAssetboxInfosAdmin(opts, assetboxes, aliases, serviceIds, isMinings, otherInfos)
+	})
+
 	if err != nil {
 		return err
 	}

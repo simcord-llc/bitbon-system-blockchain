@@ -27,7 +27,7 @@ var (
 )
 
 // BitbonImplABI is the input ABI used to generate the binding from.
-const BitbonImplABI = "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"contractStorageAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMINABLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_SUPPORT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONBALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONTRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_GENERATOR\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_DROP_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_INDEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CERTIFICATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_RESERVED_ALIAS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ROLE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_SAFE_TRANSFER_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER_FROM_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ACCESS_RESTORATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACTS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACT_DEPLOY\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_FEES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ROLES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_ACCESS_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_BITBON_ISSUE_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_COMMISSION_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_DEPLOY_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_PERMISSION_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getThisContractIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"scope\",\"type\":\"address[]\"}],\"name\":\"getScopeBalances\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"scope\",\"type\":\"address[]\"}],\"name\":\"getScopeBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"res\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"quickTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"vk\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"retries\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"protectionCode\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"transferExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"ids\",\"type\":\"bytes32[]\"}],\"name\":\"expireSafeTransfers\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+const BitbonImplABI = "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"contractStorageAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ACCESS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMINABLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_INFO_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ASSETBOX_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BITBON_SUPPORT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONBALANCE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_BONTRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_DISTRIBUTION_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_EXCHANGE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_FEE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_GENERATOR\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_GATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MINING_AGENT_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MSBON_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_DISTRIBUTION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_ADD_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_DROP_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_EDIT_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_ADDRESS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_BY_INDEX\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REMOVE_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_CERTIFICATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_REPLENISH_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_ADMIN_ROLE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_CONFIRMATION_RATE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MAX_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MIN_AMOUNT\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_MIN_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_SET_PERMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_OTC_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_REPLENISH_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_RESERVED_ALIAS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_ROLE_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_SAFE_TRANSFER_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"CONTRACT_TRANSFER_FROM_CAPITALIZATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_CREATE_SAFE_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_FRAME_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_QUICK_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_QUICK_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_WPC_SAFE_TRANSFER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"FEE_OPERATION_WPC_SAFE_TRANSFER_ALL\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ACCESS_RESTORATION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ADMIN_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACTS_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_CONTRACT_DEPLOY\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_EMISSION\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_FEES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_MULTISIG_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"PERMISSION_ROLES_STORAGE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_ACCESS_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_BITBON_ISSUE_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_COMMISSION_VERIFIER\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_DEPLOY_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ROLE_PERMISSION_ADMIN\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getThisContractIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"scope\",\"type\":\"address[]\"}],\"name\":\"getScopeBalances\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"scope\",\"type\":\"address[]\"}],\"name\":\"getScopeBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"res\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"opType\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"}],\"name\":\"feeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"quickTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"quickTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"frameTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"vk\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"retries\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"proof\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"vk\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"retries\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"expiresAt\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"createWPCSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"protectionCode\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"protectionCode\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"approveWPCSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelWPCSafeTransfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"}],\"name\":\"cancelWPCSafeTransferAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"getOperationFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"}],\"name\":\"balanceOfLocked\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"assetbox\",\"type\":\"address\"}],\"name\":\"balanceOfFull\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"transferId\",\"type\":\"bytes\"}],\"name\":\"transferExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32[]\",\"name\":\"ids\",\"type\":\"bytes32[]\"}],\"name\":\"expireSafeTransfers\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getTotalLockedBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
 
 // BitbonImpl is an auto generated Go binding around an Ethereum contract.
 type BitbonImpl struct {
@@ -566,6 +566,32 @@ func (_BitbonImpl *BitbonImplCallerSession) CONTRACTDEX() (*big.Int, error) {
 	return _BitbonImpl.Contract.CONTRACTDEX(&_BitbonImpl.CallOpts)
 }
 
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTDISTRIBUTIONGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_DISTRIBUTION_GATE")
+	return *ret0, err
+}
+
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTDISTRIBUTIONGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTDISTRIBUTIONGATE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTDISTRIBUTIONGATE is a free data retrieval call binding the contract method 0x6e993588.
+//
+// Solidity: function CONTRACT_DISTRIBUTION_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTDISTRIBUTIONGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTDISTRIBUTIONGATE(&_BitbonImpl.CallOpts)
+}
+
 // CONTRACTDISTRIBUTIONSTORAGE is a free data retrieval call binding the contract method 0x08097327.
 //
 // Solidity: function CONTRACT_DISTRIBUTION_STORAGE() view returns(uint256)
@@ -644,6 +670,32 @@ func (_BitbonImpl *BitbonImplCallerSession) CONTRACTEXCHANGESTORAGE() (*big.Int,
 	return _BitbonImpl.Contract.CONTRACTEXCHANGESTORAGE(&_BitbonImpl.CallOpts)
 }
 
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTFEEGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_FEE_GATE")
+	return *ret0, err
+}
+
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTFEEGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTFEEGATE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTFEEGATE is a free data retrieval call binding the contract method 0x545c17a4.
+//
+// Solidity: function CONTRACT_FEE_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTFEEGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTFEEGATE(&_BitbonImpl.CallOpts)
+}
+
 // CONTRACTFEESTORAGE is a free data retrieval call binding the contract method 0xcd5e65a4.
 //
 // Solidity: function CONTRACT_FEE_STORAGE() view returns(uint256)
@@ -694,6 +746,32 @@ func (_BitbonImpl *BitbonImplSession) CONTRACTGENERATOR() (*big.Int, error) {
 // Solidity: function CONTRACT_GENERATOR() view returns(uint256)
 func (_BitbonImpl *BitbonImplCallerSession) CONTRACTGENERATOR() (*big.Int, error) {
 	return _BitbonImpl.Contract.CONTRACTGENERATOR(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMININGAGENTGATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MINING_AGENT_GATE")
+	return *ret0, err
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMININGAGENTGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMININGAGENTGATE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMININGAGENTGATE is a free data retrieval call binding the contract method 0xb9b4c0f1.
+//
+// Solidity: function CONTRACT_MINING_AGENT_GATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMININGAGENTGATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMININGAGENTGATE(&_BitbonImpl.CallOpts)
 }
 
 // CONTRACTMININGAGENTSTORAGE is a free data retrieval call binding the contract method 0x83cc588d.
@@ -826,6 +904,32 @@ func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGADDADMIN() (*big.Int
 	return _BitbonImpl.Contract.CONTRACTMULTISIGADDADMIN(&_BitbonImpl.CallOpts)
 }
 
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGADDDISTRIBUTION(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_ADD_DISTRIBUTION")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGADDDISTRIBUTION() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGADDDISTRIBUTION(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGADDDISTRIBUTION is a free data retrieval call binding the contract method 0x8f8b81d1.
+//
+// Solidity: function CONTRACT_MULTISIG_ADD_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGADDDISTRIBUTION() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGADDDISTRIBUTION(&_BitbonImpl.CallOpts)
+}
+
 // CONTRACTMULTISIGADDFEE is a free data retrieval call binding the contract method 0xc43e8cab.
 //
 // Solidity: function CONTRACT_MULTISIG_ADD_FEE() view returns(uint256)
@@ -876,6 +980,32 @@ func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGADDROLE() (*big.Int, error
 // Solidity: function CONTRACT_MULTISIG_ADD_ROLE() view returns(uint256)
 func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGADDROLE() (*big.Int, error) {
 	return _BitbonImpl.Contract.CONTRACTMULTISIGADDROLE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGCLEARFEEEXCEPTIONS(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGCLEARFEEEXCEPTIONS() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGCLEARFEEEXCEPTIONS(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGCLEARFEEEXCEPTIONS is a free data retrieval call binding the contract method 0xf74701f2.
+//
+// Solidity: function CONTRACT_MULTISIG_CLEAR_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGCLEARFEEEXCEPTIONS() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGCLEARFEEEXCEPTIONS(&_BitbonImpl.CallOpts)
 }
 
 // CONTRACTMULTISIGDROPPERMISSION is a free data retrieval call binding the contract method 0x3f3fbc39.
@@ -1216,6 +1346,162 @@ func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETADMINROLE() (*big
 	return _BitbonImpl.Contract.CONTRACTMULTISIGSETADMINROLE(&_BitbonImpl.CallOpts)
 }
 
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETCONFIRMATIONRATE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_CONFIRMATION_RATE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETCONFIRMATIONRATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETCONFIRMATIONRATE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETCONFIRMATIONRATE is a free data retrieval call binding the contract method 0xa997279b.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_CONFIRMATION_RATE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETCONFIRMATIONRATE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETCONFIRMATIONRATE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETFEEDISTRIBUTION(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETFEEDISTRIBUTION() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETFEEDISTRIBUTION(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEDISTRIBUTION is a free data retrieval call binding the contract method 0x0b76e64d.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_DISTRIBUTION() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETFEEDISTRIBUTION() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETFEEDISTRIBUTION(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETFEEEXCEPTIONS(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETFEEEXCEPTIONS() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETFEEEXCEPTIONS(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETFEEEXCEPTIONS is a free data retrieval call binding the contract method 0x5e6b28a0.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_FEE_EXCEPTIONS() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETFEEEXCEPTIONS() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETFEEEXCEPTIONS(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETMAXFEE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MAX_FEE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETMAXFEE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMAXFEE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMAXFEE is a free data retrieval call binding the contract method 0xa5f59013.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MAX_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETMAXFEE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMAXFEE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETMINAMOUNT(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MIN_AMOUNT")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETMINAMOUNT() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMINAMOUNT(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINAMOUNT is a free data retrieval call binding the contract method 0xaba147b6.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_AMOUNT() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETMINAMOUNT() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMINAMOUNT(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) CONTRACTMULTISIGSETMINFEE(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "CONTRACT_MULTISIG_SET_MIN_FEE")
+	return *ret0, err
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) CONTRACTMULTISIGSETMINFEE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMINFEE(&_BitbonImpl.CallOpts)
+}
+
+// CONTRACTMULTISIGSETMINFEE is a free data retrieval call binding the contract method 0xf2d1904f.
+//
+// Solidity: function CONTRACT_MULTISIG_SET_MIN_FEE() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) CONTRACTMULTISIGSETMINFEE() (*big.Int, error) {
+	return _BitbonImpl.Contract.CONTRACTMULTISIGSETMINFEE(&_BitbonImpl.CallOpts)
+}
+
 // CONTRACTMULTISIGSETPERMISSION is a free data retrieval call binding the contract method 0xb0e91914.
 //
 // Solidity: function CONTRACT_MULTISIG_SET_PERMISSION() view returns(uint256)
@@ -1474,6 +1760,188 @@ func (_BitbonImpl *BitbonImplSession) CONTRACTTRANSFERFROMCAPITALIZATION() (*big
 // Solidity: function CONTRACT_TRANSFER_FROM_CAPITALIZATION() view returns(uint256)
 func (_BitbonImpl *BitbonImplCallerSession) CONTRACTTRANSFERFROMCAPITALIZATION() (*big.Int, error) {
 	return _BitbonImpl.Contract.CONTRACTTRANSFERFROMCAPITALIZATION(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONCREATESAFETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_CREATE_SAFE_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONCREATESAFETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONCREATESAFETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFER is a free data retrieval call binding the contract method 0xf46d727d.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONCREATESAFETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONCREATESAFETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONCREATESAFETRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONCREATESAFETRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONCREATESAFETRANSFERALL(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONCREATESAFETRANSFERALL is a free data retrieval call binding the contract method 0x9d558bef.
+//
+// Solidity: function FEE_OPERATION_CREATE_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONCREATESAFETRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONCREATESAFETRANSFERALL(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONFRAMETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_FRAME_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONFRAMETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONFRAMETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONFRAMETRANSFER is a free data retrieval call binding the contract method 0xc0c92120.
+//
+// Solidity: function FEE_OPERATION_FRAME_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONFRAMETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONFRAMETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONQUICKTRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_QUICK_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONQUICKTRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONQUICKTRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFER is a free data retrieval call binding the contract method 0xbd64b596.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONQUICKTRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONQUICKTRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONQUICKTRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_QUICK_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONQUICKTRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONQUICKTRANSFERALL(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONQUICKTRANSFERALL is a free data retrieval call binding the contract method 0x69cc9631.
+//
+// Solidity: function FEE_OPERATION_QUICK_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONQUICKTRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONQUICKTRANSFERALL(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONWPCSAFETRANSFER(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_WPC_SAFE_TRANSFER")
+	return *ret0, err
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONWPCSAFETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONWPCSAFETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFER is a free data retrieval call binding the contract method 0x33594855.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONWPCSAFETRANSFER() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONWPCSAFETRANSFER(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) FEEOPERATIONWPCSAFETRANSFERALL(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "FEE_OPERATION_WPC_SAFE_TRANSFER_ALL")
+	return *ret0, err
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) FEEOPERATIONWPCSAFETRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONWPCSAFETRANSFERALL(&_BitbonImpl.CallOpts)
+}
+
+// FEEOPERATIONWPCSAFETRANSFERALL is a free data retrieval call binding the contract method 0xf0ef7f20.
+//
+// Solidity: function FEE_OPERATION_WPC_SAFE_TRANSFER_ALL() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) FEEOPERATIONWPCSAFETRANSFERALL() (*big.Int, error) {
+	return _BitbonImpl.Contract.FEEOPERATIONWPCSAFETRANSFERALL(&_BitbonImpl.CallOpts)
 }
 
 // PERMISSIONACCESSRESTORATION is a free data retrieval call binding the contract method 0x5c3053bf.
@@ -1840,6 +2308,88 @@ func (_BitbonImpl *BitbonImplCallerSession) BalanceOf(assetbox common.Address) (
 	return _BitbonImpl.Contract.BalanceOf(&_BitbonImpl.CallOpts, assetbox)
 }
 
+// BalanceOfFull is a free data retrieval call binding the contract method 0xfe025902.
+//
+// Solidity: function balanceOfFull(address assetbox) view returns(uint256, uint256)
+func (_BitbonImpl *BitbonImplCaller) BalanceOfFull(opts *bind.CallOpts, assetbox common.Address) (*big.Int, *big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+		ret1 = new(*big.Int)
+	)
+	out := &[]interface{}{
+		ret0,
+		ret1,
+	}
+	err := _BitbonImpl.contract.Call(opts, out, "balanceOfFull", assetbox)
+	return *ret0, *ret1, err
+}
+
+// BalanceOfFull is a free data retrieval call binding the contract method 0xfe025902.
+//
+// Solidity: function balanceOfFull(address assetbox) view returns(uint256, uint256)
+func (_BitbonImpl *BitbonImplSession) BalanceOfFull(assetbox common.Address) (*big.Int, *big.Int, error) {
+	return _BitbonImpl.Contract.BalanceOfFull(&_BitbonImpl.CallOpts, assetbox)
+}
+
+// BalanceOfFull is a free data retrieval call binding the contract method 0xfe025902.
+//
+// Solidity: function balanceOfFull(address assetbox) view returns(uint256, uint256)
+func (_BitbonImpl *BitbonImplCallerSession) BalanceOfFull(assetbox common.Address) (*big.Int, *big.Int, error) {
+	return _BitbonImpl.Contract.BalanceOfFull(&_BitbonImpl.CallOpts, assetbox)
+}
+
+// BalanceOfLocked is a free data retrieval call binding the contract method 0xe960bb48.
+//
+// Solidity: function balanceOfLocked(address assetbox) view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) BalanceOfLocked(opts *bind.CallOpts, assetbox common.Address) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "balanceOfLocked", assetbox)
+	return *ret0, err
+}
+
+// BalanceOfLocked is a free data retrieval call binding the contract method 0xe960bb48.
+//
+// Solidity: function balanceOfLocked(address assetbox) view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) BalanceOfLocked(assetbox common.Address) (*big.Int, error) {
+	return _BitbonImpl.Contract.BalanceOfLocked(&_BitbonImpl.CallOpts, assetbox)
+}
+
+// BalanceOfLocked is a free data retrieval call binding the contract method 0xe960bb48.
+//
+// Solidity: function balanceOfLocked(address assetbox) view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) BalanceOfLocked(assetbox common.Address) (*big.Int, error) {
+	return _BitbonImpl.Contract.BalanceOfLocked(&_BitbonImpl.CallOpts, assetbox)
+}
+
+// GetOperationFee is a free data retrieval call binding the contract method 0xb6e9e4bc.
+//
+// Solidity: function getOperationFee(uint256 value) view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) GetOperationFee(opts *bind.CallOpts, value *big.Int) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "getOperationFee", value)
+	return *ret0, err
+}
+
+// GetOperationFee is a free data retrieval call binding the contract method 0xb6e9e4bc.
+//
+// Solidity: function getOperationFee(uint256 value) view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) GetOperationFee(value *big.Int) (*big.Int, error) {
+	return _BitbonImpl.Contract.GetOperationFee(&_BitbonImpl.CallOpts, value)
+}
+
+// GetOperationFee is a free data retrieval call binding the contract method 0xb6e9e4bc.
+//
+// Solidity: function getOperationFee(uint256 value) view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) GetOperationFee(value *big.Int) (*big.Int, error) {
+	return _BitbonImpl.Contract.GetOperationFee(&_BitbonImpl.CallOpts, value)
+}
+
 // GetScopeBalance is a free data retrieval call binding the contract method 0xee94b911.
 //
 // Solidity: function getScopeBalance(address[] scope) view returns(uint256 res)
@@ -1918,6 +2468,32 @@ func (_BitbonImpl *BitbonImplCallerSession) GetThisContractIndex() (*big.Int, er
 	return _BitbonImpl.Contract.GetThisContractIndex(&_BitbonImpl.CallOpts)
 }
 
+// GetTotalLockedBalance is a free data retrieval call binding the contract method 0xd5c25890.
+//
+// Solidity: function getTotalLockedBalance() view returns(uint256)
+func (_BitbonImpl *BitbonImplCaller) GetTotalLockedBalance(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _BitbonImpl.contract.Call(opts, out, "getTotalLockedBalance")
+	return *ret0, err
+}
+
+// GetTotalLockedBalance is a free data retrieval call binding the contract method 0xd5c25890.
+//
+// Solidity: function getTotalLockedBalance() view returns(uint256)
+func (_BitbonImpl *BitbonImplSession) GetTotalLockedBalance() (*big.Int, error) {
+	return _BitbonImpl.Contract.GetTotalLockedBalance(&_BitbonImpl.CallOpts)
+}
+
+// GetTotalLockedBalance is a free data retrieval call binding the contract method 0xd5c25890.
+//
+// Solidity: function getTotalLockedBalance() view returns(uint256)
+func (_BitbonImpl *BitbonImplCallerSession) GetTotalLockedBalance() (*big.Int, error) {
+	return _BitbonImpl.Contract.GetTotalLockedBalance(&_BitbonImpl.CallOpts)
+}
+
 // TotalSupply is a free data retrieval call binding the contract method 0x18160ddd.
 //
 // Solidity: function totalSupply() view returns(uint256)
@@ -1991,6 +2567,27 @@ func (_BitbonImpl *BitbonImplTransactorSession) ApproveSafeTransfer(transferId [
 	return _BitbonImpl.Contract.ApproveSafeTransfer(&_BitbonImpl.TransactOpts, transferId, protectionCode, extraData)
 }
 
+// ApproveSafeTransferAll is a paid mutator transaction binding the contract method 0x47a17ecb.
+//
+// Solidity: function approveSafeTransferAll(bytes transferId, bytes protectionCode, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) ApproveSafeTransferAll(opts *bind.TransactOpts, transferId []byte, protectionCode []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "approveSafeTransferAll", transferId, protectionCode, extraData)
+}
+
+// ApproveSafeTransferAll is a paid mutator transaction binding the contract method 0x47a17ecb.
+//
+// Solidity: function approveSafeTransferAll(bytes transferId, bytes protectionCode, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) ApproveSafeTransferAll(transferId []byte, protectionCode []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.ApproveSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, protectionCode, extraData)
+}
+
+// ApproveSafeTransferAll is a paid mutator transaction binding the contract method 0x47a17ecb.
+//
+// Solidity: function approveSafeTransferAll(bytes transferId, bytes protectionCode, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) ApproveSafeTransferAll(transferId []byte, protectionCode []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.ApproveSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, protectionCode, extraData)
+}
+
 // ApproveWPCSafeTransfer is a paid mutator transaction binding the contract method 0xc48bb729.
 //
 // Solidity: function approveWPCSafeTransfer(bytes transferId, bytes extraData) returns(bool)
@@ -2010,6 +2607,27 @@ func (_BitbonImpl *BitbonImplSession) ApproveWPCSafeTransfer(transferId []byte, 
 // Solidity: function approveWPCSafeTransfer(bytes transferId, bytes extraData) returns(bool)
 func (_BitbonImpl *BitbonImplTransactorSession) ApproveWPCSafeTransfer(transferId []byte, extraData []byte) (*types.Transaction, error) {
 	return _BitbonImpl.Contract.ApproveWPCSafeTransfer(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
+// ApproveWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x8313ea89.
+//
+// Solidity: function approveWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) ApproveWPCSafeTransferAll(opts *bind.TransactOpts, transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "approveWPCSafeTransferAll", transferId, extraData)
+}
+
+// ApproveWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x8313ea89.
+//
+// Solidity: function approveWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) ApproveWPCSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.ApproveWPCSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
+// ApproveWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x8313ea89.
+//
+// Solidity: function approveWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) ApproveWPCSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.ApproveWPCSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
 }
 
 // CancelSafeTransfer is a paid mutator transaction binding the contract method 0xa8389ace.
@@ -2033,6 +2651,27 @@ func (_BitbonImpl *BitbonImplTransactorSession) CancelSafeTransfer(transferId []
 	return _BitbonImpl.Contract.CancelSafeTransfer(&_BitbonImpl.TransactOpts, transferId, extraData)
 }
 
+// CancelSafeTransferAll is a paid mutator transaction binding the contract method 0xe48a66f7.
+//
+// Solidity: function cancelSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) CancelSafeTransferAll(opts *bind.TransactOpts, transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "cancelSafeTransferAll", transferId, extraData)
+}
+
+// CancelSafeTransferAll is a paid mutator transaction binding the contract method 0xe48a66f7.
+//
+// Solidity: function cancelSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) CancelSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CancelSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
+// CancelSafeTransferAll is a paid mutator transaction binding the contract method 0xe48a66f7.
+//
+// Solidity: function cancelSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) CancelSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CancelSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
 // CancelWPCSafeTransfer is a paid mutator transaction binding the contract method 0x28b5f788.
 //
 // Solidity: function cancelWPCSafeTransfer(bytes transferId, bytes extraData) returns(bool)
@@ -2052,6 +2691,27 @@ func (_BitbonImpl *BitbonImplSession) CancelWPCSafeTransfer(transferId []byte, e
 // Solidity: function cancelWPCSafeTransfer(bytes transferId, bytes extraData) returns(bool)
 func (_BitbonImpl *BitbonImplTransactorSession) CancelWPCSafeTransfer(transferId []byte, extraData []byte) (*types.Transaction, error) {
 	return _BitbonImpl.Contract.CancelWPCSafeTransfer(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
+// CancelWPCSafeTransferAll is a paid mutator transaction binding the contract method 0xc8c2e567.
+//
+// Solidity: function cancelWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) CancelWPCSafeTransferAll(opts *bind.TransactOpts, transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "cancelWPCSafeTransferAll", transferId, extraData)
+}
+
+// CancelWPCSafeTransferAll is a paid mutator transaction binding the contract method 0xc8c2e567.
+//
+// Solidity: function cancelWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) CancelWPCSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CancelWPCSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
+}
+
+// CancelWPCSafeTransferAll is a paid mutator transaction binding the contract method 0xc8c2e567.
+//
+// Solidity: function cancelWPCSafeTransferAll(bytes transferId, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) CancelWPCSafeTransferAll(transferId []byte, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CancelWPCSafeTransferAll(&_BitbonImpl.TransactOpts, transferId, extraData)
 }
 
 // CreateSafeTransfer is a paid mutator transaction binding the contract method 0x6c9bcf6f.
@@ -2075,6 +2735,27 @@ func (_BitbonImpl *BitbonImplTransactorSession) CreateSafeTransfer(to common.Add
 	return _BitbonImpl.Contract.CreateSafeTransfer(&_BitbonImpl.TransactOpts, to, value, proof, vk, transferId, retries, expiresAt, extraData)
 }
 
+// CreateSafeTransferAll is a paid mutator transaction binding the contract method 0xe33fe72c.
+//
+// Solidity: function createSafeTransferAll(address to, bytes proof, bytes vk, bytes transferId, uint256 retries, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) CreateSafeTransferAll(opts *bind.TransactOpts, to common.Address, proof []byte, vk []byte, transferId []byte, retries *big.Int, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "createSafeTransferAll", to, proof, vk, transferId, retries, expiresAt, extraData)
+}
+
+// CreateSafeTransferAll is a paid mutator transaction binding the contract method 0xe33fe72c.
+//
+// Solidity: function createSafeTransferAll(address to, bytes proof, bytes vk, bytes transferId, uint256 retries, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) CreateSafeTransferAll(to common.Address, proof []byte, vk []byte, transferId []byte, retries *big.Int, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CreateSafeTransferAll(&_BitbonImpl.TransactOpts, to, proof, vk, transferId, retries, expiresAt, extraData)
+}
+
+// CreateSafeTransferAll is a paid mutator transaction binding the contract method 0xe33fe72c.
+//
+// Solidity: function createSafeTransferAll(address to, bytes proof, bytes vk, bytes transferId, uint256 retries, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) CreateSafeTransferAll(to common.Address, proof []byte, vk []byte, transferId []byte, retries *big.Int, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CreateSafeTransferAll(&_BitbonImpl.TransactOpts, to, proof, vk, transferId, retries, expiresAt, extraData)
+}
+
 // CreateWPCSafeTransfer is a paid mutator transaction binding the contract method 0x9ca9dfa7.
 //
 // Solidity: function createWPCSafeTransfer(address to, uint256 value, bytes transferId, uint256 expiresAt, bytes extraData) returns(bool)
@@ -2094,6 +2775,27 @@ func (_BitbonImpl *BitbonImplSession) CreateWPCSafeTransfer(to common.Address, v
 // Solidity: function createWPCSafeTransfer(address to, uint256 value, bytes transferId, uint256 expiresAt, bytes extraData) returns(bool)
 func (_BitbonImpl *BitbonImplTransactorSession) CreateWPCSafeTransfer(to common.Address, value *big.Int, transferId []byte, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
 	return _BitbonImpl.Contract.CreateWPCSafeTransfer(&_BitbonImpl.TransactOpts, to, value, transferId, expiresAt, extraData)
+}
+
+// CreateWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x1a9b6d93.
+//
+// Solidity: function createWPCSafeTransferAll(address to, bytes transferId, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) CreateWPCSafeTransferAll(opts *bind.TransactOpts, to common.Address, transferId []byte, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "createWPCSafeTransferAll", to, transferId, expiresAt, extraData)
+}
+
+// CreateWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x1a9b6d93.
+//
+// Solidity: function createWPCSafeTransferAll(address to, bytes transferId, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) CreateWPCSafeTransferAll(to common.Address, transferId []byte, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CreateWPCSafeTransferAll(&_BitbonImpl.TransactOpts, to, transferId, expiresAt, extraData)
+}
+
+// CreateWPCSafeTransferAll is a paid mutator transaction binding the contract method 0x1a9b6d93.
+//
+// Solidity: function createWPCSafeTransferAll(address to, bytes transferId, uint256 expiresAt, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) CreateWPCSafeTransferAll(to common.Address, transferId []byte, expiresAt *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.CreateWPCSafeTransferAll(&_BitbonImpl.TransactOpts, to, transferId, expiresAt, extraData)
 }
 
 // ExpireSafeTransfers is a paid mutator transaction binding the contract method 0xa5471f24.
@@ -2117,6 +2819,48 @@ func (_BitbonImpl *BitbonImplTransactorSession) ExpireSafeTransfers(ids [][32]by
 	return _BitbonImpl.Contract.ExpireSafeTransfers(&_BitbonImpl.TransactOpts, ids)
 }
 
+// FeeTransfer is a paid mutator transaction binding the contract method 0x4fe06442.
+//
+// Solidity: function feeTransfer(uint256 opType, address from) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) FeeTransfer(opts *bind.TransactOpts, opType *big.Int, from common.Address) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "feeTransfer", opType, from)
+}
+
+// FeeTransfer is a paid mutator transaction binding the contract method 0x4fe06442.
+//
+// Solidity: function feeTransfer(uint256 opType, address from) returns(bool)
+func (_BitbonImpl *BitbonImplSession) FeeTransfer(opType *big.Int, from common.Address) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.FeeTransfer(&_BitbonImpl.TransactOpts, opType, from)
+}
+
+// FeeTransfer is a paid mutator transaction binding the contract method 0x4fe06442.
+//
+// Solidity: function feeTransfer(uint256 opType, address from) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) FeeTransfer(opType *big.Int, from common.Address) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.FeeTransfer(&_BitbonImpl.TransactOpts, opType, from)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0x2e7cfa0c.
+//
+// Solidity: function frameTransfer(address to, uint256 value, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) FrameTransfer(opts *bind.TransactOpts, to common.Address, value *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "frameTransfer", to, value, extraData)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0x2e7cfa0c.
+//
+// Solidity: function frameTransfer(address to, uint256 value, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) FrameTransfer(to common.Address, value *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.FrameTransfer(&_BitbonImpl.TransactOpts, to, value, extraData)
+}
+
+// FrameTransfer is a paid mutator transaction binding the contract method 0x2e7cfa0c.
+//
+// Solidity: function frameTransfer(address to, uint256 value, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) FrameTransfer(to common.Address, value *big.Int, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.FrameTransfer(&_BitbonImpl.TransactOpts, to, value, extraData)
+}
+
 // QuickTransfer is a paid mutator transaction binding the contract method 0x536684e7.
 //
 // Solidity: function quickTransfer(address to, uint256 value, bytes extraData) returns(bool)
@@ -2136,4 +2880,25 @@ func (_BitbonImpl *BitbonImplSession) QuickTransfer(to common.Address, value *bi
 // Solidity: function quickTransfer(address to, uint256 value, bytes extraData) returns(bool)
 func (_BitbonImpl *BitbonImplTransactorSession) QuickTransfer(to common.Address, value *big.Int, extraData []byte) (*types.Transaction, error) {
 	return _BitbonImpl.Contract.QuickTransfer(&_BitbonImpl.TransactOpts, to, value, extraData)
+}
+
+// QuickTransferAll is a paid mutator transaction binding the contract method 0xff0833f9.
+//
+// Solidity: function quickTransferAll(address to, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactor) QuickTransferAll(opts *bind.TransactOpts, to common.Address, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.contract.Transact(opts, "quickTransferAll", to, extraData)
+}
+
+// QuickTransferAll is a paid mutator transaction binding the contract method 0xff0833f9.
+//
+// Solidity: function quickTransferAll(address to, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplSession) QuickTransferAll(to common.Address, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.QuickTransferAll(&_BitbonImpl.TransactOpts, to, extraData)
+}
+
+// QuickTransferAll is a paid mutator transaction binding the contract method 0xff0833f9.
+//
+// Solidity: function quickTransferAll(address to, bytes extraData) returns(bool)
+func (_BitbonImpl *BitbonImplTransactorSession) QuickTransferAll(to common.Address, extraData []byte) (*types.Transaction, error) {
+	return _BitbonImpl.Contract.QuickTransferAll(&_BitbonImpl.TransactOpts, to, extraData)
 }
